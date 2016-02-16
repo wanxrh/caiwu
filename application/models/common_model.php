@@ -14,6 +14,9 @@ class Common_model extends CI_Model
 		$this->db = $this->load->database('financial', TRUE);
 	}
 
+	public function get_user($user_id) {
+        return $this->db->get_where('user_record', array('user_id' => $user_id))->row_array();
+    }
 	/**
 	 * 获取单条数据
 	 *

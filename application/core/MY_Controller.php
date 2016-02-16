@@ -23,6 +23,12 @@ class MY_Controller extends CI_Controller
 		header('Content-type:text/html; charset=utf-8');
 		date_default_timezone_set('Asia/Shanghai');
 		define('SITE_COMMON_STATIC',        base_url().'static');
+
+		$this->load->library('session');
+		$user_id = $this->session->userdata('user_id');;
+        $this->load->model('common_model');
+        $this->data['user_info'] = $this->common_model->get_user($user_id);
+
 	}
 }
 
@@ -34,32 +40,15 @@ class M_Controller extends MY_Controller
 	function __construct()
 	{
 		parent::__construct();
-		// 登录验证处理
-		/*$this->load->model('admin/m_index');
-		$session = $this->m_index->get_session();
-		if($this->uri->uri_string === 'admin/index/login')
-		{
-			if($session['admin_uid'] && $session['admin_username'])
-			{
-				redirect('admin/index/index');
-			}
-		} else {
-			if(!$session['admin_uid'] || !$session['admin_username'])
-			{
+		$user_id = $this->session->userdata('user_id');;
+		// 没有登录不能进会员中心
+		if($this->uri->uri_string()!=''){
+	        if (!$user_id) {
+	            echo "<script language='javascript'>window.location.href='/';</script>";
+	            exit;
+	        }
+    	}
 
-				redirect('admin/index/login');
-			}
-		}
-
-		$config_site_admin = $this->m_common->get_one('config_site_admin');
-		define('SITE_ADMIN_NAME', $config_site_admin['site_admin_name']);
-		define('SITE_ADMIN_LOGO', SITE_COMMON_STATIC . '/admin/' . $config_site_admin['site_admin_theme'] . '/' . $config_site_admin['site_admin_logo']);
-		define('SITE_ADMIN_THEME', $config_site_admin['site_admin_theme']);
-
-		unset($config_site_admin);
-
-		define('SITE_ADMIN_STATIC', SITE_COMMON_STATIC . '/admin/' . SITE_ADMIN_THEME);
-		$this->load->set_admin_template(SITE_ADMIN_THEME);*/
 	}
 }
 

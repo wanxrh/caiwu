@@ -26,4 +26,16 @@ class Home_model extends Common_model {
 		$data=$this->db->affected_rows();
         return $data;
 	}
+	/**
+	 * [get_information 关联表获取用户信息]
+	 * @AuthorHTL lin
+	 * @DateTime  2016-02-16T16:25:26+0800
+	 * @return    [type]                   [description]
+	 */
+	public function get_information($where){
+		$this->db->where($where);
+        $result=$this->db->select('*')->join('user_cat', 'cat_id=cat_id', 'left')->join('bumen','bumen_id=bumen_id','left')->get('user_record')->row_array();
+        echo $this->last_query();exit;
+        return $result;
+	}
 }

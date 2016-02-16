@@ -25,7 +25,7 @@
 <DIV class="userLogin">
 <DIV class="userInfoLogin">
 <H3 class="fz16">系统登陆</H3>
-<FORM id="myform" action="?act=login" method="post" class="demoform" >
+<FORM id="myform" action="/home/login" method="post" class="demoform" >
 
 <DIV class="formInfo">
 

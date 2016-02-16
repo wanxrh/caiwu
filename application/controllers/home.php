@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Home extends M_Controller {
+class Home extends MY_Controller {
 	/**
 	 * [__construct 构造函数]
 	 * @AuthorHTL lin
@@ -33,6 +33,23 @@ class Home extends M_Controller {
 	 */
 	public function login(){
 
+		if($this->input->post('code') !=$this->input->cookie("verification")){
+			get_redirect('验证码错误','/');exit;
+		}
+		$arr =array('user_name'=>$this->input->post('user_name'),'password'=>$this->input->post('password'));
+		$res =$this->home_model->get_one('user_record',$arr,'user_id,cat_id,user_name,name');
+		if($res){
+			$sess=array(
+				'user_id'   =>$res['user_id'],
+				'user_name' =>$res['user_name'],
+				'name'      =>$res['name'],
+				'cat_id'    =>$res['cat_id']
+				);
+			$this->session->set_userdata($sess);
+			showmsg('登录成功，2秒后转向会员中心！',base_url().'my_index',0,2000);exit();
+		}else{
+			get_redirect('用户名或密码错误','/');exit;
+		}
 	}
 	/**
 	 * [code 验证码]
@@ -52,6 +69,6 @@ class Home extends M_Controller {
 		}else{
 			exit(json_encode(array('status'=>'n','info'=>'验证码错误')));
 		}
-		
+
 	}
 }
