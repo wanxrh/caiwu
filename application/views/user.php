@@ -36,26 +36,18 @@ $(document).ready(function(){
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
-    <li><a href="#">首页</a></li>
-    <li><a href="#">数据表</a></li>
-    <li><a href="#">基本内容</a></li>
+    <li><a href="main.php">首页</a></li>
+    <li><a href="#">用户管理</a></li>
     </ul>
     </div>
 
     <div class="rightinfo">
-
+    <?php if():?>
     <div class="tools">
 
-    	<ul class="toolbar">
-        <li class="click"><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/t01.png" /></span>添加</li>
-        <li class="click"><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/t02.png" /></span>修改</li>
-        <li><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/t03.png" /></span>删除</li>
-        <li><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/t04.png" /></span>统计</li>
-        </ul>
-
-
-        <ul class="toolbar1">
-        <li><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/t05.png" /></span>设置</li>
+        <ul class="toolbar">
+        <li class="click"><span></span><a href="/user" <?php if($this->uri->segment(2)=='') echo 'style="color:red"';?>>用户列表</a></li>
+        <li class="click"><span></span><a href="/user/add_user" <?php if($this->uri->segment(2)!='') echo 'style="color:red"';?>>添加用户</a></li>
         </ul>
 
     </div>

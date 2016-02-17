@@ -21,9 +21,10 @@ class My_index extends M_Controller {
      */
 
     public function top() {
-        $c_arr=array('user_name'=>$this->data['user_info']['user_name']);
-        $c_name=$this->home_model->get_information($c_arr);
-        $data['cat_name']=$c_name['cat_name'];
+        //查询信息
+        $c_arr=$this->data['user_info']['user_name'];
+        $list=$this->home_model->get_information($c_arr);
+        $data['list']=$list;
         $this->load->view('top',$data);
     }
 
@@ -32,9 +33,10 @@ class My_index extends M_Controller {
      */
 
     public function left() {
-        //$user_id = get_admin();
-        //$data = $this->home_model->level_id($user_id);
-        $this->load->view('left');
+        //查询工资类型
+        $res=$this->home_model->get_all('gongzileixing');
+        $data['leixing']=$res;
+        $this->load->view('left',$data);
     }
 
     /*

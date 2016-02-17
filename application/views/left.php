@@ -32,59 +32,138 @@ $(function(){
 <body style="background:#f0f9fd;">
 	<div class="lefttop"><span></span>通讯录</div>
 
-    <dl class="leftmenu">
-
+<dl class="leftmenu">
+<?php if($this->session->userdata('cat_id')=='-1'):?>
     <dd>
     <div class="title">
-    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>管理信息
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>数据表管理
     </div>
-    	<ul class="menuson">
-        <li><cite></cite><a href="index.html" target="rightFrame">首页模版</a><i></i></li>
-        <li class="active"><cite></cite><a href="right.html" target="rightFrame">数据列表</a><i></i></li>
-        <li><cite></cite><a href="imgtable.html" target="rightFrame">图片数据表</a><i></i></li>
-        <li><cite></cite><a href="form.html" target="rightFrame">添加编辑</a><i></i></li>
-        </ul>
+    <ul class="menuson">
+        <li><cite></cite><a href="gongzibiao.php" target="rightFrame">工资表管理</a><i></i></li>
+        <li><cite></cite><a href="yonghubiao.php" target="rightFrame">用户信息表管理</a><i></i></li>
+    </ul>
     </dd>
-
-
     <dd>
     <div class="title">
-    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico02.png" /></span>其他设置
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="#">编辑内容</a><i></i></li>
-        <li><cite></cite><a href="#">发布信息</a><i></i></li>
-        <li><cite></cite><a href="#">档案列表显示</a><i></i></li>
+        <li><cite></cite><a href="gongzibiao_ziduan.php" target="rightFrame">工资表字段选择</a><i></i></li>
+        <li><cite></cite><a href="gongzi_list.php?act=muban&flag=gongzi" target="rightFrame">工资表模板导出</a><i></i></li>
+        <li><cite></cite><a href="excel_daoru1.php?act=muban" target="rightFrame">工资表数据导入</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>用户表导入导出
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="yonghubiao_ziduan.php" target="rightFrame">用户表字段选择</a><i></i></li>
+        <li><cite></cite><a href="gongzi_list.php?act=muban&flag=yonghu" target="rightFrame">用户表模板导出</a><i></i></li>
+        <li><cite></cite><a href="excel_daoru.php" target="rightFrame">用户表数据导入</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资管理
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="gongzi_list.php?act=list" target="rightFrame">工资列表</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资类型管理
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="gongzileixing.php?act=list" target="rightFrame">工资类型管理</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico02.png"/></span>用户管理
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="/user" target="rightFrame">用户管理</a><i></i></li>
+        <li><cite></cite><a href="bumen.php?act=list" target="rightFrame">部门管理</a><i></i></li>
+        <li><cite></cite><a href="user_cat.php?act=list" target="rightFrame">用户类别管理</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>系统信息
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="news.php" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="liuyan_huifu.php" target="rightFrame">留言</a><i></i></li>
+    </ul>
+    </dd>
+    <?php elseif($this->session->userdata('cat_id')=='9'):?>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>我的工资
+    </div>
+    <ul class="menuson">
+        <?php foreach($leixing as $key=>$val):?>
+        <li><cite></cite><a href="" target="rightFrame"><?php echo $val['gongzileixing_name'];?></a><i></i></li>
+        <?php endforeach;?>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico02.png"/></span>用户管理
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="/user" target="rightFrame">个人信息</a><i></i></li>
+        <li><cite></cite><a href="#" target="rightFrame">修改密码</a><i></i></li>
+    </ul>
+    </dd>
+    <dd>
+    <div class="title">
+        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>系统信息
+    </div>
+    <ul class="menuson">
+        <li><cite></cite><a href="#" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="#" target="rightFrame">我的留言</a><i></i></li>
+    </ul>
+    </dd>
+    <?php elseif($this->session->userdata('cat_id')=='10'||$this->session->userdata('cat_id')=='11'):?>
+    <dd>
+    <div class="title">
+    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>数据导出字段选择
+    </div>
+        <ul class="menuson">
+        <li><cite></cite><a href="gongzibiao_ziduan.php" target="rightFrame">工资表导出字段选择</a><i></i></li>
+        <li><cite></cite><a href="yonghubiao_ziduan.php" target="rightFrame">用户信息表导出字段选择</a><i></i></li>
         </ul>
     </dd>
-
-
-    <dd><div class="title"><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico03.png" /></span>编辑器</div>
-    <ul class="menuson">
-        <li><cite></cite><a href="#">自定义</a><i></i></li>
-        <li><cite></cite><a href="#">常用资料</a><i></i></li>
-        <li><cite></cite><a href="#">信息列表</a><i></i></li>
-        <li><cite></cite><a href="#">其他</a><i></i></li>
-    </ul>
+    <dd>
+    <div class="title">
+    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>我的工资
+    </div>
+        <ul class="menuson">
+        <li><cite></cite><a href="gongzi_list.php?act=list" target="rightFrame">工资列表</a><i></i></li>
+        </ul>
     </dd>
-
-
-    <dd><div class="title"><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico04.png" /></span>日期管理</div>
+    <dd>
+    <div class="title">
+    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico02.png" /></span>用户管理
+    </div>
     <ul class="menuson">
-        <li><cite></cite><a href="#">自定义</a><i></i></li>
-        <li><cite></cite><a href="#">常用资料</a><i></i></li>
-        <li><cite></cite><a href="#">信息列表</a><i></i></li>
-        <li><cite></cite><a href="#">其他</a><i></i></li>
-    </ul>
-
+        <li><cite></cite><a href="gerenxinxi.php?act=mima" target="rightFrame">修改密码</a><i></i></li>
+        </ul>
     </dd>
-    <dd><div class="title"><span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico04.png" /></span>工资类型管理</div>
-    <ul class="menuson">
-        <li><cite></cite><a href="#">工资类型管理</a><i></i></li>
-    </ul>
-
+    <dd>
+    <div class="title">
+    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>系统信息
+    </div>
+        <ul class="menuson">
+        <li><cite></cite><a href="news.php" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="liuyan.php" target="rightFrame">留言</a><i></i></li>
+        </ul>
     </dd>
-    </dl>
+    <?php endif;?>
+</dl>
 
 </body>
 </html>

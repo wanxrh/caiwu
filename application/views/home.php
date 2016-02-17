@@ -39,7 +39,7 @@
             </DD></DL>
 <DL class="clearfix">
   <DD class="password"><I class="icon"></I>
-<INPUT name="code" class="text inputxt" style="width:100px;color:#999999" id="jcaptcha" type="text"  value="" placeholder="验证码">
+<INPUT name="code" class="text inputxt" style="width:70px;color:#999999" id="jcaptcha" type="text"  value="" placeholder="验证码">
 <img  title="点击刷新" src="<?php base_url();?>/home/code"  align="absbottom" onClick="this.src='<?php base_url()?>/home/code?'+Math.random();" style="padding-top:5px; padding-left:10px"></img>
 
             </DD></DL>
@@ -94,13 +94,13 @@ $(function(){
   },
   {
     ele:".inputxt:eq(1)",
-    datatype:"*6-15",
-    errormsg:"密码在6~15位之间!"
+    datatype:"*3-15",
+    errormsg:"密码在3~15位之间!"
   },
   {
     ele:".inputxt:eq(2)",
     datatype:"s",
-    nullmsg:"请填写验证码",
+    nullmsg:"请填写验证码,不区分大小写",
     ajaxurl:"<?php base_url();?>/home/Validcode",
   },
   {

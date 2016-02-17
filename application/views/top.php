@@ -28,7 +28,7 @@ $(function(){
      <div class="user">
 
     <span><i style="color:red">
-    <?php echo $cat_name;?>
+    <?php echo $list['cat_name'];?>
     </i><?php echo $this->session->userdata('user_name');?>
 
     <i style="color:red">
@@ -38,9 +38,10 @@ $(function(){
     <i style="color:red">
     部门
     </i>
+    <?php echo $list['bumen_name'];?>
     </span>
 
-    <i><a href="index.php?act=logout" style=" color:#FFFFFF" target="_parent">退出</a></i>
+    <i><a href="/home/logout" style=" color:#FFFFFF" target="_parent">退出</a></i>
 
     </div>
 </div>

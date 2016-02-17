@@ -33,9 +33,8 @@ class Home_model extends Common_model {
 	 * @return    [type]                   [description]
 	 */
 	public function get_information($where){
-		$this->db->where($where);
-        $result=$this->db->select('*')->join('user_cat', 'cat_id=cat_id', 'left')->join('bumen','bumen_id=bumen_id','left')->get('user_record')->row_array();
-        echo $this->last_query();exit;
+		$sql="SELECT a.cat_id as g,b.cat_id as y,a.bumen_id as p,cat_name,c.bumen_name FROM `ab22_user_record` a LEFT JOIN `ab22_user_cat` b ON a.cat_id=b.cat_id LEFT JOIN `ab22_bumen` c  ON a.bumen_id=c.bumen_id WHERE `user_name` =  '$where'";
+        $result=$this->db->query($sql)->row_array();
         return $result;
 	}
 }

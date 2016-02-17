@@ -33,7 +33,7 @@ class Home extends MY_Controller {
 	 */
 	public function login(){
 
-		if($this->input->post('code') !=$this->input->cookie("verification")){
+		if(strtolower($this->input->post('code')) !=$this->input->cookie("verification")){
 			get_redirect('验证码错误','/');exit;
 		}
 		$arr =array('user_name'=>$this->input->post('user_name'),'password'=>$this->input->post('password'));
@@ -64,11 +64,19 @@ class Home extends MY_Controller {
 	 * AJAX校验验证码
 	 */
 	public function Validcode(){
-		if($this->input->post('param')==$this->input->cookie("verification")){
+		if(strtolower($this->input->post('param'))==$this->input->cookie("verification")){
 			exit(json_encode(array('status'=>'y','info'=>'正确！')));
 		}else{
 			exit(json_encode(array('status'=>'n','info'=>'验证码错误')));
 		}
 
+	}
+	public function logout(){
+		$sess=array(
+				'user_id'   =>'',
+				'user_name' =>''
+				);
+		$this->session->unset_userdata($sess);
+		showmsg('退出成功，1秒后转向首页！',base_url(),0,1000);exit();
 	}
 }
