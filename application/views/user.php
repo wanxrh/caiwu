@@ -42,147 +42,101 @@ $(document).ready(function(){
     </div>
 
     <div class="rightinfo">
-    <?php if():?>
+    <?php if($this->uri->segment(1)=='user'):?>
     <div class="tools">
 
         <ul class="toolbar">
-        <li class="click"><span></span><a href="/user" <?php if($this->uri->segment(2)=='') echo 'style="color:red"';?>>用户列表</a></li>
-        <li class="click"><span></span><a href="/user/add_user" <?php if($this->uri->segment(2)!='') echo 'style="color:red"';?>>添加用户</a></li>
+        <li><span></span><a href="/user" <?php if($this->uri->segment(2)=='') echo 'style="color:red"';?>>用户列表</a></li>
+        <li><span></span><a href="/user/add_user" <?php if($this->uri->segment(2)!='') echo 'style="color:red"';?>>添加用户</a></li>
         </ul>
 
     </div>
+    <?php endif;?>
+    <?php if($this->uri->segment(2)==''):?>
+    <div class="tools">
+        <form action="?act=list" method="post">
+            部门：
+        <select name="bumen" id="bumen" class="dfinput2" style="width:80px">
+            <option value="">请选择</option>
+            <option value="" ></option>
+            </select>
+        姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="">
+        <input type="submit" value="搜索" class="btn">
+        &nbsp;
+        <input type="button" class="btn" value="导出所有excel"/>
+        </form>
 
-
+    </div>
     <table class="tablelist">
     	<thead>
     	<tr>
-        <th><input name="" type="checkbox" value="" checked="checked"/></th>
-        <th>编号<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
-        <th>标题</th>
-        <th>用户</th>
-        <th>籍贯</th>
-        <th>发布时间</th>
-        <th>是否审核</th>
-        <th>操作</th>
+        <th style="text-align:center"><!--<input type="checkbox" id="btn1"/> -->编号<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
+        <th style="text-align:center">帐号</th>
+        <th style="text-align:center">密码</th>
+        <th style="text-align:center">姓名</th>
+        <th style="text-align:center">部门</th>
+        <th style="text-align:center">用户类别</th>
+        <th style="text-align:center">工资记录</th>
+        <th style="text-align:center">操作</th>
         </tr>
         </thead>
         <tbody>
+        <?php foreach($user as $key=>$val):?>
         <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130908</td>
-        <td>王金平幕僚：马英九声明字字见血 人活着没意思</td>
-        <td>admin</td>
-        <td>江苏南京</td>
-        <td>2013-09-09 15:05</td>
-        <td>已审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink"> 删除</a></td>
+        <td align="center"><input name="" type="checkbox" value="<?php echo $val['user_id'];?>" /><?php echo $val['user_id'];?></td>
+        <td align="center"><?php echo $val['user_name'];?></td>
+        <td align="center"><?php echo $val['password'];?></td>
+        <td align="center"><?php echo $val['name'];?></td>
+        <td align="center"><?php echo $val['bumen_name'];?></td>
+        <td align="center"><?php echo $val['cat_name'];?></td>
+        <td align="center"><a href="" class="tablelink">添加工资记录</a>　<a href="" class="tablelink">查看工资记录</a></td>
+        <td align="center"><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink"> 删除</a></td>
         </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130907</td>
-        <td>温州19名小学生中毒流鼻血续：周边部分企业关停</td>
-        <td>uimaker</td>
-        <td>山东济南</td>
-        <td>2013-09-08 14:02</td>
-        <td>未审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130906</td>
-        <td>社科院:电子商务促进了农村经济结构和社会转型</td>
-        <td>user</td>
-        <td>江苏无锡</td>
-        <td>2013-09-07 13:16</td>
-        <td>未审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130905</td>
-        <td>江西&quot;局长违规建豪宅&quot;：局长检讨</td>
-        <td>admin</td>
-        <td>北京市</td>
-        <td>2013-09-06 10:36</td>
-        <td>已审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130904</td>
-        <td>中国2020年或迈入高收入国家行列</td>
-        <td>uimaker</td>
-        <td>江苏南京</td>
-        <td>2013-09-05 13:25</td>
-        <td>已审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130903</td>
-        <td>深圳地铁车门因乘客拉闸打开 3人被挤入隧道</td>
-        <td>user</td>
-        <td>广东深圳</td>
-        <td>2013-09-04 12:00</td>
-        <td>已审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130902</td>
-        <td>33次地表塌陷 村民不敢下地劳作(图)</td>
-        <td>admin</td>
-        <td>湖南长沙</td>
-        <td>2013-09-03 00:05</td>
-        <td>未审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130901</td>
-        <td>医患关系：医生在替改革不彻底背黑锅</td>
-        <td>admin</td>
-        <td>江苏南京</td>
-        <td>2013-09-02 15:05</td>
-        <td>未审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
-
-        <tr>
-        <td><input name="" type="checkbox" value="" /></td>
-        <td>20130900</td>
-        <td>山东章丘公车进饭店景点将自动向监控系统报警</td>
-        <td>uimaker</td>
-        <td>山东滨州</td>
-        <td>2013-09-01 10:26</td>
-        <td>已审核</td>
-        <td><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink">删除</a></td>
-        </tr>
+        <?php endforeach;?>
         </tbody>
     </table>
 
 
-    <div class="pagin">
-    	<div class="message">共<i class="blue">1256</i>条记录，当前显示第&nbsp;<i class="blue">2&nbsp;</i>页</div>
-        <ul class="paginList">
-        <li class="paginItem"><a href="javascript:;"><span class="pagepre"></span></a></li>
-        <li class="paginItem"><a href="javascript:;">1</a></li>
-        <li class="paginItem current"><a href="javascript:;">2</a></li>
-        <li class="paginItem"><a href="javascript:;">3</a></li>
-        <li class="paginItem"><a href="javascript:;">4</a></li>
-        <li class="paginItem"><a href="javascript:;">5</a></li>
-        <li class="paginItem more"><a href="javascript:;">...</a></li>
-        <li class="paginItem"><a href="javascript:;">10</a></li>
-        <li class="paginItem"><a href="javascript:;"><span class="pagenxt"></span></a></li>
-        </ul>
+
+    <?php echo $page;?>
+    <?php elseif(($this->uri->uri_string()=='user/add_user')):?>
+    <div class="formbody">
+
+    <div class="formtitle"><span>添加用户</span></div>
+    <form name="myform" action="?act=add_1"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
+    <input type="hidden" name="bumen_id" id="bumen_id">
+    <ul class="forminfo">
+    <li>
+        <span><label>用户类别：</label>
+        <select name="cat_id" class="dfinput2">
+        <option value="">--请选择--</option>
+        <option value=""></option>
+        </select>
+        </span>
+    </li>
+
+
+    <li><label>&nbsp;</label><input type="submit" class="btn" value="确定" /></li>
+    </ul>
+    </form>
+        <script>
+        function validate()
+        {
+        //alert($('#user_name').val());
+        var validator = new Validator('myform');
+        //validator.isNullOption('cat_id','请选择角色');required
+        validator.required('bumen_name',"请输入部门名称");
+        //validator.required('content',"请输入内容");
+
+        if(validator.passed()){
+        return true;
+        }else{
+        return false;
+        }
+        }
+        </script>
     </div>
+    <?php endif;?>
 
 
     <div class="tip">
