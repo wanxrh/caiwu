@@ -58,7 +58,9 @@ $(document).ready(function(){
             部门：
         <select name="bumen" id="bumen" class="dfinput2" style="width:80px">
             <option value="">请选择</option>
-            <option value="" ></option>
+            <?php foreach($department as $value):?>
+            <option value="" ><?php echo $value['bumen_name']?></option>
+            <?php endforeach;?>
             </select>
         姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="">
         <input type="submit" value="搜索" class="btn">
@@ -83,7 +85,7 @@ $(document).ready(function(){
         <tbody>
         <?php foreach($user as $key=>$val):?>
         <tr>
-        <td align="center"><input name="" type="checkbox" value="<?php echo $val['user_id'];?>" /><?php echo $val['user_id'];?></td>
+        <td align="center"><?php echo $val['user_id'];?></td>
         <td align="center"><?php echo $val['user_name'];?></td>
         <td align="center"><?php echo $val['password'];?></td>
         <td align="center"><?php echo $val['name'];?></td>

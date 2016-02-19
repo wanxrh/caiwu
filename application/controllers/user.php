@@ -22,6 +22,9 @@ class User extends M_controller{
 	}
 	//读取用户列表
 	public function index(){
+		//查询部门表
+		$department=$this->home_model->get_all('bumen',array(),'bumen_name');
+		$data['department']=$department;
 		//调用model
         $user = $this->home_model->user_list();
         //分页
