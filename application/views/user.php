@@ -5,7 +5,9 @@
 <title>无标题文档</title>
 <link href="<?php echo SITE_COMMON_STATIC; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/jquery.js"></script>
-
+<script src="<?php echo SITE_COMMON_STATIC; ?>/js/validator.js" type="text/javascript"></script><!--表单验证js-->
+<script src="<?php echo SITE_COMMON_STATIC; ?>/js/utils.js" type="text/javascript"></script><!--表单验证js-->
+<script src="<?php echo SITE_COMMON_STATIC; ?>/js/action.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
   $(".click").click(function(){
@@ -83,9 +85,11 @@ $(document).ready(function(){
         </tr>
         </thead>
         <tbody>
+        <?php if($this->cur_page==''){$i=1;}?>
+        <?php $i=($this->cur_page-1)*$this->per_page+1;?>
         <?php foreach($user as $key=>$val):?>
         <tr>
-        <td align="center"><?php echo $val['user_id'];?></td>
+        <td align="center"><?php echo $i;?></td>
         <td align="center"><?php echo $val['user_name'];?></td>
         <td align="center"><?php echo $val['password'];?></td>
         <td align="center"><?php echo $val['name'];?></td>
@@ -94,6 +98,7 @@ $(document).ready(function(){
         <td align="center"><a href="" class="tablelink">添加工资记录</a>　<a href="" class="tablelink">查看工资记录</a></td>
         <td align="center"><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink"> 删除</a></td>
         </tr>
+        <?php $i++;?>
         <?php endforeach;?>
         </tbody>
     </table>
@@ -105,16 +110,43 @@ $(document).ready(function(){
     <div class="formbody">
 
     <div class="formtitle"><span>添加用户</span></div>
-    <form name="myform" action="?act=add_1"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
+    <form name="myform" action="add_user"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
     <input type="hidden" name="bumen_id" id="bumen_id">
     <ul class="forminfo">
     <li>
         <span><label>用户类别：</label>
         <select name="cat_id" class="dfinput2">
         <option value="">--请选择--</option>
-        <option value=""></option>
+        <?php foreach($type as $k=>$val):?>
+        <option value="<?php echo $val['cat_id'];?>"><?php echo $val['cat_name'];?></option>
+        <?php endforeach;?>
         </select>
         </span>
+
+        <?php $i=2;?>
+        <?php foreach($rescolumns as $key=>$value):?>
+        <?php if($value['Field']=='bumendaima'):?>
+        <?php continue;?>
+        <?php endif;?>
+        <?php if($value['Field']=='bumen_name'):?>
+        <span>
+            <label><?php echo $value['Comment'];?>：</label>
+            <select name="<?php echo $value['Field']?>" id="bumen_name" class="dfinput2" onchange="$('#bumen_id').val($('#bumen_name').val())">
+            <option value="">--请选择--</option>
+            <?php foreach($department as $kk=>$vv):?>
+            <option value="<?php echo $vv['bumen_id']?>"><?php echo $vv['bumen_name']?></option>
+            <?php endforeach;?>
+            </select>
+        </span>
+        <?php else:?>
+        <span><label><?php echo $value['Comment']?>：</label><input type="text" name="<?php echo $value['Field']?>" class="dfinput" style="width:200px"></span>
+
+        <?php endif;?>
+        <?php if($i%3==0):?>
+        <?php echo "</li><li>";?>
+        <?php endif;?>
+        <?php $i++;?>
+        <?php endforeach;?>
     </li>
 
 
@@ -124,7 +156,6 @@ $(document).ready(function(){
         <script>
         function validate()
         {
-        //alert($('#user_name').val());
         var validator = new Validator('myform');
         //validator.isNullOption('cat_id','请选择角色');required
         validator.required('bumen_name',"请输入部门名称");
@@ -139,28 +170,6 @@ $(document).ready(function(){
         </script>
     </div>
     <?php endif;?>
-
-
-    <div class="tip">
-    	<div class="tiptop"><span>提示信息</span><a></a></div>
-
-      <div class="tipinfo">
-        <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/ticon.png" /></span>
-        <div class="tipright">
-        <p>是否确认对信息的修改 ？</p>
-        <cite>如果是请点击确定按钮 ，否则请点取消。</cite>
-        </div>
-        </div>
-
-        <div class="tipbtn">
-        <input name="" type="button"  class="sure" value="确定" />&nbsp;
-        <input name="" type="button"  class="cancel" value="取消" />
-        </div>
-
-    </div>
-
-
-
 
     </div>
 

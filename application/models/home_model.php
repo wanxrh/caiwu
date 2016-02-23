@@ -37,10 +37,25 @@ class Home_model extends Common_model {
         $result=$this->db->query($sql)->row_array();
         return $result;
 	}
+	/**
+	 * [user_list 用户列表]
+	 * @AuthorHTL
+	 * @DateTime  2016-02-23T09:10:47+0800
+	 * @return    [type]                   [description]
+	 */
 	public function user_list(){
 		$data['count'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->from('user_record')->count_all_results();
         $data['user'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
         //echo $this->db->last_query();
         return $data;
+	}
+	public function user_field(){
+		$sql="SHOW  full COLUMNS FROM ab22_user_record where Comment!=''";
+		$result=$this->db->query($sql)->result_array();
+		return $result;
+	}
+	public function user_type(){
+		return $this->db->select('*')->get('user_cat')->result_array();
+
 	}
 }

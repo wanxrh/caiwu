@@ -40,6 +40,21 @@ class User extends M_controller{
 	 * @DateTime  2016-02-17T16:03:05+0800
 	 */
 	public function add_user(){
-		$this->load->view('user');
+		//查询用户类别
+		$type=$this->home_model->user_type();
+		$data['type']=$type;
+		//查询部门
+		$department=$this->home_model->get_all('bumen',array(),'*');
+		$data['department']=$department;
+		//查询用户表字段属性
+		$rescolumns=$this->home_model->user_field();
+		$data['rescolumns']=$rescolumns;
+		if($this->input->post()!=''){
+			$res=$this->home_model->insert('user_record',$this->input->post());
+			if($res){
+				showmsg('添加用户成功！2秒后转向列表页','/user',0,2000);exit();
+			}
+		}
+		$this->load->view('user',$data);
 	}
 }
