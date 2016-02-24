@@ -22,6 +22,10 @@ class User extends M_controller{
 	}
 	//读取用户列表
 	public function index(){
+		print_r($this->input->post());exit;
+		//姓名
+        $keyword = empty($this->input->get('keyword', TRUE)) ? '' : $this->input->get('keyword', TRUE);
+
 		//查询部门表
 		$department=$this->home_model->get_all('bumen',array(),'bumen_name');
 		$data['department']=$department;

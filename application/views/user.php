@@ -56,7 +56,7 @@ $(document).ready(function(){
     <?php endif;?>
     <?php if($this->uri->segment(2)==''):?>
     <div class="tools">
-        <form action="?act=list" method="post">
+        <form action="/user" method="post">
             部门：
         <select name="bumen" id="bumen" class="dfinput2" style="width:80px">
             <option value="">请选择</option>
