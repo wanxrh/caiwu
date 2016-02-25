@@ -43,8 +43,19 @@ class Home_model extends Common_model {
 	 * @DateTime  2016-02-23T09:10:47+0800
 	 * @return    [type]                   [description]
 	 */
-	public function user_list(){
+	public function user_list($bumen_id,$keyword){
+
+		if ($bumen_id !== '') {
+            $this->db->where('user_record.bumen_id', $bumen_id);
+        }
+		//关键字搜索
+        if ($keyword !== '') {
+            $sql = "(`name` like '%{$keyword}%')";
+            $this->db->where($sql);
+        }
+        $temp = clone $this->db;
 		$data['count'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->from('user_record')->count_all_results();
+		$this->db = $temp;
         $data['user'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
         //echo $this->db->last_query();
         return $data;

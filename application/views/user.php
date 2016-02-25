@@ -56,15 +56,15 @@ $(document).ready(function(){
     <?php endif;?>
     <?php if($this->uri->segment(2)==''):?>
     <div class="tools">
-        <form action="/user" method="post">
+        <form action="/user" method="get">
             部门：
         <select name="bumen" id="bumen" class="dfinput2" style="width:80px">
             <option value="">请选择</option>
             <?php foreach($department as $value):?>
-            <option value="" ><?php echo $value['bumen_name']?></option>
+            <option value="<?php echo $value['bumen_id']?>" <?php echo $this->input->get('bumen')==$value['bumen_id']?'selected':'';?> ><?php echo $value['bumen_name']?></option>
             <?php endforeach;?>
             </select>
-        姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="">
+        姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
         <input type="submit" value="搜索" class="btn">
         &nbsp;
         <input type="button" class="btn" value="导出所有excel"/>

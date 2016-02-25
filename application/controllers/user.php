@@ -22,15 +22,15 @@ class User extends M_controller{
 	}
 	//读取用户列表
 	public function index(){
-		print_r($this->input->post());exit;
-		//姓名
-        $keyword = empty($this->input->get('keyword', TRUE)) ? '' : $this->input->get('keyword', TRUE);
-
+		//部门
+		$bumen=	empty($this->input->get('bumen', TRUE)) ? '' : $this->input->get('bumen', TRUE);
+		//关键字
+        $name = empty($this->input->get('name', TRUE)) ? '' : $this->input->get('name', TRUE);
 		//查询部门表
-		$department=$this->home_model->get_all('bumen',array(),'bumen_name');
+		$department=$this->home_model->get_all('bumen',array(),'bumen_name,bumen_id');
 		$data['department']=$department;
 		//调用model
-        $user = $this->home_model->user_list();
+        $user = $this->home_model->user_list($bumen,$name);
         //分页
         $data['rows'] = $user['count'];
         $url_format = '/user-%d/' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
