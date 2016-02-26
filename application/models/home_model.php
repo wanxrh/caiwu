@@ -69,4 +69,18 @@ class Home_model extends Common_model {
 		return $this->db->select('*')->get('user_cat')->result_array();
 
 	}
+	public function wagesTableColumns(){
+		$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
+		$result=$this->db->query($sql)->result_array();
+		return $result;
+	}
+	public function sqlQuery($sql){
+		$this->db->query($sql);
+	}
+	public function sqlQueryRow($sql){
+		return $this->db->query($sql)->row_array();
+	}
+	public function sqlQueryArray($sql){
+		return $this->db->query($sql)->result_array();
+	}
 }

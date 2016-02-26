@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://www.financial.com';
+$config['base_url'] = 'http://www.caiwu.com';
 
 /*
 |--------------------------------------------------------------------------

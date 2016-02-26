@@ -39,7 +39,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>数据表管理
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="gongzibiao.php" target="rightFrame">工资表管理</a><i></i></li>
+        <li><cite></cite><a href="/wagesmanage" target="rightFrame">工资表管理</a><i></i></li>
         <li><cite></cite><a href="yonghubiao.php" target="rightFrame">用户信息表管理</a><i></i></li>
     </ul>
     </dd>
