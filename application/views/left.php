@@ -68,7 +68,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资管理
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="gongzi_list.php?act=list" target="rightFrame">工资列表</a><i></i></li>
+        <li><cite></cite><a href="/wageslist" target="rightFrame">工资列表</a><i></i></li>
     </ul>
     </dd>
     <dd>

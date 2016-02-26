@@ -11,7 +11,8 @@ class WagesManage extends M_Controller {
 	}
 	public function index(){
 		//获取表字段
-		$data['cols'] = $this->home_model->wagesTableColumns();
+		$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
+		$data['cols'] = $this->home_model->sqlQueryArray($sql);
 		$this->load->view('wages_manage',$data);
 	}
 	public function addView(){
