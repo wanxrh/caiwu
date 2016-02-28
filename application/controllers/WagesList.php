@@ -38,6 +38,8 @@ class WagesList extends M_Controller {
 		}
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
+		$data['select'] = $select;
+		$data['input'] = $input;
 		$result = $this->home_model->wagesList($start,$end,$select,$input);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];

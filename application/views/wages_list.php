@@ -34,22 +34,22 @@
 			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
 			<option value="-1">请选择</option>
 			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) !==NULL && intval($this->input->get('dynamic['.$v['column_name'].']',TRUE) ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option <?php if($select[$v['column_name']] !==NULL && intval( $select[$v['column_name']] ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>			
-			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $this->input->get('dynamic['.$v['column_name'].']',TRUE); ?>" >	
+			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $input[$v['column_name']]; ?>" >	
 			<?php }; ?>
 		<?php }elseif ($level >=0 && $v['admin_query']){ ?>
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px" name="select[<?php echo $v['column_name']; ?>]">
 			<option value="-1">请选择</option>
 			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) !==NULL && intval($this->input->get('dynamic['.$v['column_name'].']',TRUE)) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option <?php if($select[$v['column_name']] !==NULL && intval( $select[$v['column_name']] ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>
-			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $this->input->get('dynamic['.$v['column_name'].']',TRUE); ?>" >	
+			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $input[$v['column_name']]; ?>" >
 			<?php }; ?>
 		<?php }; ?>
 
