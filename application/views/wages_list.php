@@ -5,6 +5,8 @@
 <title>无标题文档</title>
 <link href="<?php echo SITE_COMMON_STATIC; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/My97DatePicker/WdatePicker.js"></script>
+
 </head>
 <body>
 	<div class="place">
@@ -19,56 +21,39 @@
 	
 	<div class="tools">
     
-    	<form action="?act=list" method="get">
-		<input type="hidden" name="a" value="a">
+    	<form action="/wageslist/index" method="get">
 		时间区间：
-		<select name="nian1" id="nian1" class="dfinput2" style="width:80px">
-
-			<option value="1" >1</option>
-			
-			</select>年
-			<select name="yue1" id="yue1" class="dfinput2" style="width:80px">
-			<option value="">请选择</option>
-
-			<option value="1" >1</option>
-			
-			</select>月------
-			<select name="nian2" id="nian2" class="dfinput2" style="width:80px">
-			
-			<option value="1" >1</option>
-			
-			</select>年
-			<select name="yue2" id="yue2" class="dfinput2" style="width:80px">
-			<option value="">请选择</option>
-			
-			<option value="1" >1</option>
-			
-			</select>月
-			
-		&nbsp;&nbsp;&nbsp;&nbsp;工资类型：
-		<select name="gongzileixing" id="gongzileixing" class="dfinput2" style="width:170px">
-
-			<option value=""  >123</option>
-
-			</select><script>$('#gongzileixing').val(综合)</script>
-			
-			职员类型：
-		<select name="zhiyuanleixing" id="zhiyuanleixing" class="dfinput2" style="width:80px">
-			<option value="">请选择</option>
-			<option value="在编">在编</option>
-			<option value="外聘">外聘</option>
-			</select><script>$('#zhiyuanleixing').val('12')</script>
+		<input class="dfinput2" style="width:80px"  name="time_from" />
+		---
+		<input class="dfinput2" style="width:80px"  name="time_to" />
 		
-			部门：
-		<select name="bumen" id="bumen" class="dfinput2" style="width:80px">
-			<option value="">请选择</option>
-			
-			<option value="" >123</option>
+		<?php foreach ($dyn as $k=>$v){ ?>
+		<?php echo $columns[$v['column_name']].':'; ?>
+		<?php if($level <0 && $v['admin_query']){ ?>	
+			<?php if($v['options']){ ?>
+			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
+			<option value="-1">请选择</option>
+			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
+			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) == $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<?php }; ?>
+			</select>	
+			<?php }else{ ?>			
+			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $this->input->get('dynamic['.$v['column_name'].']',TRUE); ?>" >	
+			<?php }; ?>
+		<?php }elseif ($level >=0 && $v['admin_query']){ ?>
+			<?php if($v['options']){ ?>
+			<select  class="dfinput2" style="width:80px" name="select[<?php echo $v['column_name']; ?>]">
+			<option value="-1">请选择</option>
+			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
+			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) == $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<?php }; ?>
+			</select>	
+			<?php }else{ ?>
+			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $this->input->get('dynamic['.$v['column_name'].']',TRUE); ?>" >	
+			<?php }; ?>
+		<?php }; ?>
 
-			</select><script>$('#bumen').val('123')</script>
-		姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="">
-		
-		
+		<?php }; ?>
 		<input type="submit" value="查询" class="btn">
 
 			
@@ -78,9 +63,8 @@
 		</form>
     
     </div>
-	
-	<div class="tools">
-    
+	<!--
+	<div class="tools"> 
     	<ul class="">
         <li class="">
 		
@@ -92,9 +76,9 @@
 		
 		</b>
 		</li>
-        </ul>
-    
+        </ul>     	
     </div>
+    -->
     <style>
 	td { text-align:center}
 	th { text-align:center}
@@ -103,40 +87,44 @@
     	<thead>
     	<tr>
         <th style="text-align:center">
-
 		<input type="checkbox" id="btn1"/>编号
-
-		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
+		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
+		</th>
 		<th style="text-align:center">工资年月</th>
-		<th style="text-align:center">工资类型</th>
-
-
 		<th style="text-align:center">姓名</th>
 		<th style="text-align:center">部门</th>
-		<?php foreach ($columns as $v){ ?>
+		<?php foreach ($columns as $k => $v){ ?>
+		<?php if( isset($dyn[$k]['view'])&& $dyn[$k]['view']){ ?>
 		<th style="text-align:center;" ><?php echo $v; ?></th>
+		<?php }; ?>
 		<?php }; ?>
         <th style="text-align:center">操作</th>
         </tr>
         </thead>
+        
         <tbody>
-
+        
+        <?php foreach ($list as $v){ ?>
         <tr>
         <td>
 		<input type="checkbox" name="checkbox[]" value="" style="width:20px">
+		<?php echo $v['id']; ?>
 		</td>
-		<td>123</td>
-		<td>123</td>
-
-        <td><a href="?act=view&id=&user_id=" class="tablelink">123</a></td>
-		<td>123</td>
-		
+		<td><?php echo date('Y-m',$v['nianyue']); ?></td>
+		<td><?php echo $v['user_name']; ?></td>
+		<td><?php echo $v['bumen_name']; ?></td>
+		<?php foreach($dyn as $kk=>$vv){ ?>
+			<?php if($vv['view']){  ?>
+        <td><?php echo $v[$vv['column_name']]; ?></td>
+        	<?php }; ?>
+		<?php }; ?>
        <td>
-	   <a href="?act=view&id=&user_id=" class="tablelink">查看</a>
-		
-       　<a href="?act=edit&id=&user_id=" class="tablelink">编辑</a>　<a href="?st=del&id=" class="tablelink"> 删除</a></td>
-
-        </tr> 
+			<a href="?act=view&id=&user_id=" class="tablelink">查看</a>
+       　	<a href="?act=edit&id=&user_id=" class="tablelink">编辑</a>　<a href="?st=del&id=" class="tablelink"> 删除</a>
+       </td>
+       </tr> 
+		<?php }; ?>
+        
 
 		</tbody>
 		
@@ -150,7 +138,7 @@
 		<thead>
          <tr>
 		 
-		 <th>此页合计<?php //echo $sss?></th>
+		 <th><?php //echo $sss?></th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 
@@ -189,7 +177,7 @@
 	<td>
 	</td></tr></table>
 	<div style="width:1200px">
-   <?php //showpage();?>
+   <?php echo $page;?>
    </div> 
  
     </div>
@@ -198,3 +186,23 @@
 </body>
 
 </html>
+<script type="text/javascript"> 
+      
+      $(function () {
+
+			$("input[name='time_from']").focus(function () {
+				WdatePicker({
+					skin: 'whyGreen',
+					dateFmt: 'yyyy-MM'
+					
+				});
+			});
+			$("input[name='time_to']").focus(function () {
+				WdatePicker({
+					skin: 'whyGreen',
+					dateFmt: 'yyyy-MM',
+				});
+			});
+			
+		});
+    </script>

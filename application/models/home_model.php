@@ -78,4 +78,38 @@ class Home_model extends Common_model {
 	public function sqlQueryArray($sql){
 		return $this->db->query($sql)->result_array();
 	}
+	public function wagesList($start,$end,$select,$input){
+		if($start && !$end){
+			$this->db->where('gongzibiao.nianyue >=',$start);
+		}elseif (!$start && $end){
+			$this->db->where('gongzibiao.nianyue <=',$end);
+		}elseif ($start && $end){
+			if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
+			if($start < $end){echo $start.','.$end;
+				$this->db->where('gongzibiao.nianyue >=',$start);
+				$this->db->where('gongzibiao.nianyue <=',$end);
+			}
+		}
+		if($select){
+			foreach ($select as $k=>$v){
+				if( intval($v) > -1){
+					$this->db->where($k,intval($v));
+				}				
+			}
+		}
+		if($input){
+			foreach ($input as $k=>$v){
+				if( $v ){
+					$this->db->like($k,trim($v));
+				}
+			}
+		}
+		$clone = clone( $this->db );
+		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
+		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		$this->db = $clone;
+		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
+		return $data;
+	}
 }
