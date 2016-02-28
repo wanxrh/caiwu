@@ -34,7 +34,7 @@
 			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
 			<option value="-1">请选择</option>
 			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) == $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) !==NULL && intval($this->input->get('dynamic['.$v['column_name'].']',TRUE) ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>			
@@ -45,7 +45,7 @@
 			<select  class="dfinput2" style="width:80px" name="select[<?php echo $v['column_name']; ?>]">
 			<option value="-1">请选择</option>
 			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) == $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option <?php if($this->input->get('dynamic['.$v['column_name'].']',TRUE) !==NULL && intval($this->input->get('dynamic['.$v['column_name'].']',TRUE)) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>
@@ -114,10 +114,10 @@
 		<td><?php echo $v['user_name']; ?></td>
 		<td><?php echo $v['bumen_name']; ?></td>
 		<?php foreach($dyn as $kk=>$vv){ ?>
-			<?php if($vv['view']){  ?>
-        <td><?php echo $v[$vv['column_name']]; ?></td>
-        	<?php }; ?>
-		<?php }; ?>
+		<?php if($vv['view']){  ?>
+        <td><?php if(!$dyn[$vv['column_name']]['options']){ echo $v[$vv['column_name']]; }else{ $n = explode(',', $dyn[$vv['column_name']]['options']); echo isset($n[$v[$vv['column_name']]])?$n[$v[$vv['column_name']]]:''; }; ?></td>
+        <?php }; ?>
+        <?php }; ?>
        <td>
 			<a href="?act=view&id=&user_id=" class="tablelink">查看</a>
        　	<a href="?act=edit&id=&user_id=" class="tablelink">编辑</a>　<a href="?st=del&id=" class="tablelink"> 删除</a>
@@ -127,14 +127,7 @@
         
 
 		</tbody>
-		
-		
-		
-		
-		
-		
-		
-		
+		<!-- 		
 		<thead>
          <tr>
 		 
@@ -170,7 +163,7 @@
 		 
 		 </tr> 
 		 </thead>  
-        
+         -->
     </table>
 	<table border="0" style="margin-top:10px">
 	<tr>
