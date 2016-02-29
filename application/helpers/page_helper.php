@@ -55,7 +55,7 @@ function page($page, $pages, $url_format = '%d.html', $show_page = 5, $show_page
         if ($cur + 1 < $pages) {
             $html [] = '<li class="paginItem more"><a href="javascript:;">...</a></li>';
         }
-        $html [] = '<li class="paginItem"><a href="' . sprintf($url_format, $pages) . '"><span class="pagenxt"></span></a></li>';
+        $html [] = '<li class="paginItem"><a href="' . sprintf($url_format, $pages) . '">'.$pages.'</a></li>';
     }
 
     if ($page < $pages) {
