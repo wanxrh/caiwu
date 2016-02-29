@@ -69,6 +69,7 @@ class User extends M_controller{
 	 * @return    [type]                   [description]
 	 */
 	public function edit_user(){
+		$data['user_info']=$this->data['user_info'];
 		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		//查询用户类别
 		$data['type']=$this->home_model->user_type();

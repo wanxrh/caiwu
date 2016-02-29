@@ -210,8 +210,9 @@ $(document).ready(function(){
             <?php endforeach;?>
         </li>
 
-
+        <?php if($user_info['cat_id']==-1):?>
         <li><label>&nbsp;</label><input type="submit" class="btn" value="确定" /></li>
+        <?php endif;?>
         </ul>
         </form>
             <script>

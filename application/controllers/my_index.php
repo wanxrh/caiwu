@@ -33,6 +33,7 @@ class My_index extends M_Controller {
      */
 
     public function left() {
+        $data['user_id']=$this->data['user_info']['user_id'];
         //查询工资类型
         $res=$this->home_model->get_all('gongzileixing');
         $data['leixing']=$res;
