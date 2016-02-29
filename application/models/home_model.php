@@ -112,6 +112,10 @@ class Home_model extends Common_model {
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;
 	}
+	public function wagesView($id){
+		$this->db->where('id',$id);
+		return $this->db->get('gongzibiao')->row_array();
+	}
 	public function userList($user_id){
 		if($user_id!=''){
 			$this->db->where('user_id', $user_id);
