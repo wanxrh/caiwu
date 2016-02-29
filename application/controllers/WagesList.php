@@ -6,7 +6,7 @@ class WagesList extends M_Controller {
 	private $_pre = 'ab22_';
 	private $_table = 'gongzibiao';
 	public function __construct()
-	{ 
+	{
 	    parent::__construct();
 		$this->load->model('home_model');
 		$this->per_page = 50;
@@ -30,7 +30,7 @@ class WagesList extends M_Controller {
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
 		}
-		
+
 		$start = strtotime( $this->input->get('time_from',TRUE) );
 		$end = strtotime( $this->input->get('time_to',TRUE) );
 		if($end){
@@ -47,5 +47,5 @@ class WagesList extends M_Controller {
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
 		$this->load->view('wages_list',$data);
 	}
-	
+
 }

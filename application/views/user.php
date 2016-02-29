@@ -48,8 +48,8 @@ $(document).ready(function(){
     <div class="tools">
 
         <ul class="toolbar">
-        <li><span></span><a href="/user" <?php if($this->uri->segment(2)=='') echo 'style="color:red"';?>>用户列表</a></li>
-        <li><span></span><a href="/user/add_user" <?php if($this->uri->segment(2)!='') echo 'style="color:red"';?>>添加用户</a></li>
+        <li><span></span><a href="/user" <?php if($this->uri->segment(2)==''||$this->uri->segment(3)!='') echo 'style="color:red"';?>>用户列表</a></li>
+        <li><span></span><a href="/user/add_user" <?php if($this->uri->segment(2)!=''&&$this->uri->segment(3)=='') echo 'style="color:red"';?>>添加用户</a></li>
         </ul>
 
     </div>
@@ -96,7 +96,7 @@ $(document).ready(function(){
         <td align="center"><?php echo $val['bumen_name'];?></td>
         <td align="center"><?php echo $val['cat_name'];?></td>
         <td align="center"><a href="" class="tablelink">添加工资记录</a>　<a href="" class="tablelink">查看工资记录</a></td>
-        <td align="center"><a href="#" class="tablelink">查看</a>     <a href="#" class="tablelink"> 删除</a></td>
+        <td align="center"><?php if($user_info['cat_id']==-1):?><a href="user/edit_user/<?php echo $val['user_id'];?>" class="tablelink">查看/编辑</a><?php else:?><a href="#" class="tablelink">查看</a><?php endif;?>     <a href="user/remove_user/<?php echo $val['user_id'];?>" class="tablelink"> 删除</a></td>
         </tr>
         <?php $i++;?>
         <?php endforeach;?>
@@ -169,6 +169,67 @@ $(document).ready(function(){
         }
         </script>
     </div>
+    <?php elseif(($this->uri->segment(2)=='edit_user')):?>
+        <div class="formbody">
+
+        <div class="formtitle"><span>编辑用户</span></div>
+        <form name="myform" action="/user/edit_user/<?php echo $this->uri->segment(3);?>"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
+        <ul class="forminfo">
+        <li>
+            <span><label>用户类别：</label>
+            <select name="cat_id" class="dfinput2">
+            <option value="">--请选择--</option>
+            <?php foreach($type as $k=>$val):?>
+            <option value="<?php echo $val['cat_id'];?>"  <?php if($user['cat_id']==$val['cat_id']) echo "selected=selected";?>><?php echo $val['cat_name'];?></option>
+            <?php endforeach;?>
+            </select>
+            </span>
+            <?php $i=2;?>
+            <?php foreach($rescolumns as $key=>$value):?>
+            <?php if($value['Field']=='bumendaima'):?>
+            <?php continue;?>
+            <?php endif;?>
+            <?php if($value['Field']=='bumen_name'):?>
+            <span>
+                <label><?php echo $value['Comment'];?>：</label>
+                <select name="<?php echo $value['Field']?>" id="bumen_name" class="dfinput2" onchange="$('#bumen_id').val($('#bumen_name').val())">
+                <option value="">--请选择--</option>
+                <?php foreach($department as $kk=>$vv):?>
+                <option value="<?php echo $vv['bumen_id']?>" <?php if($user['bumen_id']==$vv['bumen_id']) echo "selected=selected";?>><?php echo $vv['bumen_name']?></option>
+                <?php endforeach;?>
+                </select>
+            </span>
+            <?php else:?>
+            <span><label><?php echo $value['Comment']?>：</label><input type="text" name="<?php echo $value['Field']?>" value="<?php echo $user["{$value['Field']}"]?>" class="dfinput" style="width:200px" <?php if($value['Field']=='user_name') echo "disabled='disabled'";?>></span>
+
+            <?php endif;?>
+            <?php if($i%3==0):?>
+            <?php echo "</li><li>";?>
+            <?php endif;?>
+            <?php $i++;?>
+            <?php endforeach;?>
+        </li>
+
+
+        <li><label>&nbsp;</label><input type="submit" class="btn" value="确定" /></li>
+        </ul>
+        </form>
+            <script>
+            function validate()
+            {
+            var validator = new Validator('myform');
+            //validator.isNullOption('cat_id','请选择角色');required
+            validator.required('bumen_name',"请输入部门名称");
+            //validator.required('content',"请输入内容");
+
+            if(validator.passed()){
+            return true;
+            }else{
+            return false;
+            }
+            }
+            </script>
+        </div>
     <?php endif;?>
 
     </div>

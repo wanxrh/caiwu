@@ -94,7 +94,7 @@ class Home_model extends Common_model {
 			foreach ($select as $k=>$v){
 				if( intval($v) > -1){
 					$this->db->where($k,intval($v));
-				}				
+				}
 			}
 		}
 		if($input){
@@ -111,5 +111,13 @@ class Home_model extends Common_model {
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;
+	}
+	public function userList($user_id){
+		if($user_id!=''){
+			$this->db->where('user_id', $user_id);
+		}
+		$data= $this->db->select('*')->get('user_record')->row_array();
+
+        return $data;
 	}
 }

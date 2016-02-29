@@ -22,6 +22,7 @@ class User extends M_controller{
 	}
 	//读取用户列表
 	public function index(){
+		$data['user_info']=$this->data['user_info'];
 		//部门
 		$bumen=	empty($this->input->get('bumen', TRUE)) ? '' : $this->input->get('bumen', TRUE);
 		//关键字
@@ -60,5 +61,41 @@ class User extends M_controller{
 			}
 		}
 		$this->load->view('user',$data);
+	}
+	/**
+	 * [edit_user 编辑用户]
+	 * @AuthorHTL lin
+	 * @DateTime  2016-02-29T09:29:36+0800
+	 * @return    [type]                   [description]
+	 */
+	public function edit_user(){
+		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
+		//查询用户类别
+		$data['type']=$this->home_model->user_type();
+		//根据id查询用户信息
+		$data['user']=$this->home_model->userList($user_id);
+
+		//查询用户表字段属性
+		$rescolumns=$this->home_model->user_field();
+		$data['rescolumns']=$rescolumns;
+		//查询部门
+		$department=$this->home_model->get_all('bumen',array(),'*');
+		$data['department']=$department;
+
+		if($this->input->post()!=''){
+			$where=array('user_id'=>$user_id);
+			$res=$this->home_model->update('user_record',$this->input->post(),$where);
+			if($res){
+				showmsg('编辑成功！2秒后返回',"/user/edit_user/$user_id",0,2000);exit();
+			}
+		}
+		$this->load->view('user',$data);
+	}
+	public function remove_user(){
+		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
+		$result=$this->home_model->delete('user_record',array('user_id'=>$user_id));
+		if($result){
+			showmsg('删除成功！2秒后返回',"/user",0,2000);exit();
+		}
 	}
 }
