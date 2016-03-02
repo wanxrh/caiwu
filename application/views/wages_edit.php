@@ -21,7 +21,9 @@
 
    <div class="formbody" style="width:1200px">
     
-    <div class="formtitle"><span>查看工资</span></div>
+    <div class="formtitle"><span>编辑工资</span></div>
+    <form name="myform" action="/wageslist/edit?id=<?php echo $_GET['id']; ?>"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
+    <input name="id" type="hidden" value="<?php echo $_GET['id']; ?>">
     <ul class="forminfo">
 	<li>
 		<span>工资年月：<?php echo date('Y-m',$info['nianyue']); ?></span>
@@ -29,19 +31,22 @@
 	<li>
 	<?php foreach($dyn as $k=>$v){ ?>
 	<span><?php echo  $columns[$v['column_name']].'：'; ?>
-	<?php 
-		if($v['options']){
-			$a = explode(',', $v['options']);
-			echo isset($a[$info[$v['column_name']]])?$a[$info[$v['column_name']]]:'';
-		}else{
-			echo $info[$v['column_name']];
-		} 		
-	?>
+	<?php if($v['options']){ ?>
+	<select class="dfinput2"  name="<?php echo $v['column_name']; ?>">
+		<?php foreach(explode(',', $v['options']) as $kk=>$vv){ ?>
+		<option <?php if($info[$v['column_name']] ==$kk ) echo 'selected="true"'; ?> value="<?php echo $kk;?>"><?php echo $vv;?></option>
+		<?php }; ?>
+	</select>
+	<?php }else{ ?>
+	<input name="<?php echo $v['column_name']; ?>"class="dfinput2"  value="<?php echo $info[$v['column_name']]; ?>" >
+	<?php }; ?>
 	</span>
 	<?php if( ($k+1)%3===0) echo '</li><li>';  ?>
 	<?php }; ?>
 	</li>
+	<li><label>&nbsp;</label><input type="submit" class="btn" value="确定" /></li>
     </ul>
+    </form>
     </div>
 
 

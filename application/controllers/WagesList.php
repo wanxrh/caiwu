@@ -55,12 +55,33 @@ class WagesList extends M_Controller {
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
 		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
-		/* $data['dyn'] = array();
-		foreach ($dyn as $v){
-			$data['dyn'][$v['column_name']] = $v;
-		} */		
 		$data['info'] = $this->home_model->wagesView($id);
 		
 		$this->load->view('wages_view',$data);
+	}
+	public function edit(){
+		$id = $this->input->get('id',TRUE);
+		
+		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+		$columns =  $this->home_model->sqlQueryArray($sql);
+		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
+		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
+		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$data['info'] = $this->home_model->wagesView($id);
+		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
+			$parm = $this->input->post(NULL,TRUE);
+			$id = $parm['id'];
+			unset($parm['id']);
+			$row = $this->home_model->update('gongzibiao', $parm, array('id'=>$id));
+			if($row) showmsg('更新成功','/wageslist/index');
+			return;
+		}
+		$this->load->view('wages_edit',$data);
+	}
+	public function del(){
+		$id = $this->input->get('id',TRUE);
+		if(!$id) return FALSE;
+		$row = $this->home_model->delete('gongzibiao', array('id'=>$id));
+		if($row) showmsg('删除成功','/wageslist/index');
 	}
 }
