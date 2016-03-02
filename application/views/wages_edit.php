@@ -33,8 +33,9 @@
 	<span><?php echo  $columns[$v['column_name']].'：'; ?>
 	<?php if($v['options']){ ?>
 	<select class="dfinput2"  name="<?php echo $v['column_name']; ?>">
+		<option value="">请选择</option>
 		<?php foreach(explode(',', $v['options']) as $kk=>$vv){ ?>
-		<option <?php if($info[$v['column_name']] ==$kk ) echo 'selected="true"'; ?> value="<?php echo $kk;?>"><?php echo $vv;?></option>
+		<option <?php if($info[$v['column_name']] !==null && intval( $info[$v['column_name']] ) ===intval($kk) ) echo 'selected="true"'; ?> value="<?php echo $kk;?>"><?php echo $vv;?></option>
 		<?php }; ?>
 	</select>
 	<?php }else{ ?>
