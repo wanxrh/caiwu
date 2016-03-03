@@ -2,6 +2,7 @@
 /**
  * 工资表管理
  */
+
 class WagesList extends M_Controller {
 	private $_pre = 'ab22_';
 	private $_table = 'gongzibiao';

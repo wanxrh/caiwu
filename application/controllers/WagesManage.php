@@ -2,6 +2,7 @@
 /**
  * 工资表管理
  */
+
 class WagesManage extends M_Controller {
 
 	public function __construct()
