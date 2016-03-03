@@ -124,4 +124,10 @@ class Home_model extends Common_model {
 
         return $data;
 	}
+	public function bumen(){
+		$data['count'] = $this->db->select('*')->from('bumen')->count_all_results();
+        $data['department'] = $this->db->select('*')->get('bumen', $this->per_page, $this->offset)->result_array();
+        //echo $this->db->last_query();
+        return $data;
+	}
 }
