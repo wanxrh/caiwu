@@ -130,4 +130,10 @@ class Home_model extends Common_model {
         //echo $this->db->last_query();
         return $data;
 	}
+	public function category(){
+		$data['count'] = $this->db->select('*')->from('user_cat')->count_all_results();
+        $data['user_category'] = $this->db->select('*')->get('user_cat', $this->per_page, $this->offset)->result_array();
+        //echo $this->db->last_query();
+        return $data;
+	}
 }

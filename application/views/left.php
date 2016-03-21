@@ -86,7 +86,7 @@ $(function(){
     <ul class="menuson">
         <li><cite></cite><a href="/user" target="rightFrame">用户管理</a><i></i></li>
         <li><cite></cite><a href="/department" target="rightFrame">部门管理</a><i></i></li>
-        <li><cite></cite><a href="user_cat.php?act=list" target="rightFrame">用户类别管理</a><i></i></li>
+        <li><cite></cite><a href="/user_category" target="rightFrame">用户类别管理</a><i></i></li>
     </ul>
     </dd>
     <dd>
