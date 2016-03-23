@@ -136,4 +136,27 @@ class Home_model extends Common_model {
         //echo $this->db->last_query();
         return $data;
 	}
+	/**
+	 * [user_list 公告列表]
+	 * @AuthorHTL lin
+	 * @DateTime  2016-02-23T09:10:47+0800
+	 * @return    [type]                   [description]
+	 */
+	public function notice(){
+		$data['count'] = $this->db->select('*')->from('news')->count_all_results();
+        $data['news'] = $this->db->select('*')->get('news', $this->per_page, $this->offset)->result_array();
+        //echo $this->db->last_query();
+        return $data;
+	}
+	/**
+	 * 公告
+	 */
+	public function noticeList($news_id){
+		if($news_id!=''){
+			$this->db->where('news_id', $news_id);
+		}
+		$data= $this->db->select('*')->get('news')->row_array();
+
+        return $data;
+	}
 }

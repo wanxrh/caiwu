@@ -94,7 +94,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>系统信息
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="news.php" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="/system_notice" target="rightFrame">系统公告</a><i></i></li>
         <li><cite></cite><a href="liuyan_huifu.php" target="rightFrame">留言</a><i></i></li>
     </ul>
     </dd>
