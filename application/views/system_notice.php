@@ -131,6 +131,28 @@
 	 }
 	</script>
     </div>
+	<?php elseif(($this->uri->segment(2)=='view')):?>
+	<div class="formbody">
+    
+    <div class="formtitle"><span><?php echo $news_view['title'];?></span></div>
+   <?php echo $news_view['content']?>
+    	<script>
+		function validate()
+		{
+			//alert($('#user_name').val());
+			var validator = new Validator('myform');
+			//validator.isNullOption('cat_id','请选择角色');required
+			validator.required('title',"请输入标题");
+			//validator.required('content',"请输入内容");
+			
+			if(validator.passed()){
+				return true;
+			}else{
+				return false;
+			}
+		 }
+		</script>
+    </div>
 	<?php endif;?>
     </div>
 

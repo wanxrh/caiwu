@@ -78,4 +78,9 @@ class System_notice extends M_controller{
 			showmsg('删除成功！2秒后返回',"/system_notice",0,2000);exit();
 		}
 	}
+	public function view(){
+		$news_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
+		$data['news_view']=$this->home_model->noticeList($news_id);
+		$this->load->view('system_notice',$data);
+	}
 }
