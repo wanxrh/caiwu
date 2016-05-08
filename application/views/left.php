@@ -48,8 +48,8 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="gongzibiao_ziduan.php" target="rightFrame">工资表字段选择</a><i></i></li>
-        <li><cite></cite><a href="gongzi_list.php?act=muban&flag=gongzi" target="rightFrame">工资表模板导出</a><i></i></li>
+        <li><cite></cite><a href="/wages_management" target="rightFrame">工资表字段选择</a><i></i></li>
+        <li><cite></cite><a href="/wages_management/export?flag=gongzi" target="rightFrame">工资表模板导出</a><i></i></li>
         <li><cite></cite><a href="excel_daoru1.php?act=muban" target="rightFrame">工资表数据导入</a><i></i></li>
     </ul>
     </dd>
@@ -58,8 +58,8 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>用户表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="yonghubiao_ziduan.php" target="rightFrame">用户表字段选择</a><i></i></li>
-        <li><cite></cite><a href="gongzi_list.php?act=muban&flag=yonghu" target="rightFrame">用户表模板导出</a><i></i></li>
+        <li><cite></cite><a href="/wages_management/user_table" target="rightFrame">用户表字段选择</a><i></i></li>
+        <li><cite></cite><a href="/wages_management/export?flag=yonghu" target="rightFrame">用户表模板导出</a><i></i></li>
         <li><cite></cite><a href="excel_daoru.php" target="rightFrame">用户表数据导入</a><i></i></li>
     </ul>
     </dd>

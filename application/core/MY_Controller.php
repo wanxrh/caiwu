@@ -40,7 +40,7 @@ class M_Controller extends MY_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$user_id = $this->session->userdata('user_id');;
+		$user_id = $this->session->userdata('user_id');
 		// 没有登录不能进会员中心
 		if($this->uri->uri_string()!=''){
 	        if (!$user_id) {
