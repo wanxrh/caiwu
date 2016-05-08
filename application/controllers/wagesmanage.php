@@ -71,8 +71,8 @@ class WagesManage extends M_Controller {
 	public function info(){
 		$data['field_name'] = $this->input->get('field_name',TRUE);
 		//错误
-		//$sql="Select COLUMN_NAME , DATA_TYPE , COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS Where table_name = 'ab22_gongzibiao' AND table_schema = 'ab22' AND column_name LIKE '".$data['field_name']."'";
-		$sql="Select COLUMN_NAME , DATA_TYPE , COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS Where table_name = 'ab22_gongzibiao' AND column_name LIKE '".$data['field_name']."'";
+		$sql="Select COLUMN_NAME , DATA_TYPE , COLUMN_COMMENT from INFORMATION_SCHEMA. COLUMNS Where table_name = 'ab22_gongzibiao'  AND column_name LIKE '".$data['field_name']."'";
+		//$sql="Select COLUMN_NAME , DATA_TYPE , COLUMN_COMMENT from INFORMATION_SCHEMA.COLUMNS Where table_name = 'ab22_gongzibiao' AND column_name LIKE '".$data['field_name']."'";
 		$data['row'] = $this->home_model->sqlQueryRow($sql);
 		$data['dyn'] = $this->home_model->get_one('dyn_column', array('column_name'=>$data['field_name']));
 		

@@ -28,8 +28,8 @@
 		<input class="dfinput2" style="width:80px"  name="time_to" />
 		
 		<?php foreach ($dyn as $k=>$v){ ?>
-		<?php echo $columns[$v['column_name']].':'; ?>
-		<?php if($level <0 && $v['admin_query']){ ?>	
+		<?php if($level <0 && $v['admin_query']){ ?>
+		<?php echo $columns[$v['column_name']].':'; ?>	
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
 			<option value="-1">请选择</option>

@@ -40,7 +40,7 @@ $(function(){
     </div>
     <ul class="menuson">
         <li><cite></cite><a href="/wagesmanage" target="rightFrame">工资表管理</a><i></i></li>
-        <li><cite></cite><a href="yonghubiao.php" target="rightFrame">用户信息表管理</a><i></i></li>
+        <li><cite></cite><a href="/user_information" target="rightFrame">用户信息表管理</a><i></i></li>
     </ul>
     </dd>
     <dd>

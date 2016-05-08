@@ -20,7 +20,6 @@ class WagesList extends M_Controller {
 	}
 	public function index(){
 		$data['level'] = $this->session->userdata('cat_id');
-		
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
