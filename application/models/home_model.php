@@ -136,6 +136,12 @@ class Home_model extends Common_model {
         //echo $this->db->last_query();
         return $data;
 	}
+	public function gongzileixing(){
+		$data['count'] = $this->db->select('*')->from('gongzileixing')->count_all_results();
+        $data['gongzileixing'] = $this->db->select('*')->get('gongzileixing', $this->per_page, $this->offset)->result_array();
+        //echo $this->db->last_query();
+        return $data;
+	}
 	/**
 	 * [user_list 公告列表]
 	 * @AuthorHTL lin
@@ -156,6 +162,25 @@ class Home_model extends Common_model {
 			$this->db->where('news_id', $news_id);
 		}
 		$data= $this->db->select('*')->get('news')->row_array();
+
+        return $data;
+	}
+	/**
+	 * 留言列表
+	 */
+	public function getMessage(){
+		$data['count'] = $this->db->select('*')->from('liuyan')->count_all_results();
+        $data['message'] = $this->db->select('*')->get('liuyan', $this->per_page, $this->offset)->result_array();
+        return $data;
+	}
+	/**
+	 * 留言详情
+	 */
+	public function messageList($liuyan_id){
+		if($liuyan_id!=''){
+			$this->db->where('user_id', $liuyan_id);
+		}
+		$data= $this->db->select('*')->get('liuyan')->row_array();
 
         return $data;
 	}

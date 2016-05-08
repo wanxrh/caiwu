@@ -76,7 +76,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资类型管理
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="gongzileixing.php?act=list" target="rightFrame">工资类型管理</a><i></i></li>
+        <li><cite></cite><a href="/wage_type" target="rightFrame">工资类型管理</a><i></i></li>
     </ul>
     </dd>
     <dd>
@@ -95,7 +95,7 @@ $(function(){
     </div>
     <ul class="menuson">
         <li><cite></cite><a href="/system_notice" target="rightFrame">系统公告</a><i></i></li>
-        <li><cite></cite><a href="liuyan_huifu.php" target="rightFrame">留言</a><i></i></li>
+        <li><cite></cite><a href="/message" target="rightFrame">留言</a><i></i></li>
     </ul>
     </dd>
     <?php elseif($this->session->userdata('cat_id')=='9'):?>
