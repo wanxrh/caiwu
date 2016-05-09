@@ -150,7 +150,7 @@ $(function(){
     <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico02.png" /></span>用户管理
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="gerenxinxi.php?act=mima" target="rightFrame">修改密码</a><i></i></li>
+        <li><cite></cite><a href="/get_password" target="rightFrame">修改密码</a><i></i></li>
         </ul>
     </dd>
     <dd>
