@@ -20,7 +20,7 @@ class WagesList extends M_Controller {
 	}
 	public function index(){
 		$data['level'] = $this->session->userdata('cat_id');
-		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
@@ -29,7 +29,7 @@ class WagesList extends M_Controller {
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
 		}
-
+		
 		$start = strtotime( $this->input->get('time_from',TRUE) );
 		$end = strtotime( $this->input->get('time_to',TRUE) );
 		if($end){
@@ -44,6 +44,10 @@ class WagesList extends M_Controller {
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
+		//统计
+		$stat = $this->home_model->dynstat($columns,$data['dyn']);
+		$data['dyn_page'] = $stat['dyn_page'];
+		$data['dyn_all'] = $stat['dyn_all'];
 		$this->load->view('wages_list',$data);
 	}
 	public function view(){

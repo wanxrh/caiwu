@@ -127,21 +127,21 @@
 		<?php }; ?>
         
 
-		</tbody>
-		<!-- 		
+		</tbody>	
 		<thead>
          <tr>
 		 
-		 <th><?php //echo $sss?></th>
+		 <th>此页合计<?php //echo $sss?></th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
-
-		<th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
-
-		 
-		 <th align="center">&nbsp;</th>
-		 
+		 <?php foreach ($dyn_page as $v){ ?>
+		 	<?php if($v){ ?>
+		 	<th align="center"><?php echo $v; ?></th>
+		 	<?php }else{ ?>
+		 	<th align="center">&nbsp;</th>
+		 	<?php } ?>
+		 <?php }; ?>
 		 </tr> 
 		 </thead>
 		 
@@ -153,18 +153,17 @@
 		 <th>总合计<?php //echo $sss?></th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
-
 		<th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
-
-		 
-
-
-		 <th align="center">&nbsp;</th>
+		 <?php foreach ($dyn_all as $v){ ?>
+		 	<?php if($v){ ?>
+		 	<th align="center"><?php echo $v; ?></th>
+		 	<?php }else{ ?>
+		 	<th align="center">&nbsp;</th>
+		 	<?php } ?>
+		 <?php }; ?>
 		 
 		 </tr> 
 		 </thead>  
-         -->
     </table>
 	<table border="0" style="margin-top:10px">
 	<tr>
