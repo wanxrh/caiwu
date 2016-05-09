@@ -16,14 +16,14 @@
     </div>
     
     <div class="rightinfo">
+    <?php if($user_info['cat_id']=='-1'):?>
     <div class="tools">
-    
     	<ul class="toolbar">
         <li class="click"><span></span><a href="/system_notice"<?php if($this->uri->segment(2)==''||$this->uri->segment(3)!='') echo 'style="color:red"';?>>公告列表</a></li>
 		<li class="click"><span></span><a href="/system_notice/add"<?php if($this->uri->segment(2)!=''&&$this->uri->segment(3)=='') echo 'style="color:red"';?>>添加公告</a></li>
         </ul>
-    
     </div>
+     <?php endif;?>
     <?php if($this->uri->segment(2)==''):?>
     <style>
 	td { text-align:center}
@@ -35,7 +35,9 @@
         <th style="text-align:center" width="100px">编号<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
 		<th style="text-align:center">标题</th>
 		<th style="text-align:center" width="200px">添加时间</th>
+		<?php if($user_info['cat_id']=='-1'):?>
 		<th style="text-align:center" width="200px">操作</th>
+		 <?php endif;?>
         </tr>
         </thead>
         <tbody>
@@ -44,7 +46,9 @@
         <td><?php echo $val['news_id'];?></td>
         <td><a href="/system_notice/view/<?php echo $val['news_id'];?>" class="tablelink"><?php echo $val['title'];?></a></td>
 		<td><?php echo date("Y-m-d H:i:s",$val['add_time']);?></td>
+		<?php if($user_info['cat_id']=='-1'):?>
        <td><a href="/system_notice/edit/<?php echo $val['news_id'];?>" class="tablelink">查看/编辑</a>     <a href="/system_notice/del/<?php echo $val['news_id'];?>" class="tablelink"> 删除</a></td>
+        <?php endif;?>
         </tr>   
          <?php endforeach;?>   
         </tbody>

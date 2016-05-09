@@ -58,7 +58,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>用户表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="/wages_management/user_table" target="rightFrame">用户表字段选择</a><i></i></li>
+        <li><cite></cite><a href="/user_management" target="rightFrame">用户表字段选择</a><i></i></li>
         <li><cite></cite><a href="/wages_management/export?flag=yonghu" target="rightFrame">用户表模板导出</a><i></i></li>
         <li><cite></cite><a href="excel_daoru.php" target="rightFrame">用户表数据导入</a><i></i></li>
     </ul>
@@ -123,8 +123,8 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>系统信息
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="#" target="rightFrame">系统公告</a><i></i></li>
-        <li><cite></cite><a href="#" target="rightFrame">我的留言</a><i></i></li>
+        <li><cite></cite><a href="/system_notice" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="" target="rightFrame">我的留言</a><i></i></li>
     </ul>
     </dd>
     <?php elseif($this->session->userdata('cat_id')=='10'||$this->session->userdata('cat_id')=='11'):?>
@@ -133,8 +133,8 @@ $(function(){
     <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>数据导出字段选择
     </div>
         <ul class="menuson">
-        <li><cite></cite><a href="gongzibiao_ziduan.php" target="rightFrame">工资表导出字段选择</a><i></i></li>
-        <li><cite></cite><a href="yonghubiao_ziduan.php" target="rightFrame">用户信息表导出字段选择</a><i></i></li>
+        <li><cite></cite><a href="/wages_management" target="rightFrame">工资表导出字段选择</a><i></i></li>
+        <li><cite></cite><a href="/user_management" target="rightFrame">用户信息表导出字段选择</a><i></i></li>
         </ul>
     </dd>
     <dd>
@@ -142,7 +142,7 @@ $(function(){
     <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>我的工资
     </div>
         <ul class="menuson">
-        <li><cite></cite><a href="gongzi_list.php?act=list" target="rightFrame">工资列表</a><i></i></li>
+        <li><cite></cite><a href="/wageslist" target="rightFrame">工资列表</a><i></i></li>
         </ul>
     </dd>
     <dd>
@@ -158,8 +158,8 @@ $(function(){
     <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>系统信息
     </div>
         <ul class="menuson">
-        <li><cite></cite><a href="news.php" target="rightFrame">系统公告</a><i></i></li>
-        <li><cite></cite><a href="liuyan.php" target="rightFrame">留言</a><i></i></li>
+        <li><cite></cite><a href="/system_notice" target="rightFrame">系统公告</a><i></i></li>
+        <li><cite></cite><a href="/message" target="rightFrame">留言</a><i></i></li>
         </ul>
     </dd>
     <?php endif;?>

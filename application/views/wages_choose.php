@@ -18,7 +18,7 @@
 <body>
 
 
-	<?php if($this->uri->segment(2)=='index'||$this->uri->segment(2)==''):?>
+	<?php if($this->uri->segment(1)=='wages_management'&&$this->uri->segment(2)!='export'):?>
 	<div class="place">
 
     <span>位置：</span>
@@ -104,13 +104,95 @@
 	$("input[name='checkbox[]']").attr("checked", checkedOfAll); 
 	}  
 </script>
+<?php elseif(($this->uri->segment(1)=='user_management')):?>
+	<div class="place">
 
+    <span>位置：</span>
+
+    <ul class="placeul">
+
+    <li><a href="#">首页</a></li>
+
+    <li><a href="#">用户表导出字段选择</a></li>
+
+    </ul>
+
+    </div>
+
+    <div class="rightinfo">
+	<span style="color:red">*备注为空，不能导出</span>
+	<form name="myform" action="/user_management/edit"  method="post"  enctype="multipart/form-data">
+
+
+
+    <table class="imgtable" style="width:50%">
+
+    
+
+    <thead>
+
+    <tr>
+	<th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
+
+    <th>字段名</th>
+
+	<th>类型</th>
+
+    <th>备注</th>
+
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+		<?php foreach ($cols as $row){ ?>
+		<?php $aaa=",".$row['Field'].",";?>
+		<tr style="border-bottom:1px dashed #cccccc">
+		<td align="center"> <span style="margin-left:10px;"></span> 
+		<?php if($row['Field']!='user_id'&&$row['Field']!='cat_id'&&$row['Field']!='bumen_id'&&$row['Field']!='add_time'&&$row['Field']!='mubanxuanze'&&$row['Field']!='mubanxuanze1'&&$row['Field']!='admin_list_ziduan'&&$row['Field']!='yibanyonghu_list_ziduan'){?>
+		<input type="checkbox" name="checkbox[]" value="<?php echo $row['Field']?>" style="width:20px" <?php if(strpos($row_user['mubanxuanze1'],$aaa)!==false) echo "checked";?> >
+		<?php }?>
+		</td>
+		<td><?php echo $row['Field']?></td>
+
+		<td><?php echo $row['Type']?></td>
+
+		<td><?php echo $row['Comment']?></td>
+
+		
+
+		</tr>
+		<?php }; ?>
+        </tbody>
+
+    </table>
+	<table border="0" style="margin-top:10px">
+
+	<tr>
+
+	<td>
+
+	</td></tr></table>
+	
+    <input type="button" class="btn" value="确定" onclick="this.form.submit()"/>
+
+	</form>
+    </div>
+
+<script type="text/javascript">
+	function checkAll() 
+	{ 
+	var checkedOfAll=$("#selectAll").attr("checked"); 
+	$("input[name='checkbox[]']").attr("checked", checkedOfAll); 
+	}  
+</script>
 <?php elseif(($this->uri->segment(2)=='export')):?>
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="main.php">首页</a></li>
-    <li><a href="#">我的工资</a></li>
+    <li><a href="#">导出</a></li>
     </ul>
     </div>
 	<div class="tools">
@@ -118,7 +200,7 @@
     	<ul style="margin-left:15px;margin-top:15px;">
         <li>
 		<?php if($_GET['flag']=="yonghu"){?>
-		<input type="button" class="btn" value="导出用户模板" onclick="window.location.href=''"/>
+		<input type="button" class="btn" value="导出用户模板" onclick="window.location.href='/user_management/export?flag=yonghu&status=1'"/>
 		<?php }else{?>
 		<input type="button" class="btn" value="导出工资模板" onclick="window.location.href='/wages_management/export?flag=gongzi&status=1'"/>
 		<?php }?>

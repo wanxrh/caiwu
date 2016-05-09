@@ -193,8 +193,14 @@ class Home_model extends Common_model {
 	/**
 	 * 留言列表
 	 */
-	public function getMessage(){
+	public function getMessage($where=''){
+		if($where!=''){
+			$this->db->where('user_id',$where);
+		}
+		$this->db->order_by('liuyan_id','desc');
+		$clone = clone( $this->db );
 		$data['count'] = $this->db->select('*')->from('liuyan')->count_all_results();
+		$this->db = $clone;
         $data['message'] = $this->db->select('*')->get('liuyan', $this->per_page, $this->offset)->result_array();
         return $data;
 	}

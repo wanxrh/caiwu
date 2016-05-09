@@ -22,6 +22,8 @@ class System_notice extends M_controller{
 	}
 	//读取公告列表
 	public function index(){
+		//用户信息
+		$data['user_info']=$this->data['user_info'];
 		//调用model
         $news = $this->home_model->notice();
         //分页
@@ -37,6 +39,8 @@ class System_notice extends M_controller{
 	 * @DateTime  2016-02-17T16:03:05+0800
 	 */
 	public function add(){
+		//用户信息
+		$data['user_info']=$this->data['user_info'];
 		if($this->input->post()!=''){
 			$time=time();
 			$res=array(
@@ -50,7 +54,7 @@ class System_notice extends M_controller{
 				showmsg('添加公告成功！2秒后转向列表页','/system_notice',0,2000);exit();
 			}
 		}
-		$this->load->view('system_notice');
+		$this->load->view('system_notice',$data);
 	}
 	/**
 	 * [edit_user 编辑公告]
@@ -59,6 +63,8 @@ class System_notice extends M_controller{
 	 * @return    [type]                   [description]
 	 */
 	public function edit(){
+		//用户信息
+		$data['user_info']=$this->data['user_info'];
 		$news_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		//根据id查询公告信息
 		$data['news']=$this->home_model->noticeList($news_id);
@@ -79,6 +85,8 @@ class System_notice extends M_controller{
 		}
 	}
 	public function view(){
+		//用户信息
+		$data['user_info']=$this->data['user_info'];
 		$news_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		$data['news_view']=$this->home_model->noticeList($news_id);
 		$this->load->view('system_notice',$data);

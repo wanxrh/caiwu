@@ -22,8 +22,13 @@ class Message extends M_controller{
 	}
 	//读取留言列表
 	public function index(){
+		$data['user_info']=$this->data['user_info'];
 		//调用model
-        $message = $this->home_model->getMessage();
+		if($data['user_info']['cat_id']=='-1'){
+        	$message = $this->home_model->getMessage();
+		}else{
+			$message = $this->home_model->getMessage($data['user_info']['user_id']);
+		}
         //分页
         $data['rows'] = $message['count'];
         $url_format = '/message-%d/' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -38,6 +43,7 @@ class Message extends M_controller{
 	 * @return    [type]                   [description]
 	 */
 	public function edit(){
+		$data['user_info']=$this->data['user_info'];
 		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		//根据id查询公告信息
 		$data['liuyan']=$this->home_model->messageList($user_id);
@@ -50,6 +56,9 @@ class Message extends M_controller{
 		}
 		$this->load->view('message',$data);
 	}
+	/**
+	 * 删除留言
+	 */
 	public function del(){
 		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		$result=$this->home_model->delete('liuyan',array('user_id'=>$user_id));
@@ -57,7 +66,27 @@ class Message extends M_controller{
 			showmsg('删除成功！2秒后返回',"/message",0,2000);exit();
 		}
 	}
+	public function add(){
+		//用户信息
+		$data['user_info']=$this->data['user_info'];
+		if($this->input->post()!=''){
+			$time=time();
+			$res=array(
+				'cat_id'=>$this->input->post('cat_id'),
+				'user_id' =>$data['user_info']['user_id'],
+				'title' =>$this->input->post('title'),
+				'content'=>$this->input->post('content'),
+				'add_time'=>$time
+				);
+			$res=$this->home_model->insert('liuyan',$res);
+			if($res){
+				showmsg('添加留言成功！2秒后转向列表页','/message',0,2000);exit();
+			}
+		}
+		$this->load->view('message',$data);
+	}
 	public function view(){
+		$data['user_info']=$this->data['user_info'];
 		$liuyan_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
 		$data['message_view']=$this->home_model->messageList($liuyan_id);
 		$this->load->view('message',$data);
