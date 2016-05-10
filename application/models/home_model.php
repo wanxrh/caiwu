@@ -87,19 +87,20 @@ class Home_model extends Common_model {
 			if(in_array($v['COLUMN_NAME'],$unset)){				
 				continue;
 			}
-			
-			if(isset($dyn[$v['COLUMN_NAME']]) && !$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
+			if(isset($dyn[$v['COLUMN_NAME']])){
+				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
 				
-				$nums = $this->db->select($v['COLUMN_NAME'])->get('gongzibiao',$this->per_page, $this->offset)->result_array();
-				$ret['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($nums,$v['COLUMN_NAME']) );
+					$nums = $this->db->select($v['COLUMN_NAME'])->get('gongzibiao',$this->per_page, $this->offset)->result_array();
+					$ret['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($nums,$v['COLUMN_NAME']) );
 				
-				$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
-				$ret['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
+					$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
+					$ret['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
 				
-			}elseif ( isset( $dyn[$v['COLUMN_NAME']] ) ){
-				$ret['dyn_page'][$v['COLUMN_NAME']] = '';
-				$ret['dyn_all'][$v['COLUMN_NAME']] = '';
-			}		
+				}else{
+					$ret['dyn_page'][$v['COLUMN_NAME']] = '';
+					$ret['dyn_all'][$v['COLUMN_NAME']] = '';
+				}
+			}				
 		}
 		return $ret;
 	}
