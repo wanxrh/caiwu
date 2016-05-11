@@ -40,9 +40,9 @@
 		<?php echo $columns[$v['column_name']].':'; ?>	
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
-			<option value="-1">请选择</option>
-			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($select[$v['column_name']] !==NULL && intval( $select[$v['column_name']] ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option value="">请选择</option>
+			<?php foreach (explode(',', $v['options']) as $option){ ?>
+			<option <?php if($select[$v['column_name']]  == $option) echo 'selected="true"'; ?> value="<?php echo $option; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>			
@@ -51,9 +51,9 @@
 		<?php }elseif ($level >=0 && $v['admin_query']){ ?>
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px" name="select[<?php echo $v['column_name']; ?>]">
-			<option value="-1">请选择</option>
-			<?php foreach (explode(',', $v['options']) as $value => $option){ ?>
-			<option <?php if($select[$v['column_name']] !==NULL && intval( $select[$v['column_name']] ) === $value) echo 'selected="true"'; ?> value="<?php echo $value; ?>"><?php echo $option; ?></option>
+			<option value="">请选择</option>
+			<?php foreach (explode(',', $v['options']) as $option){ ?>
+			<option <?php if($select[$v['column_name']]  == $option) echo 'selected="true"'; ?> value="<?php echo $option; ?>"><?php echo $option; ?></option>
 			<?php }; ?>
 			</select>	
 			<?php }else{ ?>
@@ -124,7 +124,7 @@
 		<td><?php echo $v['bumen_name']; ?></td>
 		<?php foreach($dyn as $kk=>$vv){ ?>
 		<?php if($vv['view']){  ?>
-        <td><?php if(!$dyn[$vv['column_name']]['options']){ echo $v[$vv['column_name']]; }else{ $n = explode(',', $dyn[$vv['column_name']]['options']); echo isset($n[$v[$vv['column_name']]])?$n[$v[$vv['column_name']]]:''; }; ?></td>
+		<td><?php echo $v[$vv['column_name']]; ?></td>
         <?php }; ?>
         <?php }; ?>
        <td>
