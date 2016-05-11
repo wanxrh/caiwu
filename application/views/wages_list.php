@@ -26,7 +26,15 @@
 		<input class="dfinput2" style="width:80px"  name="time_from" />
 		---
 		<input class="dfinput2" style="width:80px"  name="time_to" />
-		
+		工资类型：
+		<select  class="dfinput2" style="width:80px"  name="gongzileixing">
+		<option value="0">请选择</option>
+		<?php foreach ($gongzi_type as $v){ ?>
+		<option <?php if($gongzileixing == $v['gongzileixing_name']) echo 'selected="true"'; ?> value="<?php echo $v['gongzileixing_name']; ?>"><?php echo $v['gongzileixing_name']; ?></option>
+		<?php }; ?>
+		</select>
+		姓名：
+		<input class="dfinput2" style="width:80px"  name="name" />
 		<?php foreach ($dyn as $k=>$v){ ?>
 		<?php if($level <0 && $v['admin_query']){ ?>
 		<?php echo $columns[$v['column_name']].':'; ?>	
@@ -195,14 +203,14 @@
 	  		    } else {
 	  		        $('.tableNav').removeAttr('style');
 	  		    }
-	  		});
+	  		}); */
 			$("input[name='time_from']").focus(function () {
 				WdatePicker({
 					skin: 'whyGreen',
 					dateFmt: 'yyyy-MM'
 					
 				});
-			}); */
+			});
 			$("input[name='time_to']").focus(function () {
 				WdatePicker({
 					skin: 'whyGreen',

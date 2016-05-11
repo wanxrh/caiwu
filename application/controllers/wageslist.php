@@ -35,11 +35,15 @@ class WagesList extends M_Controller {
 		if($end){
 			$end = $end+86399;
 		}
+		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
+		$name = trim( $this->input->get('name',TRUE) );
+		$data['gongzileixing'] = $gongzileixing;
+		$data['name'] = $name;
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($start,$end,$select,$input);
+		$result = $this->home_model->wagesList($start,$end,$gongzileixing,$name,$select,$input);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -48,6 +52,8 @@ class WagesList extends M_Controller {
 		$stat = $this->home_model->dynstat($columns,$data['dyn']);
 		$data['dyn_page'] = $stat['dyn_page'];
 		$data['dyn_all'] = $stat['dyn_all'];
+		//职员类型
+		$data['gongzi_type'] = $this->home_model->gongziType();
 		$this->load->view('wages_list',$data);
 	}
 	public function view(){
@@ -71,6 +77,7 @@ class WagesList extends M_Controller {
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
 		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
 		$data['info'] = $this->home_model->wagesView($id);
+		$data['gongzi_type'] = $this->home_model->gongziType();
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
 			$parm = $this->input->post(NULL,TRUE);
 			$id = $parm['id'];

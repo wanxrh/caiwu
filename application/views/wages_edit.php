@@ -27,6 +27,14 @@
     <ul class="forminfo">
 	<li>
 		<span>工资年月：<?php echo date('Y-m',$info['nianyue']); ?></span>
+		<span>工资类型：
+		<select class="dfinput2"  name="gongzileixing">
+		<option value="">请选择</option>
+		<?php foreach($gongzi_type as $v){ ?>
+		<option <?php if($info['gongzileixing'] ==$v['gongzileixing_name'] ) echo 'selected="true"'; ?> value="<?php echo $v['gongzileixing_name'];?>"><?php echo $v['gongzileixing_name'];?></option>
+		<?php }; ?>
+		</select>
+		</span>
 	</li>
 	<li>
 	<?php foreach($dyn as $k=>$v){ ?>
@@ -34,8 +42,8 @@
 	<?php if($v['options']){ ?>
 	<select class="dfinput2"  name="<?php echo $v['column_name']; ?>">
 		<option value="">请选择</option>
-		<?php foreach(explode(',', $v['options']) as $kk=>$vv){ ?>
-		<option <?php if($info[$v['column_name']] !==null && intval( $info[$v['column_name']] ) ===intval($kk) ) echo 'selected="true"'; ?> value="<?php echo $kk;?>"><?php echo $vv;?></option>
+		<?php foreach(explode(',', $v['options']) as $vv){ ?>
+		<option <?php if($info[$v['column_name']] ==$vv ) echo 'selected="true"'; ?> value="<?php echo $vv;?>"><?php echo $vv;?></option>
 		<?php }; ?>
 	</select>
 	<?php }else{ ?>

@@ -104,7 +104,7 @@ class Home_model extends Common_model {
 		}
 		return $ret;
 	}
-	public function wagesList($start,$end,$select,$input){
+	public function wagesList($start,$end,$gongzileixing,$name,$select,$input){
 		if($start && !$end){
 			$this->db->where('gongzibiao.nianyue >=',$start);
 		}elseif (!$start && $end){
@@ -115,6 +115,12 @@ class Home_model extends Common_model {
 				$this->db->where('gongzibiao.nianyue >=',$start);
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
+		}
+		if($gongzileixing){
+			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
+		}
+		if($name){
+			$this->db->where('bumen.bumen_name',$name);
 		}
 		if($select){
 			foreach ($select as $k=>$v){
@@ -215,5 +221,8 @@ class Home_model extends Common_model {
 		$data= $this->db->select('*')->get('liuyan')->row_array();
 
         return $data;
+	}
+	public function gongziType(){
+		return $this->db->get('gongzileixing')->result_array();
 	}
 }
