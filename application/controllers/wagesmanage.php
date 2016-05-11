@@ -33,7 +33,7 @@ class WagesManage extends M_Controller {
 		for ($i=1;$i<=11;$i++){
 			if( $params['ziduanming'.$i] ){
 				if($params['leixing'.$i] == 'float'){
-					$len = 20;
+					$len = '20,2';
 				}else{
 					$len = 50;
 				} 
@@ -90,7 +90,7 @@ class WagesManage extends M_Controller {
 		$houchaxun = $this->input->post('houchaxun',TRUE)?1:0;
 		
 		if($leixing == 'float'){
-			$len = 20;
+			$len = '20,2';
 		}else{
 			$len = 50;
 		}
