@@ -124,8 +124,8 @@ class Home_model extends Common_model {
 		}
 		if($select){
 			foreach ($select as $k=>$v){
-				if( intval($v) > -1){
-					$this->db->where($k,intval($v));
+				if( $v!=''){
+					$this->db->where($k,$v);
 				}
 			}
 		}
@@ -140,6 +140,7 @@ class Home_model extends Common_model {
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		//echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;
