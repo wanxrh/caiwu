@@ -183,7 +183,7 @@
 <script type="text/javascript"> 
 	
       $(function () {
-	    	  $(window).scroll(function() {
+	    	 /*  $(window).scroll(function() {
 	  		    $offset = $('#nav').offset(); //不能用自身的div，不然滚动起来会很卡
 	  		    if ($(window).scrollTop() > $offset.top) {
 	  		        $('.tableNav').css({
@@ -202,7 +202,7 @@
 					dateFmt: 'yyyy-MM'
 					
 				});
-			});
+			}); */
 			$("input[name='time_to']").focus(function () {
 				WdatePicker({
 					skin: 'whyGreen',
