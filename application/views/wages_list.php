@@ -83,9 +83,10 @@
 	td { text-align:center}
 	th { text-align:center}
 	</style>
-    <table class="tablelist" style="width:auto">
-    	<thead>
-    	<tr>
+    <table class="tablelist" style="width:100%">
+
+    	<thead id="nav">
+    	<tr class="tableNav">
         <th style="text-align:center">
 		<input type="checkbox" id="btn1"/>编号
 		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
@@ -131,13 +132,13 @@
 		<thead>
          <tr>
 		 
-		 <th>此页合计<?php //echo $sss?></th>
+		 <th>此页合计</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_page as $v){ ?>
 		 	<?php if($v){ ?>
-		 	<th align="center"><?php echo $v; ?></th>
+		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
 		 	<?php }else{ ?>
 		 	<th align="center">&nbsp;</th>
 		 	<?php } ?>
@@ -150,13 +151,13 @@
 		 <thead>
          <tr>
 		 
-		 <th>总合计<?php //echo $sss?></th>
+		 <th>总合计</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_all as $v){ ?>
 		 	<?php if($v){ ?>
-		 	<th align="center"><?php echo $v; ?></th>
+		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
 		 	<?php }else{ ?>
 		 	<th align="center">&nbsp;</th>
 		 	<?php } ?>
@@ -180,9 +181,21 @@
 
 </html>
 <script type="text/javascript"> 
-      
+	
       $(function () {
-
+	    	  $(window).scroll(function() {
+	  		    $offset = $('#nav').offset(); //不能用自身的div，不然滚动起来会很卡
+	  		    if ($(window).scrollTop() > $offset.top) {
+	  		        $('.tableNav').css({
+	  		            'position': 'fixed',
+	  		            'top': '0px',
+	  		            'left': $offset.left + 'px',
+	  		            'z-index': '999'
+	  		        });
+	  		    } else {
+	  		        $('.tableNav').removeAttr('style');
+	  		    }
+	  		});
 			$("input[name='time_from']").focus(function () {
 				WdatePicker({
 					skin: 'whyGreen',
