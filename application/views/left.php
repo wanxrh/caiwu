@@ -105,7 +105,7 @@ $(function(){
     </div>
     <ul class="menuson">
         <?php foreach($leixing as $key=>$val):?>
-        <li><cite></cite><a href="" target="rightFrame"><?php echo $val['gongzileixing_name'];?></a><i></i></li>
+        <li><cite></cite><a href="/wageslist/index?&gongzileixing=<?php echo $val['gongzileixing_name'];?>" target="rightFrame"><?php echo $val['gongzileixing_name'];?></a><i></i></li>
         <?php endforeach;?>
     </ul>
     </dd>

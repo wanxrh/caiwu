@@ -14,6 +14,7 @@ class My_index extends M_Controller {
 		$this->load->model('home_model');
 	}
 	public function index(){
+
 		$this->load->view('my_index');
 	}
 	/*

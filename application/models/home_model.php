@@ -54,9 +54,9 @@ class Home_model extends Common_model {
             $this->db->where($sql);
         }
         $temp = clone $this->db;
-		$data['count'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->from('user_record')->count_all_results();
+		$data['count'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->from('user_record')->count_all_results();
 		$this->db = $temp;
-        $data['user'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
+        $data['user'] = $this->db->select('user_cat.*,bumen.*,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->join('bumen', 'bumen.bumen_id=user_record.bumen_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
         //echo $this->db->last_query();
         return $data;
 	}
@@ -104,7 +104,8 @@ class Home_model extends Common_model {
 		}
 		return $ret;
 	}
-	public function wagesList($start,$end,$gongzileixing,$name,$select,$input){
+	public function wagesList($start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
+
 		if($start && !$end){
 			$this->db->where('gongzibiao.nianyue >=',$start);
 		}elseif (!$start && $end){
@@ -137,6 +138,9 @@ class Home_model extends Common_model {
 			}
 		}
 		$clone = clone( $this->db );
+		if($zhiyuandaima){
+			$this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
+		}
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();

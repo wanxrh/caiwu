@@ -23,14 +23,14 @@
     
     	<form action="/wageslist/index" method="get">
 		时间区间：
-		<input class="dfinput2" style="width:80px"  name="time_from" />
+		<input class="dfinput2" style="width:80px"  name="time_from" value="<?php echo date("Y-m",strtotime("-1 month"));?>"/>
 		---
-		<input class="dfinput2" style="width:80px"  name="time_to" />
+		<input class="dfinput2" style="width:80px"  name="time_to" value="<?php echo date("Y-m",time());?>"/>
 		工资类型：
 		<select  class="dfinput2" style="width:80px"  name="gongzileixing">
 		<option value="0">请选择</option>
-		<?php foreach ($gongzi_type as $v){ ?>
-		<option <?php if($gongzileixing == $v['gongzileixing_name']) echo 'selected="true"'; ?> value="<?php echo $v['gongzileixing_name']; ?>"><?php echo $v['gongzileixing_name']; ?></option>
+		<?php foreach ($gongzi_type as $k=>$v){ ?>
+		<option <?php if($gongzileixing == $v['gongzileixing_name']) echo 'selected="true"'; ?> <?php if($gongzileixing=='' && $k==3) echo 'selected="true"'; ?>  value="<?php echo $v['gongzileixing_name']; ?>"><?php echo $v['gongzileixing_name']; ?></option>
 		<?php }; ?>
 		</select>
 		姓名：

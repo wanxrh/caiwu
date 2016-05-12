@@ -18,7 +18,7 @@
 
     <frame src="/my_index/left" name="leftFrame" scrolling="No" noresize="noresize" id="leftFrame" title="leftFrame" />
 
-    <frame src="/my_index/right" name="rightFrame" id="rightFrame" title="rightFrame" scrolling="auto" />
+    <frame src="/wageslist" name="rightFrame" id="rightFrame" title="rightFrame" scrolling="auto" />
 
   </frameset>
 

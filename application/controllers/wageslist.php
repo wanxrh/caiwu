@@ -19,6 +19,7 @@ class WagesList extends M_Controller {
 		$this->offset = ($this->cur_page - 1) * $this->per_page;
 	}
 	public function index(){
+		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
@@ -43,7 +44,7 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($start,$end,$gongzileixing,$name,$select,$input);
+		$result = $this->home_model->wagesList($start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -93,5 +94,30 @@ class WagesList extends M_Controller {
 		if(!$id) return FALSE;
 		$row = $this->home_model->delete('gongzibiao', array('id'=>$id));
 		if($row) showmsg('删除成功','/wageslist/index');
+	}
+	/**
+	 * 添加工资记录
+	 */
+	public function add(){
+		$data['zhiyuandaima'] = $this->input->get('id',TRUE);
+		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+		$columns =  $this->home_model->sqlQueryArray($sql);
+		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
+		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
+		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$data['gongzi_type'] = $this->home_model->gongziType();
+		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
+			$parm = $this->input->post(NULL,TRUE);
+			$row = $this->home_model->insert('gongzibiao', $parm);
+			if($row) showmsg('添加成功','/user');
+			return;
+		}
+		$this->load->view('wages_add',$data);
+	}
+	/**
+	 * 查看用户工资列表
+	 */
+	public function viewlist(){
+
 	}
 }
