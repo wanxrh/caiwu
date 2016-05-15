@@ -79,7 +79,6 @@ class Wages_management extends M_Controller {
 				$b1="";
 				$col_nianyue = '';
 			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				echo $data->sheets[0]['cells'][1][$j];exit;
 				if(!$data->sheets[0]['cells'][1][$j]){
 					 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 				}
