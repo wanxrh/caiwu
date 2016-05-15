@@ -128,7 +128,6 @@ class Wages_management extends M_Controller {
 				$name=$data->sheets[0][cells][$i][$col_name];
 				$r_panduan = $this->home_model->get_one('user_record',array('name'=>$name));
 				if($r_panduan=='') continue;
-				echo 45454;exit;
 				$bumen_name=$data->sheets[0][cells][$i][$col_bumen_name];
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
 				$r_user = $this->home_model->get_one('user_record',array('name'=>$name));//不匹配部门
@@ -174,9 +173,9 @@ class Wages_management extends M_Controller {
 							//$row=$db->get_row("select * from ab22_gongzibiao where user_name='$user_name'");
 							
 						}
-						/*echo $s1;
+						echo $s1;
 						echo "<br>";
-						echo $s2;exit;*/
+						echo $s2;exit;
 						
 						if(1){
 							echo 444554;exit;
