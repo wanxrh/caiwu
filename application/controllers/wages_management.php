@@ -176,12 +176,11 @@ class Wages_management extends M_Controller {
 							//$row=$db->get_row("select * from ab22_gongzibiao where user_name='$user_name'");
 							
 						}
-						echo $s1;
+						/*echo $s1;
 						echo "<br>";
-						echo $s2;exit;
+						echo $s2;exit;*/
 						
 						if(1){
-							echo 444554;exit;
 							$s1=substr($s1,0,-1);
 							if(strpos($a1,"user_id")===false){
 								$sql1="insert into ab22_gongzibiao(".$a1.",user_id) values(".$s1.",$user_id)";
@@ -190,7 +189,6 @@ class Wages_management extends M_Controller {
 							}
 							$this->home_model->sqlQuery($sql1);
 						}else{
-							echo 99999;exit;
 							$sql2="update ab22_gongzibiao set ".$s2.",bumen_id='$bumen_id' where user_name='$user_name'";
 							$this->home_model->sqlQuery($sql2);
 						}
