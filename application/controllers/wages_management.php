@@ -79,7 +79,7 @@ class Wages_management extends M_Controller {
 				$b1="";
 				$col_nianyue = '';
 			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				if(!$data->sheets[0]['cells'][1][$j]){
+				if($data->sheets[0]['cells'][1][$j]==''){
 					 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 				}
 				//获取表字段
@@ -94,7 +94,7 @@ class Wages_management extends M_Controller {
 				}
 
 			}
-			if(!$col_nianyue){
+			if($col_nianyue==''){
 				 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 			}
 			$col_name=1;
