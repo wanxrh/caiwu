@@ -90,6 +90,8 @@ class Wages_management extends M_Controller {
 						$a1.=$row['Field'].",";
 						$b1.=$row['Field']."='".$j."*****',";
 						if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
+						echo $col_nianyue;
+						echo 95544;exit;
 					}
 				}
 
