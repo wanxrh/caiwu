@@ -89,10 +89,7 @@ class Wages_management extends M_Controller {
 					if(!empty($row['Comment']==$data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
 						$a1.=$row['Field'].",";
 						$b1.=$row['Field']."='".$j."*****',";
-						echo $data->sheets[0]['cells'][1][$j];exit;
 						if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
-						echo $col_nianyue;
-						echo 95544;exit;
 					}
 				}
 
