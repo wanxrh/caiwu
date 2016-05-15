@@ -32,7 +32,8 @@ class Common_model extends CI_Model
 		{
 			$this->db->where($where);
 		}
-		return $this->db->select($fields)->from($table)->get()->row_array();
+		$this->db->select($fields)->from($table)->get()->row_array();
+		echo $this->db->last_query();exit;
 	}
 
 	/**
