@@ -79,7 +79,7 @@ class Wages_management extends M_Controller {
 				$b1="";
 				$col_nianyue = '';
 			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				if(!$data->sheets[0]['cells'][1][$j]) showmsg('模板不正确',"/wages_management/import",0,1000);
+				if(!$data->sheets[0]['cells'][1][$j]) showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 				//获取表字段
 				$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
 				$res = $this->home_model->sqlQueryArray($sql);
@@ -92,7 +92,7 @@ class Wages_management extends M_Controller {
 				}
 
 			}
-			if(!$col_nianyue) showmsg('模板不正确',"/wages_management/import",0,1000);
+			if(!$col_nianyue) showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 			$col_name=1;
 			$col_bumen_name=2;
 			$a1=substr($a1,0,-1);
@@ -103,7 +103,7 @@ class Wages_management extends M_Controller {
 				//$r_panduan=$db->get_row("select * from ab22_user_record where name='$name'");
 				//if(!$r_panduan) continue;
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
-				$r_user = $this->home_model->get_one('user_record',array('name'=>$name));
+				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
 				
 				if($name&&!$r_user){
@@ -117,7 +117,7 @@ class Wages_management extends M_Controller {
 			}
 			if($flag==2){
 				$msg="拒绝导入，还缺少".$msg."的数据";
-				showmsg("$msg","/wages_management/import",0,1000);
+				showmsg("$msg","/wages_management/import",0,1000);exit;
 			}
 
 			for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++){//下面有备份
@@ -141,7 +141,7 @@ class Wages_management extends M_Controller {
 									$flag='2';
 								}
 							}
-							if($flag=='1') showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);
+							if($flag=='1') showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);exit;
 						}
 					}else if($user_id){
 						$s1="";
