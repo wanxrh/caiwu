@@ -110,7 +110,7 @@ class Wages_management extends M_Controller {
 				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
 				
-				if($name&&!$r_user){
+				if(!empty($name) && $r_user==''){
 					$flag=2;
 					if($name){
 						$msg.=",".$name;
