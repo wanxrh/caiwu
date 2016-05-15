@@ -86,7 +86,7 @@ class Wages_management extends M_Controller {
 				$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
 				$res = $this->home_model->sqlQueryArray($sql);
 				foreach ($res as $key => $row) {
-					if($row['Comment']==$data->sheets[0]['cells'][1][$j]&&$data->sheets[0]['cells'][1][$j]){
+					if(!empty($row['Comment']==$data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
 						$a1.=$row['Field'].",";
 						$b1.=$row['Field']."='".$j."*****',";
 						if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
