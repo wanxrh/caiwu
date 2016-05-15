@@ -95,7 +95,7 @@ class Wages_management extends M_Controller {
 
 			}
 			if(empty($col_nianyue)){
-				 showmsg('模板不正确5',"/wages_management/import",0,1000);exit;
+				 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 			}
 			$col_name=1;
 			$col_bumen_name=2;
@@ -109,8 +109,10 @@ class Wages_management extends M_Controller {
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
 				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
-				
-				if(!empty($name) && $r_user==''){
+				if(empty($r_user)){
+					showmsg('不存的用户',"/wages_management/import",0,1000);exit;
+				}
+				if(!empty($name) && empty($r_user)){
 					$flag=2;
 					if($name){
 						$msg.=",".$name;
@@ -132,7 +134,6 @@ class Wages_management extends M_Controller {
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
 				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
 				$user_id=$r_user['user_id'];
-				echo $user_id;exit;	
 					$s="";
 					if($i==1){
 						for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
