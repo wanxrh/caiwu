@@ -79,7 +79,9 @@ class Wages_management extends M_Controller {
 				$b1="";
 				$col_nianyue = '';
 			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				if(!$data->sheets[0]['cells'][1][$j]) showmsg('模板不正确',"/wages_management/import",0,1000);exit;
+				if(!$data->sheets[0]['cells'][1][$j]){
+					 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
+				}
 				//获取表字段
 				$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
 				$res = $this->home_model->sqlQueryArray($sql);
@@ -92,7 +94,9 @@ class Wages_management extends M_Controller {
 				}
 
 			}
-			if(!$col_nianyue) showmsg('模板不正确',"/wages_management/import",0,1000);exit;
+			if(!$col_nianyue){
+				 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
+			}
 			$col_name=1;
 			$col_bumen_name=2;
 			$a1=substr($a1,0,-1);
@@ -141,7 +145,9 @@ class Wages_management extends M_Controller {
 									$flag='2';
 								}
 							}
-							if($flag=='1') showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);exit;
+							if($flag=='1'){
+								showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);exit;
+							} 
 						}
 					}else if($user_id){
 						$s1="";
