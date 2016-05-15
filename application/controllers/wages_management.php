@@ -149,7 +149,7 @@ class Wages_management extends M_Controller {
 								showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);exit;
 							} 
 						}
-					}else if($user_id){
+					}else if(!empty($user_id)){
 						$s1="";
 						$k="";
 						$s2=$b1;
