@@ -52,4 +52,11 @@ class User_management extends M_Controller {
 			$this->load->view('wages_choose');
 		}
 	}
+	/**
+	 * 用户模板导入
+	 */
+	public function import(){
+		
+		$this->load->view('wages_import');
+	}
 }

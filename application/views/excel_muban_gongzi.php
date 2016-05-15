@@ -1,6 +1,8 @@
 ﻿<?php
+header("Content-Type: application/vnd.ms-excel; charset=UTF-8"); 
 header("Content-type:application/vnd.ms-excel"); 
 date_default_timezone_set('PRC');
+header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 header("Content-Disposition:attachment;filename=$filename"); 
 ?>
 <html xmlns:o="urn:schemas-microsoft-com:office:office" 
