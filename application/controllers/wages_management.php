@@ -79,26 +79,19 @@ class Wages_management extends M_Controller {
 				$b1="";
 				$col_nianyue = '';
 			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				echo $data->sheets[0]['cells'][1][$j];exit;
 				if(!$data->sheets[0]['cells'][1][$j]) showmsg('模板不正确',"/wages_management/import",0,1000);
 				//获取表字段
 				$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
 				$res = $this->home_model->sqlQueryArray($sql);
 				foreach ($res as $key => $row) {
-					if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'){
-						
-						if($row['Comment']==$data->sheets[0]['cells'][1][$j]&&$data->sheets[0]['cells'][1][$j]){
-							echo 54545;exit;
-							$a1.=$row['Field'].",";
-							$b1.=$row['Field']."='".$j."*****',";
-							echo $data->sheets[0]['cells'][1][$j];exit;
-							if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
-						}
+					if($row['Comment']==$data->sheets[0]['cells'][1][$j]&&$data->sheets[0]['cells'][1][$j]){
+						$a1.=$row['Field'].",";
+						$b1.=$row['Field']."='".$j."*****',";
+						if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
 					}
 				}
 
 			}
-			
 			if(!$col_nianyue) showmsg('模板不正确',"/wages_management/import",0,1000);
 			$col_name=1;
 			$col_bumen_name=2;
@@ -107,15 +100,12 @@ class Wages_management extends M_Controller {
 			$flag=1;
 			for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++){
 				$name=$data->sheets[0][cells][$i][$col_name];
-				echo $name;exit;
 				//$r_panduan=$db->get_row("select * from ab22_user_record where name='$name'");
 				//if(!$r_panduan) continue;
-				$bumen_name=$data->sheets[0][cells][$i][$col_bumen_name];
-				$r_bumen=$db->get_row("select * from ab22_bumen where bumen_name='$bumen_name'");
-				$bumen_id=$r_bumen->bumen_id;
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
-				$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
-				//echo "select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'";
+				$r_user = $this->home_model->get_one('user_record',array('name'=>$name));
+				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
+				
 				if($name&&!$r_user){
 					$flag=2;
 					if($name){
@@ -127,34 +117,31 @@ class Wages_management extends M_Controller {
 			}
 			if($flag==2){
 				$msg="拒绝导入，还缺少".$msg."的数据";
-				goback($msg);
+				showmsg("$msg","/wages_management/import",0,1000);
 			}
-
 
 			for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++){//下面有备份
 				$name=$data->sheets[0][cells][$i][$col_name];
-				$r_panduan=$db->get_row("select * from ab22_user_record where name='$name'");
+				$r_panduan = $this->home_model->get_one('user_record',array('name'=>$name));
 				if(!$r_panduan) continue;
 				$bumen_name=$data->sheets[0][cells][$i][$col_bumen_name];
-				$r_bumen=$db->get_row("select * from ab22_bumen where bumen_name='$bumen_name'");
-				$bumen_id=$r_bumen->bumen_id;
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
-				$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
-				$user_id=$r_user->user_id;
-				//echo $user_id;
+				$r_user = $this->home_model->get_one('user_record',array('name'=>$name));//不匹配部门
+				$user_id=$r_user['user_id'];
 					
 					$s="";
 					if($i==1){
 						for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
 							$flag='1';
-							$rescolumns = mysql_query("SHOW  full COLUMNS FROM ab22_gongzibiao") ;
-							while($row = mysql_fetch_array($rescolumns)){
-								if($row['Comment']==$data->sheets[0]['cells'][$i][$j]){
+							//获取表字段
+							$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
+							$res = $this->home_model->sqlQueryArray($sql);
+							foreach ($res as $key => $row) {
+								if($row['Comment']=$data->sheets[0]['cells'][$i][$j]){
 									$flag='2';
 								}
-							
 							}
-							if($flag=='1') goback("模板中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."！");
+							if($flag=='1') showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/wages_management/import",0,1000);
 						}
 					}else if($user_id){
 						$s1="";
@@ -162,12 +149,15 @@ class Wages_management extends M_Controller {
 						$s2=$b1;
 						for($j=3;$j<=$data->sheets[0]['numCols'];$j++){
 							if($j==$col_nianyue){
-								$s1.="'".str_replace("年","-",$data->sheets[0]['cells'][$i][$j])."',";
+								//$s1.="'".str_replace("/","-",$data->sheets[0]['cells'][$i][$j])."',";
+								//$s1.="'".strtotime(str_replace("年","-",$data->sheets[0]['cells'][$i][$j]))."',";
+								$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
 							}else{
 								$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
 							}
 							$m="'".$j."*****";
 							if($data->sheets[0]['cells'][$i][$j]){//update数据表，替换$j*****
+								
 								$s2=str_replace($m,"'".$data->sheets[0]['cells'][$i][$j],$s2);
 							}else{
 								$s2=str_replace($m,"'",$s2);
@@ -177,11 +167,9 @@ class Wages_management extends M_Controller {
 							//$row=$db->get_row("select * from ab22_gongzibiao where user_name='$user_name'");
 							
 						}
-						
-						//echo $col_user_name;
-						//echo $col_bumen_name;
-						//echo $user_name;
-						//$r1=$db->get_row("select * from ab22_gongzibiao where user_name='$user_name'");
+						/*echo $s1;
+						echo "<br>";
+						echo $s2;exit;*/
 						
 						if(1){
 							$s1=substr($s1,0,-1);
@@ -190,13 +178,11 @@ class Wages_management extends M_Controller {
 							}else{
 							 	$sql1="insert into ab22_gongzibiao(".$a1.") values(".$s1.")";
 							}
-							//echo $sql1;
-							$db->query($sql1);
+							$this->home_model->sqlQuery($sql1);
 						}else{
 							
 							$sql2="update ab22_gongzibiao set ".$s2.",bumen_id='$bumen_id' where user_name='$user_name'";
-							//echo $sql2;
-							//$db->query($sql2);
+							$this->home_model->sqlQuery($sql2);
 						}
 					}
 					//$s=substr($s,2);
@@ -205,8 +191,7 @@ class Wages_management extends M_Controller {
 					
 			}
 			}
-			echo "<script>alert('导入成功！');</script>";
-			echo"<script>window.location='excel_daoru1.php?id=".$id."';</script>";    
+			showmsg('导入成功','/wages_management/import',0,2000);exit();
 		}
 		$this->load->view('wages_import');
 	}

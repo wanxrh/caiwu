@@ -70,7 +70,8 @@ class Home_model extends Common_model {
 
 	}
 	public function sqlQuery($sql){
-		return $this->db->query($sql);
+		$result=$this->db->query($sql);
+		return $result;
 	}
 	public function sqlQueryRow($sql){
 		return $this->db->query($sql)->row_array();
