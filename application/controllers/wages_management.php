@@ -94,7 +94,7 @@ class Wages_management extends M_Controller {
 				}
 
 			}
-			if($col_nianyue==''){
+			if(empty($col_nianyue)){
 				 showmsg('模板不正确5',"/wages_management/import",0,1000);exit;
 			}
 			$col_name=1;
