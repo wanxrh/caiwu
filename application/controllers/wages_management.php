@@ -109,6 +109,7 @@ class Wages_management extends M_Controller {
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
 				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));
 				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
+				print_r($r_user);exit;
 				if(empty($r_user)){
 					showmsg('不存的用户',"/wages_management/import",0,1000);exit;
 				}
