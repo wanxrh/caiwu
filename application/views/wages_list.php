@@ -128,7 +128,7 @@
         <?php }; ?>
         <?php }; ?>
        <td>
-			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink">查看</a>
+			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink"  target="_blank">查看</a>
        　	<a href="/wageslist/edit?id=<?php echo $v['id']; ?>" class="tablelink">编辑</a>
        　	<a href="/wageslist/del?id=<?php echo $v['id']; ?>" class="tablelink"> 删除</a>
        </td>

@@ -149,6 +149,20 @@ class Home_model extends Common_model {
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;
 	}
+	//查看用户工资
+	public function wagesViewList($zhiyuandaima){
+		if($zhiyuandaima){
+			$this->db->where('gongzibiao.zhiyuanCode',$zhiyuandaima);
+		}
+		$clones = clone( $this->db );
+		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.zhiyuandaima = gongzibiao.zhiyuanCode','left');
+		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		$this->db = $clones;
+		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
+		//echo $this->db->last_query();exit;
+		return $data;
+	}
 	public function wagesView($id){
 		$this->db->where('id',$id);
 		return $this->db->get('gongzibiao')->row_array();

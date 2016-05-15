@@ -45,5 +45,6 @@ $route['user-(:num)'] = 'user/index/$1';
 $route['news-(:num)'] = 'system_notice/index/$1';
 $route['message-(:num)'] = 'message/index/$1';
 $route['wage_type-(:num)'] = 'wage_type/index/$1';
+$route['wageslist-(:num)'] = 'wageslist/viewlist/$1';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

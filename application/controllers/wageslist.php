@@ -53,6 +53,7 @@ class WagesList extends M_Controller {
 		$stat = $this->home_model->dynstat($columns,$data['dyn']);
 		$data['dyn_page'] = $stat['dyn_page'];
 		$data['dyn_all'] = $stat['dyn_all'];
+
 		//职员类型
 		$data['gongzi_type'] = $this->home_model->gongziType();
 		$this->load->view('wages_list',$data);
@@ -115,9 +116,29 @@ class WagesList extends M_Controller {
 		$this->load->view('wages_add',$data);
 	}
 	/**
-	 * 查看用户工资列表
+	 * 查看用户工资记录
 	 */
 	public function viewlist(){
+		$zhiyuandaima=$this->input->get('id','');
+		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+		$columns =  $this->home_model->sqlQueryArray($sql);
+		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
+		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
+		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$data['dyn'] = array();
+		foreach ($dyn as $v){
+			$data['dyn'][$v['column_name']] = $v;
+		}
+		
+		$result = $this->home_model->wagesViewList($zhiyuandaima);
+		$data['list'] = $result['list'];
+		$data['rows'] = $result['count'];
+		$url_format = '/wageslist/viewlist/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
+		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
+		//职员类型
+		$data['gongzi_type'] = $this->home_model->gongziType();
 
+		$this->load->view('wages_viewlist',$data);
+		
 	}
 }
