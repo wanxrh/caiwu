@@ -31,10 +31,10 @@ class WagesList extends M_Controller {
 			$data['dyn'][$v['column_name']] = $v;
 		}
 		
-		$start = strtotime( $this->input->get('time_from',TRUE) );
-		$end = strtotime( $this->input->get('time_to',TRUE) );
+		$start = $this->input->get('time_from',TRUE);
+		$end = $this->input->get('time_to',TRUE);
 		if($end){
-			$end = $end+86399;
+			$end = $end;
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );

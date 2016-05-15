@@ -119,7 +119,7 @@
 		<input type="checkbox" name="checkbox[]" value="" style="width:20px">
 		<?php echo $v['id']; ?>
 		</td>
-		<td><?php echo date('Y-m',$v['nianyue']); ?></td>
+		<td><?php echo $v['nianyue']; ?></td>
 		<td><?php echo $v['user_name']; ?></td>
 		<td><?php echo $v['bumen_name']; ?></td>
 		<?php foreach($dyn as $kk=>$vv){ ?>

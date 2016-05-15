@@ -113,7 +113,7 @@ class Home_model extends Common_model {
 			$this->db->where('gongzibiao.nianyue <=',$end);
 		}elseif ($start && $end){
 			if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
-			if($start < $end){echo $start.','.$end;
+			if($start < $end){/*echo $start.','.$end;*/
 				$this->db->where('gongzibiao.nianyue >=',$start);
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
@@ -145,7 +145,7 @@ class Home_model extends Common_model {
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
-		//echo $this->db->last_query();exit;
+		echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;

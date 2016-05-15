@@ -17,7 +17,7 @@
 
 
 <body>
-<?php if(($this->uri->segment(2)=='import')):?>
+<?php if(($this->uri->segment(2)=='import'&&$this->uri->segment(1)=='wages_management')):?>
 	<div class="place">
     <span>位置：</span>
     <ul class="placeul">
@@ -34,6 +34,28 @@
     <form name="myform" action="/wages_management/import"  method="post" ENCTYPE="multipart/form-data" onsubmit="return validate()">
 	<input type="hidden" name="1" value="2">
 	<input type="hidden" name="id" value="">
+    <ul class="forminfo">
+    <li><label style="width:150px">请选择要导入的EXCEL</label> <input name="MyFile" type="file"  > </li>
+    <li><label>&nbsp;</label><input type="button" class="btn" value="确定导入" onclick="validate()"/></li>
+    </ul>
+    </form>
+<?php elseif(($this->uri->segment(2)=='import'&&$this->uri->segment(1)=='user_management')):?>
+    <div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="/">首页</a></li>
+    <li><a href="#">数据导入</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+    
+    <div class="formtitle"><span>导入用户模板</span></div>
+
+    <div style="font-size:16px; margin-bottom:20px">要求必须以<b style="color:red">xls</b>结尾的EXCEL文件!</div>
+    <form name="myform" action="/user_management/import"  method="post" ENCTYPE="multipart/form-data" onsubmit="return validate()">
+    <input type="hidden" name="1" value="2">
+    <input type="hidden" name="id" value="">
     <ul class="forminfo">
     <li><label style="width:150px">请选择要导入的EXCEL</label> <input name="MyFile" type="file"  > </li>
     <li><label>&nbsp;</label><input type="button" class="btn" value="确定导入" onclick="validate()"/></li>

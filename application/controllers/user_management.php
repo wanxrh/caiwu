@@ -56,7 +56,9 @@ class User_management extends M_Controller {
 	 * 用户模板导入
 	 */
 	public function import(){
-		
+		if($this->input->post()){
+			showmsg('正在开发中','/user_management/import');exit;
+		}
 		$this->load->view('wages_import');
 	}
 }
