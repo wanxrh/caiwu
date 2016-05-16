@@ -104,7 +104,7 @@
 	$("input[name='checkbox[]']").attr("checked", checkedOfAll); 
 	}  
 </script>
-<?php elseif(($this->uri->segment(1)=='user_management')):?>
+<?php elseif(($this->uri->segment(1)=='user_management')&&$this->uri->segment(2)!='export'):?>
 	<div class="place">
 
     <span>位置：</span>

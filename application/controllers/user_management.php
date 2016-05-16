@@ -46,7 +46,6 @@ class User_management extends M_Controller {
 			$data['row_user']=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
 			$sql = "SHOW  full COLUMNS FROM ab22_user_record";
 			$data['rescolumns'] = $this->home_model->sqlQueryArray($sql);
-
 			$this->load->view('excel_muban_yonghu',$data);
 		}else{
 			$this->load->view('wages_choose');
