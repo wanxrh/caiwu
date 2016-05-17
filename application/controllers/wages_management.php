@@ -43,10 +43,15 @@ class Wages_management extends M_Controller {
 		if($this->input->get('status')=='1'){
 			$data['filename'] = "date-".date("Y-m-d").'.xls';
 			$data['flag'] = $this->input->get('flag',TRUE);
-			$data['row_user']=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
+			//查询工资表设置的导出模版设置
+			$str = '';
+			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','template'=>'1'));
+			foreach ($row_user as $key => $value) {
+				$str .= ','.$value['column_name'].',';
+			}
+			$data['row_user']=$str;
 			$sql = "SHOW  full COLUMNS FROM ab22_gongzibiao";
 			$data['rescolumns'] = $this->home_model->sqlQueryArray($sql);
-
 			$this->load->view('excel_muban_gongzi',$data);
 		}else{
 			$this->load->view('wages_choose');
@@ -56,7 +61,6 @@ class Wages_management extends M_Controller {
 	 * 工资模板导入
 	 */
 	public function import(){
-		//xls 的编码是gbk32
 		header("Content-Type: text/html; charset=utf-8");
 		if($this->input->post()){
 			$file = pathinfo($_FILES['MyFile']['name']);
@@ -77,26 +81,26 @@ class Wages_management extends M_Controller {
 				$a1="";
 				$a2="";
 				$b1="";
-				$col_nianyue = '';
-			for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-				if(empty($data->sheets[0]['cells'][1][$j])){
-					 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
-				}
-				//获取表字段
-				$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
-				$res = $this->home_model->sqlQueryArray($sql);
-				foreach ($res as $key => $row) {
-					if(!empty($row['Comment']==$data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
-						$a1.=$row['Field'].",";
-						$b1.=$row['Field']."='".$j."*****',";
-						if($data->sheets[0]['cells'][1][$j]=="工资年月"){ $col_nianyue=$j;}
+				$col_n = '';
+				for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
+					if(empty($data->sheets[0]['cells'][1][$j])){
+						 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
 					}
-				}
+					//获取表字段
+					$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
+					$res = $this->home_model->sqlQueryArray($sql);
+					foreach ($res as $key => $row) {
+						if(!empty($row['Comment']==$data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
+							$a1.=$row['Field'].",";
+							$b1.=$row['Field']."='".$j."*****',";
+							//if($data->sheets[0]['cells'][1][$j]=="职员姓名"){ $col_n=$j;}
+						}
+					}
 
-			}
-			if(empty($col_nianyue)){
-				 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
-			}
+				}
+			// if(empty($col_n)){
+			// 	 showmsg('模板不正确',"/wages_management/import",0,1000);exit;
+			// }
 			$col_name=1;
 			$col_bumen_name=2;
 			$a1=substr($a1,0,-1);
@@ -104,12 +108,9 @@ class Wages_management extends M_Controller {
 			$flag=1;
 			for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++){
 				$name=$data->sheets[0][cells][$i][$col_name];
-				//$r_panduan=$db->get_row("select * from ab22_user_record where name='$name'");
-				//if(!$r_panduan) continue;
-				//$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
-				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));
-				//$r_user=$db->get_row("select * from ab22_user_record where name='$name'");//不匹配部门
-
+				$bumen = $data->sheets[0][cells][$i][$col_bumen_name];
+				$r_bumen = $this->home_model->get_one('bumen',array('bumen_name'=>$bumen));
+				$r_user = $this->home_model->get_one('user_record',array('name'=>$name,'bumen_id'=>$r_bumen['bumen_id']));
 				
 				if($r_user==''){
 					showmsg('不存的用户',"/wages_management/import",0,1000);exit;
@@ -157,13 +158,13 @@ class Wages_management extends M_Controller {
 						$k="";
 						$s2=$b1;
 						for($j=3;$j<=$data->sheets[0]['numCols'];$j++){
-							if($j==$col_nianyue){
-								//$s1.="'".str_replace("/","-",$data->sheets[0]['cells'][$i][$j])."',";
-								//$s1.="'".strtotime(str_replace("年","-",$data->sheets[0]['cells'][$i][$j]))."',";
+							// if($j==$col_nianyue){
+							// 	$s1.="'".str_replace("/","-",$data->sheets[0]['cells'][$i][$j])."',";
+							// 	$s1.="'".strtotime(str_replace("年","-",$data->sheets[0]['cells'][$i][$j]))."',";
+							// 	$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
+							// }else{
 								$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
-							}else{
-								$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
-							}
+							//}
 							$m="'".$j."*****";
 							if($data->sheets[0]['cells'][$i][$j]){//update数据表，替换$j*****
 								

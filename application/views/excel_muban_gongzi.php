@@ -36,11 +36,11 @@ header("Content-Disposition:attachment;filename=$filename");
                  <tr>
 				 <td>职员姓名</td>
 				 <td>部门名称</td>
-				 <td>工资类型</td>
+				 <!-- <td>工资类型</td> -->
 				<?php $m=1;?>
 				 <?php foreach($rescolumns as $key=>$row):?>
 					<?php $aaa=",".$row['Field'].",";?>
-					<?php if(strpos($row_user['mubanxuanze'],$aaa)!==false):?>
+					<?php if(strpos($row_user,$aaa)!==false):?>
 					<td><?php echo $row['Comment']?></td>
 					<?php $m++;?>
 					<?php endif;?>
@@ -53,7 +53,7 @@ header("Content-Disposition:attachment;filename=$filename");
 				 ?>
 				 <tr>
 				 	 <?php
-					 for($j=1;$j<=($m+2);$j++){
+					 for($j=1;$j<=($m+1);$j++){
 					 ?>
 						<td>&nbsp;</td> 
 					<?php
