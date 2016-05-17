@@ -39,6 +39,7 @@ class Wages_management extends M_Controller {
 	 * 工资模板导出
 	 */
 	public function export(){
+
 		$user_id = $this->session->userdata('user_id');
 		if($this->input->get('status')=='1'){
 			$data['filename'] = "date-".date("Y-m-d").'.xls';
@@ -49,10 +50,60 @@ class Wages_management extends M_Controller {
 			foreach ($row_user as $key => $value) {
 				$str .= ','.$value['column_name'].',';
 			}
-			$data['row_user']=$str;
 			$sql = "SHOW  full COLUMNS FROM ab22_gongzibiao";
-			$data['rescolumns'] = $this->home_model->sqlQueryArray($sql);
-			$this->load->view('excel_muban_gongzi',$data);
+			$rescolumns = $this->home_model->sqlQueryArray($sql);
+			
+			$filename = "工资表模板-".date("Y-m-d");
+			//使用phpexcel插件导出。
+			require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
+			require_once(FR_ROOT.'/application/helpers/PHPExcel/Writer/Excel2007.php');
+			$objPHPExcel = new PHPExcel();
+			//print_r($objPHPExcel);exit;
+		    //保存excel—2007格式
+		    //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+		    //或者$objWriter = new PHPExcel_Writer_Excel5($objPHPExcel); 非2007格式
+		    //$objWriter->save("xxx.xlsx");
+		    //直接输出到浏览器
+		    $objPHPExcel->getProperties()->setCreator("RCCMS");
+		    $objPHPExcel->setActiveSheetIndex(0);
+		    //设置sheet的name
+		    $objPHPExcel->getActiveSheet()->setTitle(gbktoutf8("工资表"));
+		    //设置单元格的值
+	     	$aaa = '';
+	     	
+			foreach ($rescolumns as $kk => $val) {
+				$aaa=','.$val['Field'].",";
+		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('编号'));
+		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('用户名'));
+		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+				$arr = excel_symbol();
+		    	foreach ($arr as $key => $value) {
+			    	if($key ==0 || $key==1){
+			    		continue;
+			    	}
+			    	if(strpos($str,$aaa)!==false){
+				    $objPHPExcel->getActiveSheet()->setCellValue($value.'1', gbktoutf8("{$val['Comment']}"));
+				    $objPHPExcel->getActiveSheet()->getColumnDimension($value)->setWidth(20);
+			    	}else{
+			    		continue;
+			    	}
+		    	}
+	        }
+		    $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
+
+		    header("Pragma: public");
+		    header("Expires: 0");
+		    header("Cache-Control:must-revalidate, post-check=0, pre-check=0");
+		    header("Content-Type:application/force-download");
+		    header("Content-Type:application/vnd.ms-execl");
+		    header("Content-Type:application/octet-stream");
+		    header("Content-Type:application/download");;
+		    header('Content-Disposition:attachment;filename="'.$filename.'.xls"');
+		    header("Content-Transfer-Encoding:binary");
+		    //渲染导出xls
+	    	$objWriter->save('php://output');
+		//$this->load->view('excel_muban_gongzi',$data);
 		}else{
 			$this->load->view('wages_choose');
 		}
