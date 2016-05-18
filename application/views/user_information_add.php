@@ -81,6 +81,7 @@
 	<th>类型</th>
 
     <th>备注</th>
+    <th>列入导出模版</th>
     </tr>
 
     </thead>
@@ -119,6 +120,7 @@
 		</td>
 
 		<td style="padding-top:10px"><input type="text" name="beizhu<?php echo $i?>" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" name="muban<?php echo $i?>" class="dfinput1"/></td>
 		</tr>
 
 		

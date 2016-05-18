@@ -52,20 +52,23 @@ class User_information extends M_Controller {
 					break;
 				}
 				$str .= $location;
+				$muban = isset($params['muban'.$i])?1:0;
 				
-				
-				//$dyn_str .="(`parent_table`,`column_name`,`options`,`template`,`view`,`normal_query`,`admin_query`)VALUES('gongzibiao','".trim( $params['ziduanming'.$i] )."','".$params['xuanxiang'.$i]."','".$muban."','".$chakan."','".$qianchaxun."','".$houchaxun."'),";
+				$dyn_str .="(`parent_table`,`column_name`,`options`,`template`,`view`,`normal_query`,`admin_query`)VALUES('user_record','".trim( $params['ziduanming'.$i] )."','','".$muban."','','',''),";
 				
 			}			
 		}
 		$str = "ALTER TABLE  `ab22_user_record` ".substr($str, 0,-1);
+		$dyn_str = "INSERT INTO `ab22_dyn_column` ".substr($dyn_str, 0,-1);
 		$this->home_model->sqlQuery($str);
+		$this->home_model->sqlQuery($dyn_str);
 		showmsg('添加成功','/user_information/index');
 	}
 	public function info(){
 		$data['field_name'] = $this->input->get('field_name',TRUE);
 		$sql="SELECT COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT from INFORMATION_SCHEMA. COLUMNS Where table_name = 'ab22_user_record' AND column_name like '".$data['field_name']."'";
 		$data['row'] = $this->home_model->sqlQueryRow($sql);
+		$data['dyn'] = $this->home_model->get_one('dyn_column', array('column_name'=>$data['field_name']));
 		$this->load->view('user_information_info',$data);
 	}
 	public function edit(){

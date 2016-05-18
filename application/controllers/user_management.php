@@ -44,8 +44,8 @@ class User_management extends M_Controller {
 			$data['filename'] = "user-".date("Y-m-d").'.xls';
 			$data['flag'] = $this->input->get('flag',TRUE);
 			$str = '';
-			//$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'user_record','template'=>'1'));
-			$row_user=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
+			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'user_record','template'=>'1'));
+			//$row_user=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
 			foreach ($row_user as $key => $value) {
 				$str .= ','.$value['column_name'].',';
 			}
@@ -65,19 +65,19 @@ class User_management extends M_Controller {
 		    $objPHPExcel->getActiveSheet()->setTitle(gbktoutf8("用户表"));
 		    //设置单元格的值
 	     	$aaa = '';
-	     	$m =1;
+	     	$m =0;
 	     	//调用excel字符串数组
 	     	$arr = excel_symbol();
 			foreach ($rescolumns as $kk => $val) {
 				$aaa=','.$val['Field'].",";
-		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
-		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
+		   		//$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
+		 		// $objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				
 		    	
 		    	if(strpos($str,$aaa)!==false){
-		    		$ss = $arr[$m+1];
+		    		$ss = $arr[$m];
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
 				    for ($i=2; $i <100 ; $i++) { 
