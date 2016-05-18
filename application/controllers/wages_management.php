@@ -58,11 +58,7 @@ class Wages_management extends M_Controller {
 			require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
 			require_once(FR_ROOT.'/application/helpers/PHPExcel/Writer/Excel2007.php');
 			$objPHPExcel = new PHPExcel();
-			//print_r($objPHPExcel);exit;
-		    //保存excel—2007格式
-		    //$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
-		    //或者$objWriter = new PHPExcel_Writer_Excel5($objPHPExcel); 非2007格式
-		    //$objWriter->save("xxx.xlsx");
+		
 		    //直接输出到浏览器
 		    $objPHPExcel->getProperties()->setCreator("RCCMS");
 		    $objPHPExcel->setActiveSheetIndex(0);
@@ -70,26 +66,32 @@ class Wages_management extends M_Controller {
 		    $objPHPExcel->getActiveSheet()->setTitle(gbktoutf8("工资表"));
 		    //设置单元格的值
 	     	$aaa = '';
-	     	
+	     	$m =1;
+	     	//调用excel字符串数组
+	     	$arr = excel_symbol();
 			foreach ($rescolumns as $kk => $val) {
 				$aaa=','.$val['Field'].",";
-		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('编号'));
-		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('用户名'));
+		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
+		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-				$arr = excel_symbol();
-		    	foreach ($arr as $key => $value) {
-			    	if($key ==0 || $key==1){
-			    		continue;
-			    	}
-			    	if(strpos($str,$aaa)!==false){
-				    $objPHPExcel->getActiveSheet()->setCellValue($value.'1', gbktoutf8("{$val['Comment']}"));
-				    $objPHPExcel->getActiveSheet()->getColumnDimension($value)->setWidth(20);
-			    	}else{
-			    		continue;
-			    	}
+				
+		    	
+		    	if(strpos($str,$aaa)!==false){
+		    		$ss = $arr[$m+1];
+				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
+				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
+				    for ($i=2; $i <100 ; $i++) { 
+				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".$i, ' ');
+			        	
+			        }
+		    		$m++;
+		    	}else{
+		    		continue;
 		    	}
+		    	
 	        }
+	       
 		    $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
 
 		    header("Pragma: public");

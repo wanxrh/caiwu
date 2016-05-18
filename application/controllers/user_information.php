@@ -64,7 +64,7 @@ class User_information extends M_Controller {
 	}
 	public function info(){
 		$data['field_name'] = $this->input->get('field_name',TRUE);
-		$sql="SELECT COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT from INFORMATION_SCHEMA. COLUMNS Where table_name = 'ab22_user_record' AND table_schema = 'ab22' AND column_name like '".$data['field_name']."'";
+		$sql="SELECT COLUMN_NAME, DATA_TYPE, COLUMN_COMMENT from INFORMATION_SCHEMA. COLUMNS Where table_name = 'ab22_user_record' AND column_name like '".$data['field_name']."'";
 		$data['row'] = $this->home_model->sqlQueryRow($sql);
 		$this->load->view('user_information_info',$data);
 	}
