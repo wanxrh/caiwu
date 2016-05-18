@@ -245,4 +245,7 @@ class Home_model extends Common_model {
 	public function gongziType(){
 		return $this->db->get('gongzileixing')->result_array();
 	}
+	public function getTable(){
+		return $this->db->query('SHOW TABLE STATUS')->result_array();
+	}
 }

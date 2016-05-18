@@ -98,6 +98,15 @@ $(function(){
         <li><cite></cite><a href="/message" target="rightFrame">留言</a><i></i></li>
     </ul>
     </dd>
+    <dd>
+    <div class="title">
+    <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png" /></span>数据
+    </div>
+        <ul class="menuson">
+        <li><cite></cite><a href="/database" target="rightFrame">备份数据</a><i></i></li>
+        <li><cite></cite><a href="/database/restore" target="rightFrame">还原数据</a><i></i></li>
+        </ul>
+    </dd>
     <?php elseif($this->session->userdata('cat_id')=='9'):?>
     <dd>
     <div class="title">
