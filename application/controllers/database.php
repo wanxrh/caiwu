@@ -10,7 +10,7 @@ class Database extends M_controller{
 	public function index(){
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
 			$path = $this->config->item('db_backup');
-			$lock = $path.'\backup.lock';
+			$lock = $path.'backup.lock';
 			if(!file_exists($path)){
 				mkdir($path, 0755, true);
 			}
@@ -28,7 +28,7 @@ class Database extends M_controller{
 			$this->load->dbutil();
 			$backup = $this->dbutil->backup();
 			$this->load->helper('file');
-			write_file( $path.'/'.date('Ymd-His', time()).'.sql.gz', $backup);
+			write_file( $path.date('Ymd-His', time()).'.sql.gz', $backup);
 			unlink($lock);
 			showmsg('备份成功！',base_url().'database/restore',0,2000);
 			return;
@@ -70,7 +70,7 @@ class Database extends M_controller{
 	public function del($time = 0){
 		if($time){
 			$name  = date('Ymd-His', $time) . '.sql*';
-			$path  = $this->config->item('db_backup') . '/' . $name;
+			$path  = $this->config->item('db_backup'). $name;
 			array_map("unlink", glob($path));
 			if(count(glob($path))){
 				showmsg('备份文件删除失败，请检查权限！',base_url().'database/restore',0,2000);
@@ -86,7 +86,28 @@ class Database extends M_controller{
 	}
 	public function import($time = 0){
 		if($time){
-			
+			$name  = date('Ymd-His', $time) . '.sql.gz';
+			$path  = $this->config->item('db_backup');		
+			$lock = $path.'import.lock';
+			if(is_file($lock)){
+				showmsg('检测到有一个备份任务正在执行，请稍后再试！',base_url().'database/restore',0,2000);
+				return;
+			} else {
+				//创建锁文件
+				file_put_contents($lock, time());
+			}	
+			$gz   = gzopen($path.$name, 'r');
+			$sql  = '';
+			$start = 0;
+			while (!gzeof($gz)) {
+				$sql .= gzgets($gz/* , 4096 */);
+				if(preg_match('/.*;$/', trim($sql))){
+				 	$this->db->query($sql);
+				 	$sql = '';
+				}
+			}
+			unlink($lock);
+			showmsg('还原完成！',base_url().'database/restore',0,2000);
 		}
 	}
 }

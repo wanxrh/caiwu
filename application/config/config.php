@@ -365,7 +365,7 @@ $config['rewrite_short_tags'] = FALSE;
 */
 $config['proxy_ips'] = '';
 
-$config['db_backup'] = FR_ROOT.'\backup';
+$config['db_backup'] = FR_ROOT.'/backup/';
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */
