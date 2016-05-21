@@ -13,7 +13,7 @@
     <span>位置：</span>
     <ul class="placeul">
     <li><a href="main.php">首页</a></li>
-    <li><a href="#">我的工资</a></li>
+    <li><a href="#">工资合计</a></li>
     </ul>
     </div>
     
@@ -21,7 +21,7 @@
 	
 	<div class="tools">
     
-    	<form action="/wageslist/index" method="get">
+    	<form action="/wageslist_count/index" method="get">
 		时间区间：
 		<input class="dfinput2" style="width:80px"  name="time_from" value="<?php echo $start;?>"/>
 		---
@@ -65,7 +65,7 @@
 		<input type="submit" value="查询" class="btn">
 
 			
-		<input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
+		<input type="button" class="btn" value="导出工资合计excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
 
 		
 		</form>
@@ -107,7 +107,7 @@
 		<th style="text-align:center;" ><?php echo $v; ?></th>
 		<?php }; ?>
 		<?php }; ?>
-        <th style="text-align:center">操作</th>
+        <<!-- th style="text-align:center">操作</th> -->
         </tr>
         </thead>
         
@@ -127,52 +127,13 @@
 		<td><?php echo $v[$vv['column_name']]; ?></td>
         <?php }; ?>
         <?php }; ?>
-       <td>
-			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink"  target="_blank">查看</a>
-       　	<a href="/wageslist/edit?id=<?php echo $v['id']; ?>" class="tablelink">编辑</a>
-       　	<a href="/wageslist/del?id=<?php echo $v['id']; ?>" class="tablelink"> 删除</a>
-       </td>
        </tr> 
 		<?php }; ?>
         
 
 		</tbody>	
-		<thead>
-         <tr>
+
 		 
-		 <th>此页合计</th>
-		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
-		 <?php foreach ($dyn_page as $v){ ?>
-		 	<?php if($v){ ?>
-		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
-		 	<?php }else{ ?>
-		 	<th align="center">&nbsp;</th>
-		 	<?php } ?>
-		 <?php }; ?>
-		 </tr> 
-		 </thead>
-		 
-		 
-		 
-		 <thead>
-         <tr>
-		 
-		 <th>总合计</th>
-		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
-		<th align="center">&nbsp;</th>
-		 <?php foreach ($dyn_all as $v){ ?>
-		 	<?php if($v){ ?>
-		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
-		 	<?php }else{ ?>
-		 	<th align="center">&nbsp;</th>
-		 	<?php } ?>
-		 <?php }; ?>
-		 
-		 </tr> 
-		 </thead>  
     </table>
 	<table border="0" style="margin-top:10px">
 	<tr>

@@ -69,6 +69,7 @@ $(function(){
     </div>
     <ul class="menuson">
         <li><cite></cite><a href="/wageslist" target="rightFrame">工资列表</a><i></i></li>
+        <li><cite></cite><a href="/wageslist_count" target="rightFrame">工资列表个人数据汇总</a><i></i></li>
     </ul>
     </dd>
     <dd>
@@ -152,6 +153,7 @@ $(function(){
     </div>
         <ul class="menuson">
         <li><cite></cite><a href="/wageslist" target="rightFrame">工资列表</a><i></i></li>
+        <li><cite></cite><a href="/wageslist_count" target="rightFrame">工资列表个人数据汇总</a><i></i></li>
         </ul>
     </dd>
     <dd>

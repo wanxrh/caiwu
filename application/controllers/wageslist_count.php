@@ -1,8 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * 工资表管理
+ * 工资表计算合计
  */
-class WagesList extends M_Controller {
+class WagesList_count extends M_Controller {
 	private $_pre = 'ab22_';
 	private $_table = 'gongzibiao';
 	public function __construct()
@@ -37,6 +37,10 @@ class WagesList extends M_Controller {
 		if($data['end']){
 			$data['end'] = $data['end'];
 		}
+		$columns_count = array();
+		foreach ($columns as $key => $val) {
+			$columns_count[$val['COLUMN_NAME']] = $val;
+		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
@@ -46,18 +50,35 @@ class WagesList extends M_Controller {
 		$data['select'] = $select;
 		$data['input'] = $input;
 		$result = $this->home_model->wagesList($data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
-		$data['list'] = $result['list'];
+		$list = $result['list'];
+		//统计相同用户的合计
+		$item=array();
+		foreach($list as $k=>$v){
+		    if(!isset($item[$v['user_id']])){
+		        $item[$v['user_id']]=$v;
+		    }else{
+		    	foreach ($data['dyn'] as $key => $vv) {
+		    		if($vv['view']=='1'&& ($columns_count[$vv['column_name']]['DATA_TYPE'] == 'int' || $columns_count[$vv['column_name']]['DATA_TYPE'] == 'float')){
+		    			$item[$v['user_id']][$vv['column_name']]+=$v[$vv['column_name']];
+		    		}else{
+		    			$item[$v['user_id']][$vv['column_name']]=$v[$vv['column_name']];
+		    		}
+		    	}
+			    
+			}
+		}
+		$data['list']=$item;
 		$data['rows'] = $result['count'];
-		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
+		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
 		//统计
-		$stat = $this->home_model->dynstat($columns,$data['dyn']);
+		/*$stat = $this->home_model->dynstat($columns,$data['dyn']);
 		$data['dyn_page'] = $stat['dyn_page'];
-		$data['dyn_all'] = $stat['dyn_all'];
+		$data['dyn_all'] = $stat['dyn_all'];*/
 
 		//职员类型
 		$data['gongzi_type'] = $this->home_model->gongziType();
-		$this->load->view('wages_list',$data);
+		$this->load->view('wages_list_count',$data);
 	}
 	public function view(){
 		$id = $this->input->get('id',TRUE);
@@ -71,77 +92,8 @@ class WagesList extends M_Controller {
 		
 		$this->load->view('wages_view',$data);
 	}
-	public function edit(){
-		$id = $this->input->get('id',TRUE);
-		
-		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
-		$columns =  $this->home_model->sqlQueryArray($sql);
-		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
-		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
-		$data['info'] = $this->home_model->wagesView($id);
-		$data['gongzi_type'] = $this->home_model->gongziType();
-		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
-			$parm = $this->input->post(NULL,TRUE);
-			$id = $parm['id'];
-			unset($parm['id']);
-			$row = $this->home_model->update('gongzibiao', $parm, array('id'=>$id));
-			if($row) showmsg('更新成功','/wageslist/index');
-			return;
-		}
-		$this->load->view('wages_edit',$data);
-	}
-	public function del(){
-		$id = $this->input->get('id',TRUE);
-		if(!$id) return FALSE;
-		$row = $this->home_model->delete('gongzibiao', array('id'=>$id));
-		if($row) showmsg('删除成功','/wageslist/index');
-	}
-	/**
-	 * 添加工资记录
-	 */
-	public function add(){
-		$data['zhiyuandaima'] = $this->input->get('id',TRUE);
-		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
-		$columns =  $this->home_model->sqlQueryArray($sql);
-		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
-		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
-		$data['gongzi_type'] = $this->home_model->gongziType();
-		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
-			$parm = $this->input->post(NULL,TRUE);
-			$row = $this->home_model->insert('gongzibiao', $parm);
-			if($row) showmsg('添加成功','/user');
-			return;
-		}
-		$this->load->view('wages_add',$data);
-	}
-	/**
-	 * 查看用户工资记录
-	 */
-	public function viewlist(){
-		$zhiyuandaima=$this->input->get('id','');
-		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
-		$columns =  $this->home_model->sqlQueryArray($sql);
-		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
-		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
-		$data['dyn'] = array();
-		foreach ($dyn as $v){
-			$data['dyn'][$v['column_name']] = $v;
-		}
-		
-		$result = $this->home_model->wagesViewList($zhiyuandaima);
-		$data['list'] = $result['list'];
-		$data['rows'] = $result['count'];
-		$url_format = '/wageslist/viewlist/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
-		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
-		//职员类型
-		$data['gongzi_type'] = $this->home_model->gongziType();
-
-		$this->load->view('wages_viewlist',$data);
-		
-	}
+	
+	
 	/**
 	 * 导出excel记录
 	 */
@@ -210,10 +162,8 @@ class WagesList extends M_Controller {
 		    	
 		    	if(strpos($str,$aaa)!==false){
 		    		$ss = $arr[$m+1];
-		    		//赋值标题
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
-				    //循环每列
 				    for ($i=2; $i <100 ; $i++) { 
 				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".$i, ' ');
 			        	
