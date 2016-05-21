@@ -34,7 +34,7 @@
 		<?php }; ?>
 		</select>
 		姓名：
-		<input class="dfinput2" style="width:80px"  name="name" />
+		<input class="dfinput2" style="width:80px"  name="name" value="<?php echo $name;?>"/>
 		<?php foreach ($dyn as $k=>$v){ ?>
 		<?php if($level <0 && $v['admin_query']){ ?>
 		<?php echo $columns[$v['column_name']].':'; ?>	
@@ -65,7 +65,7 @@
 		<input type="submit" value="查询" class="btn">
 
 			
-		<input type="button" class="btn" value="导出excel" onclick="window.location.href='excel9.php?where=&gongzileixing='"/>
+		<input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
 
 		
 		</form>

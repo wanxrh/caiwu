@@ -122,9 +122,7 @@ class Home_model extends Common_model {
 		if($gongzileixing){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
 		}
-		if($name){
-			$this->db->where('bumen.bumen_name',$name);
-		}
+		
 		if($select){
 			foreach ($select as $k=>$v){
 				if( $v!=''){
@@ -142,6 +140,9 @@ class Home_model extends Common_model {
 		$clone = clone( $this->db );
 		if($zhiyuandaima){
 			$this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
+		}
+		if($name){
+			$this->db->where('user_record.name',$name);
 		}
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
