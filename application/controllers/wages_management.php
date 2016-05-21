@@ -191,7 +191,7 @@ class Wages_management extends M_Controller {
 				$r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
 				$user_id=$r_user['user_id'];
 					$s="";
-					if($i==1){
+					if($i==2){
 						for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
 							$flag='1';
 							//获取表字段
@@ -234,7 +234,7 @@ class Wages_management extends M_Controller {
 						echo "<br>";
 						echo $s2;exit;*/
 						
-						if(1){
+						if($data->sheets[0][cells][$i][$col_name]!=NUll){
 							$s1=substr($s1,0,-1);
 							if(strpos($a1,"user_id")===false){
 								$sql1="insert into ab22_gongzibiao(".$a1.",user_id) values(".$s1.",$user_id)";

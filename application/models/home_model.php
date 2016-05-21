@@ -71,6 +71,7 @@ class Home_model extends Common_model {
 	}
 	public function sqlQuery($sql){
 		$result=$this->db->query($sql);
+		//echo $this->db->last_query();exit;
 		return $result;
 	}
 	public function sqlQueryRow($sql){
