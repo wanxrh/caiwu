@@ -94,7 +94,7 @@ class Home_model extends Common_model {
 				
 					$nums = $this->db->select($v['COLUMN_NAME'])->get('gongzibiao',$this->per_page, $this->offset)->result_array();
 					$ret['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($nums,$v['COLUMN_NAME']) );
-				
+					
 					$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
 					$ret['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
 				

@@ -214,10 +214,11 @@ class WagesList extends M_Controller {
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
 				    //循环每列
-				    for ($i=2; $i <100 ; $i++) { 
-				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".$i, ' ');
-			        	
-			        }
+				    foreach ($list as $item_key => $item) {
+				        $objPHPExcel->getActiveSheet()->setCellValue("A".($item_key + 2), gbktoutf8("{$item['user_name']}"));
+				        $objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
+				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8($item[$val['Field']]));
+				    }
 		    		$m++;
 		    	}else{
 		    		continue;

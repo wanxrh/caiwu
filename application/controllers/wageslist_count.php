@@ -9,7 +9,7 @@ class WagesList_count extends M_Controller {
 	{
 	    parent::__construct();
 		$this->load->model('home_model');
-		$this->per_page = 50;
+		$this->per_page = 10000;
 		//当前页
 	 	$this->cur_page = intval($this->uri->segment(3));
         if ($this->cur_page < 1) {
@@ -69,6 +69,7 @@ class WagesList_count extends M_Controller {
 		}
 		$data['list']=$item;
 		$data['rows'] = $result['count'];
+
 		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
 		//统计
@@ -110,11 +111,16 @@ class WagesList_count extends M_Controller {
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
 		}
-		
-		$start = $this->input->get('time_from',TRUE);
-		$end = $this->input->get('time_to',TRUE);
-		if($end){
-			$end = $end;
+		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
+
+		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
+
+		if($data['end']){
+			$data['end'] = $data['end'];
+		}
+		$columns_count = array();
+		foreach ($columns as $key => $val) {
+			$columns_count[$val['COLUMN_NAME']] = $val;
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
@@ -124,9 +130,25 @@ class WagesList_count extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesList($data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
 		$list = $result['list'];
-		if(!empty($list)){
+		//统计相同用户的合计
+		$item=array();
+		foreach($list as $k=>$v){
+		    if(!isset($item[$v['user_id']])){
+		        $item[$v['user_id']]=$v;
+		    }else{
+		    	foreach ($data['dyn'] as $key => $vv) {
+		    		if($vv['view']=='1'&& ($columns_count[$vv['column_name']]['DATA_TYPE'] == 'int' || $columns_count[$vv['column_name']]['DATA_TYPE'] == 'float')){
+		    			$item[$v['user_id']][$vv['column_name']]+=$v[$vv['column_name']];
+		    		}else{
+		    			$item[$v['user_id']][$vv['column_name']]=$v[$vv['column_name']];
+		    		}
+		    	}
+			    
+			}
+		}
+		if(!empty($item)){
 			//查询工资表设置的前台可查看设置
 			$str = '';
 			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','view'=>'1'));
@@ -136,7 +158,7 @@ class WagesList_count extends M_Controller {
 			$sql = "SHOW  full COLUMNS FROM ab22_gongzibiao";
 			$rescolumns = $this->home_model->sqlQueryArray($sql);
 			
-			$filename = "工资列表表-".date("Y-m-d");
+			$filename = "工资列表合计-".date("Y-m-d");
 			//使用phpexcel插件导出。
 			require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
 			require_once(FR_ROOT.'/application/helpers/PHPExcel/Writer/Excel2007.php');
@@ -162,12 +184,17 @@ class WagesList_count extends M_Controller {
 		    	
 		    	if(strpos($str,$aaa)!==false){
 		    		$ss = $arr[$m+1];
-				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
+		    		$c_key =0;
+		    		//赋值标题
+				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}".'(总)'));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
-				    for ($i=2; $i <100 ; $i++) { 
-				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".$i, ' ');
-			        	
-			        }
+				    //循环每列
+				    foreach ($item as $item_key => $em) {
+				        $objPHPExcel->getActiveSheet()->setCellValue("A".($c_key + 2), gbktoutf8("{$em['user_name']}"));
+				        $objPHPExcel->getActiveSheet()->setCellValue("B".($c_key + 2), gbktoutf8("{$em['bumen_name']}"));
+				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($c_key + 2), gbktoutf8($em[$val['Field']]));
+				        $c_key++;
+				    }
 		    		$m++;
 		    	}else{
 		    		continue;

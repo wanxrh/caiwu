@@ -65,7 +65,7 @@
 		<input type="submit" value="查询" class="btn">
 
 			
-		<input type="button" class="btn" value="导出工资合计excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
+		<input type="button" class="btn" value="导出工资合计excel" onclick="window.location.href='<?php echo '/wageslist_count/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
 
 		
 		</form>
