@@ -58,7 +58,8 @@ class WagesManage extends M_Controller {
 				$chakan = isset($params['chakan'.$i])?1:0;
 				$qianchaxun = isset($params['qianchaxun'.$i])?1:0;
 				$houchaxun = isset($params['houchaxun'.$i])?1:0;
-				$dyn_str .="(`parent_table`,`column_name`,`options`,`template`,`view`,`normal_query`,`admin_query`)VALUES('gongzibiao','".trim( $params['ziduanming'.$i] )."','".$params['xuanxiang'.$i]."','".$muban."','".$chakan."','".$qianchaxun."','".$houchaxun."'),";
+				$summary = isset($params['summary'.$i])?1:0;
+				$dyn_str .="(`parent_table`,`column_name`,`options`,`template`,`view`,`normal_query`,`admin_query`,`summary`)VALUES('gongzibiao','".trim( $params['ziduanming'.$i] )."','".$params['xuanxiang'.$i]."','".$muban."','".$chakan."','".$qianchaxun."','".$houchaxun."','".$summary."'),";
 				
 			}			
 		}
@@ -88,7 +89,7 @@ class WagesManage extends M_Controller {
 		$chakan = $this->input->post('chakan',TRUE)?1:0;
 		$qianchaxun = $this->input->post('qianchaxun',TRUE)?1:0;
 		$houchaxun = $this->input->post('houchaxun',TRUE)?1:0;
-		
+		$summary = $this->input->post('summary',TRUE)?1:0;
 		if($leixing == 'float'){
 			$len = '20,2';
 		}else{
@@ -103,7 +104,8 @@ class WagesManage extends M_Controller {
 			'template'=>$muban,
 			'view'=>$chakan,
 			'normal_query'=>$qianchaxun,
-			'admin_query'=>$houchaxun
+			'admin_query'=>$houchaxun,
+			'summary' =>$summary
 		);
 		$this->home_model->update('dyn_column', $data , array('column_name'=>$field_name));
 		showmsg('修改成功','/wagesmanage/index');

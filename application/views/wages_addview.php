@@ -87,6 +87,7 @@
     <th>前台可查看</th>
     <th>加入前台查询模块</th>
     <th>加入后台查询模块</th>
+    <th>加入个人汇总查询</th>
     </tr>
 
     </thead>
@@ -130,6 +131,7 @@
 		<td style="padding-top:10px"><input type="checkbox"  value="1" name="chakan<?php echo $i?>" class="dfinput1"/></td>
 		<td style="padding-top:10px"><input type="checkbox"  value="1" name="qianchaxun<?php echo $i?>" class="dfinput1"/></td>
 		<td style="padding-top:10px"><input type="checkbox"  value="1" name="houchaxun<?php echo $i?>" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" name="summary<?php echo $i?>" class="dfinput1"/></td>
 		</tr>
 
 		

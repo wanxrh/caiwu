@@ -36,7 +36,7 @@
 		姓名：
 		<input class="dfinput2" style="width:80px"  name="name" value="<?php echo $name;?>"/>
 		<?php foreach ($dyn as $k=>$v){ ?>
-		<?php if($level <0 && $v['admin_query']){ ?>
+		<?php if($level <0 && $v['summary']){ ?>
 		<?php echo $columns[$v['column_name']].':'; ?>	
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px"  name="select[<?php echo $v['column_name']; ?>]">
@@ -48,7 +48,7 @@
 			<?php }else{ ?>			
 			<input class="dfinput2" style="width:80px"  name="input[<?php echo $v['column_name']; ?>]" value="<?php echo $input[$v['column_name']]; ?>" >	
 			<?php }; ?>
-		<?php }elseif ($level >=0 && $v['admin_query']){ ?>
+		<?php }elseif ($level >=0 && $v['summary']){ ?>
 			<?php if($v['options']){ ?>
 			<select  class="dfinput2" style="width:80px" name="select[<?php echo $v['column_name']; ?>]">
 			<option value="">请选择</option>

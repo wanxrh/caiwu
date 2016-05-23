@@ -76,6 +76,7 @@
     <th>前台可查看</th>
     <th>加入前台查询模块</th>
     <th>加入后台查询模块</th>
+    <th>加入个人汇总查询</th>
     </tr>
 
     </thead>
@@ -111,6 +112,7 @@
 		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['view']) echo ' checked=true ' ?> name="chakan" class="dfinput1"/></td>
 		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['normal_query']) echo ' checked=true ' ?> name="qianchaxun" class="dfinput1"/></td>
 		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['admin_query']) echo ' checked=true ' ?> name="houchaxun" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['summary']) echo ' checked=true ' ?> name="summary" class="dfinput1"/></td>
 		</tr>
 
 
