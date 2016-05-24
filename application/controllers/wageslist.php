@@ -45,15 +45,14 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
 		//统计
-		$stat = $this->home_model->dynstat($columns,$data['dyn']);
-		$data['dyn_page'] = $stat['dyn_page'];
-		$data['dyn_all'] = $stat['dyn_all'];
+		$data['dyn_page'] = $result['dyn_page'];
+		$data['dyn_all'] = $result['dyn_all'];
 
 		//职员类型
 		$data['gongzi_type'] = $this->home_model->gongziType();

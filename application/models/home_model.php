@@ -82,31 +82,7 @@ class Home_model extends Common_model {
 	public function sqlQueryArray($sql){
 		return $this->db->query($sql)->result_array();
 	}
-	public function dynstat($columns,$dyn){
-		$ret = array();
-		$unset = array('id','user_id','nianyue','add_time');
-		foreach ($columns as $k => $v){
-			if(in_array($v['COLUMN_NAME'],$unset)){				
-				continue;
-			}
-			if(isset($dyn[$v['COLUMN_NAME']])){
-				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
-				
-					$nums = $this->db->select($v['COLUMN_NAME'])->get('gongzibiao',$this->per_page, $this->offset)->result_array();
-					$ret['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($nums,$v['COLUMN_NAME']) );
-					
-					$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
-					$ret['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
-				
-				}else{
-					$ret['dyn_page'][$v['COLUMN_NAME']] = '';
-					$ret['dyn_all'][$v['COLUMN_NAME']] = '';
-				}
-			}				
-		}
-		return $ret;
-	}
-	public function wagesList($start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
+	public function wagesList($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
 
 		if($start && !$end){
 			$this->db->where('gongzibiao.nianyue >=',$start);
@@ -136,20 +112,43 @@ class Home_model extends Common_model {
 					$this->db->like($k,trim($v));
 				}
 			}
-		}
-		$clone = clone( $this->db );
+		}	
 		if($zhiyuandaima){
 			$this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
 		}
 		if($name){
 			$this->db->where('user_record.name',$name);
 		}
+		$clone = clone( $this->db );
+		$syn_clone = clone( $this->db );
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
 		//echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
+		//统计
+		$ret = array();
+		$unset = array('id','user_id','nianyue','add_time');
+		foreach ($columns as $k => $v){
+			if(in_array($v['COLUMN_NAME'],$unset)){
+				continue;
+			}
+			if(isset($dyn[$v['COLUMN_NAME']])){
+				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
+		
+					$data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
+					$this->db = $syn_clone;
+					$syn_clone = clone ($this->db );
+					$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
+					$data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
+		
+				}else{
+					$data['dyn_page'][$v['COLUMN_NAME']] = '';
+					$data['dyn_all'][$v['COLUMN_NAME']] = '';
+				}
+			}
+		}
 		return $data;
 	}
 	//查看用户工资
