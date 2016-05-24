@@ -128,7 +128,6 @@ class Home_model extends Common_model {
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		//统计
-		$ret = array();
 		$unset = array('id','user_id','nianyue','add_time');
 		foreach ($columns as $k => $v){
 			if(in_array($v['COLUMN_NAME'],$unset)){
