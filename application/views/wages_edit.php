@@ -26,7 +26,7 @@
     <input name="id" type="hidden" value="<?php echo $_GET['id']; ?>">
     <ul class="forminfo">
 	<li>
-		<span>工资年月：<?php echo date('Y-m',$info['nianyue']); ?></span>
+		<span>工资年月：<?php echo $info['nianyue']; ?></span>
 		<span>工资类型：
 		<select class="dfinput2"  name="gongzileixing">
 		<option value="">请选择</option>

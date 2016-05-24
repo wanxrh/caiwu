@@ -24,7 +24,7 @@
     <div class="formtitle"><span>查看工资</span></div>
     <ul class="forminfo">
 	<li>
-		<span>工资年月：<?php echo date('Y-m',$info['nianyue']); ?></span>
+		<span>工资年月：<?php echo $info['nianyue']; ?></span>
 	</li>
 	<li>
 	<?php foreach($dyn as $k=>$v){ ?>
