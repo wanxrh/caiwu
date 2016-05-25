@@ -157,11 +157,12 @@ class WagesList extends M_Controller {
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
 		}
-		
-		$start = $this->input->get('time_from',TRUE);
-		$end = $this->input->get('time_to',TRUE);
-		if($end){
-			$end = $end;
+		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
+
+		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
+
+		if($data['end']){
+			$data['end'] = $data['end'];
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
@@ -171,7 +172,7 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
 		$list = $result['list'];
 		if(!empty($list)){
 			//查询工资表设置的前台可查看设置
