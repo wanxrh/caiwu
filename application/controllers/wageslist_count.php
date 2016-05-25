@@ -19,6 +19,7 @@ class WagesList_count extends M_Controller {
 		$this->offset = ($this->cur_page - 1) * $this->per_page;
 	}
 	public function index(){
+		
 		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
@@ -31,9 +32,9 @@ class WagesList_count extends M_Controller {
 			$data['dyn'][$v['column_name']] = $v;
 		}
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
-
+		
 		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
-
+		
 		if($data['end']){
 			$data['end'] = $data['end'];
 		}
@@ -49,36 +50,15 @@ class WagesList_count extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
-		$list = $result['list'];
-		//统计相同用户的合计
-		$item=array();
-		foreach($list as $k=>$v){
-		    if(!isset($item[$v['user_id']])){
-		        $item[$v['user_id']]=$v;
-		    }else{
-		    	foreach ($data['dyn'] as $key => $vv) {
-		    		if($vv['view']=='1'&& ($columns_count[$vv['column_name']]['DATA_TYPE'] == 'int' || $columns_count[$vv['column_name']]['DATA_TYPE'] == 'float')){
-		    			$item[$v['user_id']][$vv['column_name']]+=$v[$vv['column_name']];
-		    		}else{
-		    			$item[$v['user_id']][$vv['column_name']]=$v[$vv['column_name']];
-		    		}
-		    	}
-			    
-			}
-		}
-		$data['list']=$item;
-		$data['rows'] = $result['count'];
 
+		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$data['list'] = $result['list'];
+		$data['rows'] = $result['count'];	
 		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
 		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
-		//统计
-		/*$stat = $this->home_model->dynstat($columns,$data['dyn']);
-		$data['dyn_page'] = $stat['dyn_page'];
-		$data['dyn_all'] = $stat['dyn_all'];*/
-
+				
 		//职员类型
-		$data['gongzi_type'] = $this->home_model->gongziType();
+		$data['gongzi_type'] = $this->home_model->gongziType();		
 		$this->load->view('wages_list_count',$data);
 	}
 	public function view(){

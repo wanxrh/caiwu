@@ -150,6 +150,61 @@ class Home_model extends Common_model {
 		}
 		return $data;
 	}
+	public function wagesCount($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
+		$sum_sql = '';
+		$data_type = array_column($columns,'DATA_TYPE','COLUMN_NAME');
+		foreach ($dyn as $v){
+			if($v['view']){
+				if($data_type[$v['column_name']] == 'float' || $data_type[$v['column_name']] == 'int'){
+					$sum_sql .= sprintf(',SUM(`%s`) as %s',$v['column_name'],$v['column_name']);
+				}else{
+					$sum_sql .= ','.$v['column_name'];
+				}
+			}
+		}
+		if($start && !$end){
+			$this->db->where('gongzibiao.nianyue >=',$start);
+		}elseif (!$start && $end){
+			$this->db->where('gongzibiao.nianyue <=',$end);
+		}elseif ($start && $end){
+			if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
+			if($start < $end){
+				$this->db->where('gongzibiao.nianyue >=',$start);
+				$this->db->where('gongzibiao.nianyue <=',$end);
+			}
+		}
+		if($gongzileixing){
+			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
+		}
+		if($select){
+			foreach ($select as $k=>$v){
+				if( $v!=''){
+					$this->db->where($k,$v);
+				}
+			}
+		}
+		if($input){
+			foreach ($input as $k=>$v){
+				if( $v ){
+					$this->db->like($k,trim($v));
+				}
+			}
+		}
+		if($zhiyuandaima){
+			$this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
+		}
+		if($name){
+			$this->db->where('user_record.name',$name);
+		}
+		$this->db->join('user_record','user_record.user_id = gongzibiao.user_id','left');
+		$this->db->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+		$clone = clone ($this->db);
+		$this->db->select('user_name,bumen.bumen_name,gongzibiao.id,gongzibiao.nianyue'.$sum_sql);
+		$data['list'] = $this->db->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		$this->db = $clone;
+		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
+		return $data;
+	}
 	//查看用户工资
 	public function wagesViewList($zhiyuandaima){
 		if($zhiyuandaima){
