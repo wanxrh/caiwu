@@ -198,6 +198,7 @@ class Home_model extends Common_model {
 		}
 		$this->db->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+		$this->db->group_by('gongzibiao.user_id');
 		$clone = clone ($this->db);
 		$this->db->select('user_name,bumen.bumen_name,gongzibiao.id,gongzibiao.nianyue'.$sum_sql);
 		$data['list'] = $this->db->get('gongzibiao', $this->per_page, $this->offset)->result_array();
