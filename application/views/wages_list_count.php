@@ -107,7 +107,7 @@
 		<th style="text-align:center;" ><?php echo $v; ?></th>
 		<?php }; ?>
 		<?php }; ?>
-        <<!-- th style="text-align:center">操作</th> -->
+        <!-- th style="text-align:center">操作</th> -->
         </tr>
         </thead>
         
