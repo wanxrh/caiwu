@@ -202,6 +202,7 @@ class Home_model extends Common_model {
 		$clone = clone ($this->db);
 		$this->db->select('user_name,bumen.bumen_name,gongzibiao.id,gongzibiao.nianyue'.$sum_sql);
 		$data['list'] = $this->db->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		//echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
 		return $data;

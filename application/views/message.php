@@ -51,7 +51,7 @@
 		<td><?php echo $val['content1'];?></td>
 		<td><?php echo date("Y-m-d H:i:s",$val['add_time']);?></td>
 		<?php if($user_info['cat_id']=='-1'):?>
-       <td><a href="/message/edit/<?php echo $val['user_id'];?>" class="tablelink">查看/编辑</a>     <a href="/message/del/<?php echo $val['user_id'];?>" class="tablelink"> 删除</a></td>
+       <td><a href="/message/edit/<?php echo $val['user_id'];?>" class="tablelink">查看/编辑</a>     <a href="/message/del/<?php echo $val['user_id'];?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
        <?php endif;?>
         </tr>   
          <?php endforeach;?>   

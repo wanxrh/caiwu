@@ -44,7 +44,7 @@
         <tr>
         <td><?php echo $val['gongzileixing_id']?></td>
         <td><?php echo $val['gongzileixing_name']?></td>
-       	<td><a href="/salary_template/index/<?php echo $val['gongzileixing_id'];?>" class="tablelink">工资列表模板设置 </a> &nbsp;&nbsp;&nbsp;<a href="/wage_type/edit/<?php echo $val['gongzileixing_id']?>" class="tablelink">查看/编辑</a>     <a href="/wage_type/del/<?php echo $val['gongzileixing_id']?>" class="tablelink"> 删除</a></td>
+       	<td><a href="/salary_template/index/<?php echo $val['gongzileixing_id'];?>" class="tablelink">工资列表模板设置 </a> &nbsp;&nbsp;&nbsp;<a href="/wage_type/edit/<?php echo $val['gongzileixing_id']?>" class="tablelink">查看/编辑</a>     <a href="/wage_type/del/<?php echo $val['gongzileixing_id']?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
         </tr>
         <?php endforeach;?>
         </tbody>

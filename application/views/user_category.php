@@ -44,7 +44,7 @@
         <tr>
         <td><?php echo $val['cat_id']?></td>
         <td><?php echo $val['cat_name']?></td>
-       	<td><a href="/user_category/edit/<?php echo $val['cat_id']?>" class="tablelink">查看/编辑</a>     <a href="/user_category/del/<?php echo $val['cat_id']?>" class="tablelink"> 删除</a></td>
+       	<td><a href="/user_category/edit/<?php echo $val['cat_id']?>" class="tablelink">查看/编辑</a>     <a href="/user_category/del/<?php echo $val['cat_id']?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
         </tr>
         <?php endforeach;?>
         </tbody>

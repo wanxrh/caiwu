@@ -113,7 +113,7 @@
 		<td>
 		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"){?>
 		<a href="/wagesmanage/info?field_name=<?php echo $row['Field']?>" class="tablelink">编辑</a>&nbsp;|&nbsp;
-		<a href="/wagesmanage/del?field_name=<?php echo $row['Field']?>" class="tablelink">删除</a>
+		<a href="/wagesmanage/del?field_name=<?php echo $row['Field']?>"onclick="return confirm('确定要删除吗？')" class="tablelink">删除</a>
 		<?php }?>
 		</td>
 

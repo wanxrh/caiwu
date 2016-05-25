@@ -68,7 +68,7 @@ $(document).ready(function(){
         <td align="center"><?php echo date('Y-m-d H:i:s',$val['time']);?></td>
        	<td align="center">
        		<a href="/database/import/<?php echo $val['time']; ?>" class="tablelink">还原</a>
-       		<a href="/database/del/<?php echo $val['time']; ?>" class="tablelink"> 删除</a>
+       		<a href="/database/del/<?php echo $val['time']; ?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a>
        	</td>
         </tr>
   		<?php }; ?>

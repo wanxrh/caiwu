@@ -47,7 +47,7 @@
         <td><a href="/system_notice/view/<?php echo $val['news_id'];?>" class="tablelink"><?php echo $val['title'];?></a></td>
 		<td><?php echo date("Y-m-d H:i:s",$val['add_time']);?></td>
 		<?php if($user_info['cat_id']=='-1'):?>
-       <td><a href="/system_notice/edit/<?php echo $val['news_id'];?>" class="tablelink">查看/编辑</a>     <a href="/system_notice/del/<?php echo $val['news_id'];?>" class="tablelink"> 删除</a></td>
+       <td><a href="/system_notice/edit/<?php echo $val['news_id'];?>" class="tablelink">查看/编辑</a>     <a href="/system_notice/del/<?php echo $val['news_id'];?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
         <?php endif;?>
         </tr>   
          <?php endforeach;?>   

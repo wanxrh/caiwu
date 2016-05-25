@@ -115,7 +115,7 @@
 				&&$row['Field']!="mubanxuanze"&&$row['Field']!="mubanxuanze1"&&$row['Field']!="admin_list_ziduan"&&$row['Field']!="yibanyonghu_list_ziduan"
 		){?>
 		<a href="/user_information/info?field_name=<?php echo $row['Field']?>" class="tablelink">编辑</a>&nbsp;|&nbsp;
-		<a href="/user_information/del?field_name=<?php echo $row['Field']?>" class="tablelink">删除</a>
+		<a href="/user_information/del?field_name=<?php echo $row['Field']?>" class="tablelink"onclick="return confirm('确定要删除吗？')">删除</a>
 		<?php }?>
 		</td>
 

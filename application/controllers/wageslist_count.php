@@ -79,7 +79,6 @@ class WagesList_count extends M_Controller {
 	 * 导出excel记录
 	 */
 	public function wage_export(){
-		$this->per_page = 5000;
 		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
@@ -92,9 +91,9 @@ class WagesList_count extends M_Controller {
 			$data['dyn'][$v['column_name']] = $v;
 		}
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
-
+		
 		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
-
+		
 		if($data['end']){
 			$data['end'] = $data['end'];
 		}
@@ -110,10 +109,11 @@ class WagesList_count extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+
+		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
 		$list = $result['list'];
 		//统计相同用户的合计
-		$item=array();
+		/*$item=array();
 		foreach($list as $k=>$v){
 		    if(!isset($item[$v['user_id']])){
 		        $item[$v['user_id']]=$v;
@@ -127,8 +127,8 @@ class WagesList_count extends M_Controller {
 		    	}
 			    
 			}
-		}
-		if(!empty($item)){
+		}*/
+		if(!empty($list)){
 			//查询工资表设置的前台可查看设置
 			$str = '';
 			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','view'=>'1'));
@@ -155,30 +155,36 @@ class WagesList_count extends M_Controller {
 	     	//调用excel字符串数组
 	     	$arr = excel_symbol();
 			foreach ($rescolumns as $kk => $val) {
+				
 				$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
 		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				
-		    	
+		    	if($val['Field']!='zhiyuanCode'&&$val['Field']!='zhiyuanleibie'&&$val['Field']!='zhiyuanleibie'&&$val['Field']!='bumenCode'&&$val['Field']!='zhiyuanzhuangtaig'&&$val['Field']!='shenfenCard'&&$val['Field']!='personalCard'){
 		    	if(strpos($str,$aaa)!==false){
 		    		$ss = $arr[$m+1];
 		    		$c_key =0;
 		    		//赋值标题
+		    		
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}".'(总)'));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
+				
 				    //循环每列
-				    foreach ($item as $item_key => $em) {
+				    foreach ($list as $item_key => $em) {
+				    	
 				        $objPHPExcel->getActiveSheet()->setCellValue("A".($c_key + 2), gbktoutf8("{$em['user_name']}"));
 				        $objPHPExcel->getActiveSheet()->setCellValue("B".($c_key + 2), gbktoutf8("{$em['bumen_name']}"));
 				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($c_key + 2), gbktoutf8($em[$val['Field']]));
 				        $c_key++;
+				    	
 				    }
 		    		$m++;
 		    	}else{
 		    		continue;
 		    	}
+		    }
 		    	
 	        }
 	       

@@ -46,7 +46,7 @@
         <td><?php echo $val['bumen_id']?></td>
         <td><?php echo $val['bumen_name']?></td>
 		<td><?php echo $val['bumen_daima']?></td>
-       	<td><a href="/department/edit/<?php echo $val['bumen_id']?>" class="tablelink">查看/编辑</a>     <a href="/department/del/<?php echo $val['bumen_id']?>" class="tablelink"> 删除</a></td>
+       	<td><a href="/department/edit/<?php echo $val['bumen_id']?>" class="tablelink">查看/编辑</a>     <a href="/department/del/<?php echo $val['bumen_id']?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
         </tr>
         <?php endforeach;?>
         </tbody>
