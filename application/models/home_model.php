@@ -95,7 +95,7 @@ class Home_model extends Common_model {
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
 		}
-		if($gongzileixing){
+		if($gongzileixing&&$gongzileixing!='综合'){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
 		}
 		
