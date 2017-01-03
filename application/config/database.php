@@ -6,7 +6,7 @@ $active_record = TRUE;
 
 $db['financial']['hostname'] = 'localhost';
 $db['financial']['username'] = 'root';
-$db['financial']['password'] = 'root';
+$db['financial']['password'] = '';
 $db['financial']['database'] = 'financial';
 $db['financial']['dbdriver'] = 'mysql';
 $db['financial']['dbprefix'] = 'ab22_';
