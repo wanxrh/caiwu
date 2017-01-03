@@ -205,7 +205,8 @@ class Home_model extends Common_model {
 		
 		$this->db = $clone;
 		$rows = $this->db->select('count(DISTINCT `ab22_gongzibiao`.`user_id`) as rows')->get('gongzibiao')->row_array();
-		$data['count'] = $rows['rows'];
+
+		$data['count'] = !empty($rows['rows'])?$rows['rows']:'';
 		return $data;
 	}
 	//查看用户工资
