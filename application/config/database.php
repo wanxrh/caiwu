@@ -4,9 +4,9 @@
 $active_group = 'financial';
 $active_record = TRUE;
 
-$db['financial']['hostname'] = 'localhost';
+$db['financial']['hostname'] = '127.0.0.1';
 $db['financial']['username'] = 'root';
-$db['financial']['password'] = '';
+$db['financial']['password'] = 'Itm123';
 $db['financial']['database'] = 'financial';
 $db['financial']['dbdriver'] = 'mysql';
 $db['financial']['dbprefix'] = 'ab22_';
