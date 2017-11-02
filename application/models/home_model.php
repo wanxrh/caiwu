@@ -126,7 +126,7 @@ class Home_model extends Common_model {
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
 		//echo $this->db->last_query();exit;
 		$this->db = $clone;
-		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
+		$data['count'] = $this->db->from('gongzibiao')->join('user_record','user_record.user_id = gongzibiao.user_id','left')->count_all_results();
 		//统计
 		$unset = array('id','user_id','nianyue','add_time');
 		foreach ($columns as $k => $v){
@@ -135,11 +135,10 @@ class Home_model extends Common_model {
 			}
 			if(isset($dyn[$v['COLUMN_NAME']])){
 				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
-		
 					$data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
 					$this->db = $syn_clone;
 					$syn_clone = clone ($this->db );
-					$alls = $this->db->select_sum($v['COLUMN_NAME'])->get('gongzibiao')->row_array();
+					$alls = $this->db->select_sum($v['COLUMN_NAME'])->join('user_record','user_record.user_id = gongzibiao.user_id','left')->get('gongzibiao')->row_array();
 					$data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
 		
 				}else{
