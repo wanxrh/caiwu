@@ -67,7 +67,7 @@ $(document).ready(function(){
         姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
         <input type="submit" value="搜索" class="btn">
         &nbsp;
-        <input type="button" class="btn" value="导出所有excel"/>
+        <!--<input type="button" class="btn" value="导出所有excel"/>-->
         </form>
 
     </div>
