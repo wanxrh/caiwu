@@ -46,7 +46,7 @@
     <thead>
 
     <tr>
-	<!-- <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th> -->
+	 <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
 
     <th>字段名</th>
 
@@ -63,11 +63,11 @@
 		<?php foreach ($cols as $row){ ?>
 		<?php $aaa=",".$row['Field'].",";?>
 		<tr style="border-bottom:1px dashed #cccccc">
-		<!-- <td align="center"> <span style="margin-left:10px;"></span> 
+		 <td align="center"> <span style="margin-left:10px;"></span>
 		<?php if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue1'){?>
 		<input type="checkbox" name="checkbox[]" value="<?php echo $row['Field']?>" style="width:20px" <?php if(strpos($row_user['mubanxuanze'],$aaa)!==false) echo "checked";?> >
 		<?php }?>
-		</td> -->
+		</td>
 		<td><?php echo $row['Field']?></td>
 
 		<td><?php echo $row['Type']?></td>
