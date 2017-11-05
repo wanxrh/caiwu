@@ -44,11 +44,12 @@ class User_management extends M_Controller {
 			$data['filename'] = "user-".date("Y-m-d").'.xls';
 			$data['flag'] = $this->input->get('flag',TRUE);
 			$str = '';
-			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'user_record','template'=>'1'));
-			//$row_user=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
-			foreach ($row_user as $key => $value) {
-				$str .= ','.$value['column_name'].',';
-			}
+			//$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'user_record','template'=>'1'));
+			$row_user=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
+            $str = $row_user['mubanxuanze1'];
+			//foreach ($row_user as $key => $value) {
+			//	$str .= ','.$value['column_name'].',';
+			//}
 			$sql = "SHOW  full COLUMNS FROM ab22_user_record";
 			$rescolumns = $this->home_model->sqlQueryArray($sql);
 
