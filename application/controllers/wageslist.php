@@ -96,6 +96,18 @@ class WagesList extends M_Controller {
 		$row = $this->home_model->delete('gongzibiao', array('id'=>$id));
 		if($row) showmsg('删除成功','/wageslist/index');
 	}
+    //批量删除
+    public function delall(){
+
+        $ids = $this->input->post('ids',TRUE);
+        if(!$ids) return FALSE;
+        $ids = explode(',',$ids);
+        $row = $this->home_model->deleteAll('gongzibiao',$ids);
+        if($row){
+        echo json_encode(array('info'=>'ok','删除成功'));exit;
+        }
+        //if($row) showmsg('删除成功','/wageslist/index');
+    }
 	/**
 	 * 添加工资记录
 	 */

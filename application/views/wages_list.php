@@ -66,7 +66,7 @@
 
 			
 		<input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
-            <input type="button" id="btn2" class="btn" value="批量删除">
+            <input type="button" id="dell_all"  class="btn" value="批量删除">
 
 		
 		</form>
@@ -99,7 +99,7 @@
 
         <th>入库时间</th>
         <th style="text-align:center">
-		<input type="checkbox" id="btn1"/>编号
+		<input type="checkbox" id="selectAll" onclick="checkAll()"/>编号
 		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
 		</th>
 		<th style="text-align:center">工资年月</th>
@@ -120,7 +120,7 @@
         <tr>
         <td><?php echo date("Y-m-d",$v['add_time']); ?></td>
         <td>
-		<input type="checkbox" name="checkbox[]" value="" style="width:20px">
+		<input type="checkbox"  class="selectAll" name="ids[]" value="<?php echo $v['id']?>" style="width:20px">
 		<?php echo $v['id']; ?>
 		</td>
 		<td><?php echo $v['nianyue']; ?></td>
@@ -148,6 +148,7 @@
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
+		 <th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_page as $v){ ?>
 		 	<?php if($v){ ?>
 		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
@@ -164,6 +165,7 @@
          <tr>
 		 
 		 <th>总合计</th>
+		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
@@ -221,6 +223,49 @@
 					dateFmt: 'yyyy-MM',
 				});
 			});
-			
+          $("#dell_all").click(function(){
+              //var id = '';
+              var ids = '';
+              $(".selectAll").each(function(){
+              //$("input[name='ids']:checkbox").each(function(){
+                  if (true == $(this).attr("checked")) {
+                      ids += $(this).attr('value')+',';
+                  }
+
+              });
+              var ids =  ids.substr(0,ids.length-1);
+              if(ids == ''){
+                  alert('不能为空');return false;
+              }
+              var flg = confirm('确定要删除吗？');
+              if(flg){
+                  $.ajax({
+                      type: 'POST',
+                      url: '/wageslist/delall',
+                      data: {'ids':ids},
+                      dataType: 'json',
+                      success: function (json) {
+                          if (json.info == 'ok') {
+                            alert('删除成功');
+                            location.reload();
+                          } else {
+                              alert('删除失败');
+                          }
+                      },
+                      error: function () {
+                          alert('出错了');
+                      }
+                  });
+              }
+
+          })
+
+
 		});
+      function checkAll()
+      {
+          var checkedOfAll=$("#selectAll").attr("checked");
+          $("input[name='ids[]']").attr("checked", checkedOfAll);
+      }
+
     </script>

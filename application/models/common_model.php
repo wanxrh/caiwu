@@ -81,6 +81,20 @@ class Common_model extends CI_Model
 		$this->db->delete($table, $where);
 		return $this->db->affected_rows();
 	}
+    /*
+	 * 批量删除数据
+	 *
+	 * @access   public
+	 * @param    string   表名
+	 * @param    array    条件数组
+	 * @return   number   影响行数
+	 */
+    function deleteAll($table, $where)
+    {
+        $this->db->where_in('id',$where);
+        $this->db->delete($table);
+        return $this->db->affected_rows();
+    }
 
 	/*
 	 * 更新数据
