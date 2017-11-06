@@ -5,6 +5,7 @@
 <title>无标题文档</title>
 <link href="<?php echo SITE_COMMON_STATIC; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/jquery.js"></script>
+<script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/My97DatePicker/WdatePicker.js"></script>
 </head>
 
 
@@ -26,7 +27,7 @@
     <input name="id" type="hidden" value="<?php echo $_GET['id']; ?>">
     <ul class="forminfo">
 	<li>
-		<span>工资年月：<?php echo $info['nianyue']; ?></span>
+		<span>工资年月：<input class="dfinput2" style="width:80px"  name="nianyue" value="<?php echo $info['nianyue']; ?>"/></span>
 		<span>工资类型：
 		<select class="dfinput2"  name="gongzileixing">
 		<option value="">请选择</option>
@@ -64,5 +65,13 @@
 
 
 </body>
+<script type="text/javascript">
+    $("input[name='nianyue']").focus(function () {
+        WdatePicker({
+            skin: 'whyGreen',
+            dateFmt: 'yyyy-MM'
 
+        });
+    });
+</script>
 </html>

@@ -240,13 +240,13 @@ class Wages_management extends M_Controller {
 						/*echo $s1;
 						echo "<br>";
 						echo $s2;exit;*/
-						
+                        $add_time = time();
 						if($data->sheets[0][cells][$i][$col_name]!=NUll){
 							$s1=substr($s1,0,-1);
 							if(strpos($a1,"user_id")===false){
-								$sql1="insert into ab22_gongzibiao(".$a1.",user_id) values(".$s1.",$user_id)";
+								$sql1="insert into ab22_gongzibiao(".$a1.",user_id,add_time) values(".$s1.",$user_id,$add_time)";
 							}else{
-							 	$sql1="insert into ab22_gongzibiao(".$a1.") values(".$s1.")";
+							 	$sql1="insert into ab22_gongzibiao(".$a1.",add_time) values(".$s1.",$add_time)";
 							}
 							$this->home_model->sqlQuery($sql1);
 						}else{

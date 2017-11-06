@@ -66,6 +66,7 @@
 
 			
 		<input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
+            <input type="button" id="btn2" class="btn" value="批量删除">
 
 		
 		</form>
@@ -95,6 +96,8 @@
 
     	<thead id="nav">
     	<tr class="tableNav">
+
+        <th>入库时间</th>
         <th style="text-align:center">
 		<input type="checkbox" id="btn1"/>编号
 		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
@@ -115,6 +118,7 @@
         
         <?php foreach ($list as $v){ ?>
         <tr>
+        <td><?php echo date("Y-m-d",$v['add_time']); ?></td>
         <td>
 		<input type="checkbox" name="checkbox[]" value="" style="width:20px">
 		<?php echo $v['id']; ?>

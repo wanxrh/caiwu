@@ -111,7 +111,7 @@
 		<td><?php echo $row['Comment']?></td>
 
 		<td>
-		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"){?>
+		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"&&$row['Field']!="gongzileixing"&&$row['Field']!="nianyue"){?>
 		<a href="/wagesmanage/info?field_name=<?php echo $row['Field']?>" class="tablelink">编辑</a>&nbsp;|&nbsp;
 		<a href="/wagesmanage/del?field_name=<?php echo $row['Field']?>"onclick="return confirm('确定要删除吗？')" class="tablelink">删除</a>
 		<?php }?>

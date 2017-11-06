@@ -6,7 +6,9 @@
 <link href="<?php echo SITE_COMMON_STATIC; ?>/css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?php echo SITE_COMMON_STATIC; ?>/js/jquery.js"></script>
 </head>
-
+<style>
+    .pagin .paginList{position: inherit;}
+</style>
 <body>
 	<div class="place">
     <span>位置：</span>
@@ -52,6 +54,9 @@
         </tbody>
     </table>
     <?php echo $page;?>
+        <br/>
+        <br/>
+        <br/>
 	<?php elseif(($this->uri->uri_string()=='department/add')):?>
    <div class="formbody">
 

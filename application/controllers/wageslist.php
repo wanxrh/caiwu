@@ -109,6 +109,7 @@ class WagesList extends M_Controller {
 		$data['gongzi_type'] = $this->home_model->gongziType();
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
 			$parm = $this->input->post(NULL,TRUE);
+            $parm['add_time'] = time();
 			$row = $this->home_model->insert('gongzibiao', $parm);
 			if($row) showmsg('添加成功','/user');
 			return;
