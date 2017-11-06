@@ -32,13 +32,14 @@
 		<select class="dfinput2"  name="gongzileixing">
 		<option value="">请选择</option>
 		<?php foreach($gongzi_type as $v){ ?>
-		<option <?php if($info['gongzileixing'] ==$v['gongzileixing_name'] ) echo 'selected="true"'; ?> value="<?php echo $v['gongzileixing_name'];?>"><?php echo $v['gongzileixing_name'];?></option>
+		<option <?php if($info['gongzileixing'] ==$v['gongzileixing_name'] ){?>selected="selected" <?php }?> value="<?php echo $v['gongzileixing_name'];?>"><?php echo $v['gongzileixing_name'];?></option>
 		<?php }; ?>
 		</select>
 		</span>
 	</li>
 	<li>
 	<?php foreach($dyn as $k=>$v){ ?>
+    <?php if($v['column_name'] == 'gongzileixing' || $v['column_name'] == 'nianyue') continue;?>
 	<span><?php echo  $columns[$v['column_name']].'：'; ?>
 	<?php if($v['options']){ ?>
 	<select class="dfinput2"  name="<?php echo $v['column_name']; ?>">

@@ -133,23 +133,29 @@ class User_management extends M_Controller {
 			$data->setOutputEncoding('UTF-8');
 			$data->read($fname);
 			error_reporting(E_ALL ^ E_NOTICE);
-
+            //事物开启
+            $this->db->trans_begin();
+            try{
 			//sheet1
-			if($data->sheets[0]['numRows']&&$data->sheets[0]['cells']!=''){
+			    if($data->sheets[0]['numRows']&&$data->sheets[0]['cells']!=''){
 				$a1="";
 				$a2="";
 				$b1="";
 				$col_n = '';
+                $bumen_s = '';
 				for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
 					if(empty($data->sheets[0]['cells'][1][$j])){
 						 showmsg('模板不正确',"/user_management/import",0,1000);exit;
 					}
+                    if(trim($data->sheets[0]['cells'][1][$j]) == '部门代码'){
+                        //$r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>trim($data->sheets[0]['cells'][1][$j])));
+                        $bumen_s = $j;
+                    }
 					//获取表字段
 					$sql="SHOW  full COLUMNS FROM ab22_user_record";
 					$res = $this->home_model->sqlQueryArray($sql);
 					foreach ($res as $key => $row) {
-						if(!empty($row['Comment']==$data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
-
+						if(!empty($row['Comment']) && $row['Comment'] == trim($data->sheets[0]['cells'][1][$j]) && !empty($data->sheets[0]['cells'][1][$j])){
 							$a1.=$row['Field'].",";
 							$b1.=$row['Field']."='".$j."*****',";
 						}
@@ -158,6 +164,9 @@ class User_management extends M_Controller {
 				}
 			$col_name=1;
 			$col_bumen_name=2;
+            if(!empty($bumen_s)){
+                $a1.= 'bumen_id,';
+            }
 			$a1=substr($a1,0,-1);
 			$b1=substr($b1,0,-1);
 			$flag=1;
@@ -185,8 +194,7 @@ class User_management extends M_Controller {
 					$k="";
 					$s2=$b1;
 					for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-						
-						$s1.="'".$data->sheets[0]['cells'][$i][$j]."',";
+						$s1.="'".trim($data->sheets[0]['cells'][$i][$j])."',";
 						$m="'".$j."*****";
 						if($data->sheets[0]['cells'][$i][$j]){//update数据表，替换$j*****
 							
@@ -194,20 +202,32 @@ class User_management extends M_Controller {
 						}else{
 							$s2=str_replace($m,"'",$s2);
 						}
-						
+                        if(!empty($bumen_s)){
+                            $bumen_code= $data->sheets[0]['cells'][$i][$bumen_s];
+                            $r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>$bumen_code));
+                        }
 					}
+
 					/*echo $s1;
 					echo "<br>";
 					echo $s2;exit;*/
 					if($data->sheets[0][cells][$i][$col_name]!=NUll){
+                        if(!empty($r_bumen)){
+                            $s1.= "'".$r_bumen['bumen_id']."',";
+                        }
 						$s1=substr($s1,0,-1);
-					 	$sql1="insert into ab22_user_record(".$a1.") values(".$s1.")";
-						
+					 	$sql1="insert into ab22_user_record(".$a1.",cat_id) values(".$s1.",'9')";
+
 						$this->home_model->sqlQuery($sql1);
 					}
 					
 			}
 			}
+                $this->db->trans_commit();
+            }catch (Exception $e){
+                //失败回滚
+                $this->db->trans_rollback();
+            }
 			showmsg('导入成功','/user_management/import',0,2000);exit();
 		}
 		$this->load->view('wages_import');
