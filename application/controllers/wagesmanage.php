@@ -107,7 +107,13 @@ class WagesManage extends M_Controller {
 			'admin_query'=>$houchaxun,
 			'summary' =>$summary
 		);
-		$this->home_model->update('dyn_column', $data , array('column_name'=>$field_name));
+        $dyn_column = $this->home_model->get_one('dyn_column',array('column_name'=>$field_name));
+        if(empty($dyn_column)){
+            $data['parent_table'] = 'gongzibiao';
+            $this->home_model->insert('dyn_column',$data);
+        }else{
+            $this->home_model->update('dyn_column', $data , array('column_name'=>$field_name));
+        }
 		showmsg('修改成功','/wagesmanage/index');
 	}
 	public function del(){

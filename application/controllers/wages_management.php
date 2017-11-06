@@ -16,7 +16,13 @@ class Wages_management extends M_Controller {
 		//获取表字段`
 		$sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
 		$data['cols'] = $this->home_model->sqlQueryArray($sql);
-		$data['row_user']=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
+		//$data['row_user']=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
+        $dyn_column =$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','template'=>1));
+        //$str = '';
+        //foreach($dyn_column as $key=>$item){
+        //    $str .= ','.$item['column_name'].',';
+        //}
+        $data['dyn_column'] = $dyn_column;
 		$this->load->view('wages_choose',$data);
 	}
 
@@ -45,12 +51,12 @@ class Wages_management extends M_Controller {
 			$data['flag'] = $this->input->get('flag',TRUE);
 			//查询工资表设置的导出模版设置
 			$str = '';
-			//$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','template'=>'1'));
-			$row_user=$this->home_model->get_one('ab22_user_record',array('user_id'=>$user_id));
-            $row_user_chose = $row_user['mubanxuanze'];
-			//foreach ($row_user as $key => $value) {
-			//	$str .= ','.$value['column_name'].',';
-			//}
+			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','template'=>'1'));
+			//$row_user=$this->home_model->get_one('ab22_user_record',array('user_id'=>$user_id));
+            //$row_user_chose = $row_user['mubanxuanze'];
+			foreach ($row_user as $key => $value) {
+				$str .= ','.$value['column_name'].',';
+			}
 			$sql = "SHOW  full COLUMNS FROM ab22_gongzibiao";
 			$rescolumns = $this->home_model->sqlQueryArray($sql);
 			
@@ -78,7 +84,7 @@ class Wages_management extends M_Controller {
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				
 		    	
-		    	if(strpos($row_user_chose,$aaa)!==false){
+		    	if(strpos($str,$aaa)!==false){
 		    		$ss = $arr[$m+1];
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);

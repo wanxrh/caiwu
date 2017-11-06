@@ -48,7 +48,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>工资表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="/wages_management" target="rightFrame">工资表字段选择</a><i></i></li>
+        <li><cite></cite><a href="/wages_management" target="rightFrame">工资表导出字段</a><i></i></li>
         <li><cite></cite><a href="/wages_management/export?flag=gongzi" target="rightFrame">工资表模板导出</a><i></i></li>
         <li><cite></cite><a href="/wages_management/import?flag=gongzi" target="rightFrame">工资表数据导入</a><i></i></li>
     </ul>
@@ -58,7 +58,7 @@ $(function(){
         <span><img src="<?php echo SITE_COMMON_STATIC; ?>/images/leftico01.png"/></span>用户表导入导出
     </div>
     <ul class="menuson">
-        <li><cite></cite><a href="/user_management" target="rightFrame">用户表字段选择</a><i></i></li>
+        <li><cite></cite><a href="/user_management" target="rightFrame">用户表导出字段</a><i></i></li>
         <li><cite></cite><a href="/user_management/export?flag=yonghu" target="rightFrame">用户表模板导出</a><i></i></li>
         <li><cite></cite><a href="/user_management/import?flag=yonghu" target="rightFrame">用户表数据导入</a><i></i></li>
     </ul>

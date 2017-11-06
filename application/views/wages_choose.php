@@ -27,7 +27,7 @@
 
     <li><a href="#">首页</a></li>
 
-    <li><a href="#">工资表导出字段选择</a></li>
+    <li><a href="#">工资表导出字段</a></li>
 
     </ul>
 
@@ -46,7 +46,7 @@
     <thead>
 
     <tr>
-	 <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
+	 <!--<th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>-->
 
     <th>字段名</th>
 
@@ -61,25 +61,30 @@
     <tbody>
 
 		<?php foreach ($cols as $row){ ?>
-		<?php $aaa=",".$row['Field'].",";?>
+        <?php if($row['Field'] == 'id') continue;?>
+        <?php foreach($dyn_column as $k=>$val){?>
+        <?php if($val['column_name'] == $row['Field']){?>
+		<?php //$aaa=",".$row['Field'].",";?>
 		<tr style="border-bottom:1px dashed #cccccc">
-		 <td align="center"> <span style="margin-left:10px;"></span>
-		<?php if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue1'){?>
-		<input type="checkbox" name="checkbox[]" value="<?php echo $row['Field']?>" style="width:20px" <?php if(strpos($row_user['mubanxuanze'],$aaa)!==false) echo "checked";?> >
-		<?php }?>
-		</td>
+		<!-- <td align="center"> <span style="margin-left:10px;"></span>-->
+		<?php //if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue1'){?>
+		<!--<input type="checkbox" name="checkbox[]" value="--><?php //echo $row['Field']?><!--" style="width:20px" --><?php //if(strpos($row_user['mubanxuanze'],$aaa)!==false) echo "checked";?><!-- >-->
+		<?php //}?>
+		<!--</td>-->
 		<td><?php echo $row['Field']?></td>
 
 		<td><?php echo $row['Type']?></td>
 
 		<td><?php echo $row['Comment']?></td>
 
-		<td>
-		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="nianyue"&&$row['Field']!="add_time"&&$row['Field']!="nianyue"){?>
-		<?php }?>
-		</td>
+		<!--<td>-->
+		<?php //if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="nianyue"&&$row['Field']!="add_time"&&$row['Field']!="nianyue"){?>
+		<?php //}?>
+		<!--</td>-->
 
 		</tr>
+        <?php }?>
+        <?php }?>
 		<?php }; ?>
         </tbody>
 
@@ -92,7 +97,7 @@
 
 	</td></tr></table>
 	
-    <input type="button" class="btn" value="确定" onclick="this.form.submit()"/>
+    <!--<input type="button" class="btn" value="确定" onclick="this.form.submit()"/>-->
 
 	</form>
     </div>
@@ -113,7 +118,7 @@
 
     <li><a href="#">首页</a></li>
 
-    <li><a href="#">用户表导出字段选择</a></li>
+    <li><a href="#">用户表导出字段</a></li>
 
     </ul>
 
@@ -132,7 +137,7 @@
     <thead>
 
     <tr>
-	 <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
+	 <!--<th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>-->
 
     <th>字段名</th>
 
@@ -147,13 +152,16 @@
     <tbody>
 
 		<?php foreach ($cols as $row){ ?>
-		<?php $aaa=",".$row['Field'].",";?>
+        <?php if($row['Field'] == 'id') continue;?>
+        <?php foreach($dyn_column as $k=>$v){?>
+        <?php if($v['column_name'] == $row['Field']){?>
+		<?php //$aaa=",".$row['Field'].",";?>
 		<tr style="border-bottom:1px dashed #cccccc">
-		 <td align="center"> <span style="margin-left:10px;"></span>
-		<?php if($row['Field']!='user_id'&&$row['Field']!='cat_id'&&$row['Field']!='bumen_id'&&$row['Field']!='add_time'&&$row['Field']!='mubanxuanze'&&$row['Field']!='mubanxuanze1'&&$row['Field']!='admin_list_ziduan'&&$row['Field']!='yibanyonghu_list_ziduan'){?>
-		<input type="checkbox" name="checkbox[]" value="<?php echo $row['Field']?>" style="width:20px" <?php if(strpos($row_user['mubanxuanze1'],$aaa)!==false) echo "checked";?> >
-		<?php }?>
-		</td>
+		<!-- <td align="center"> <span style="margin-left:10px;"></span>-->
+		<?php //if($row['Field']!='user_id'&&$row['Field']!='cat_id'&&$row['Field']!='bumen_id'&&$row['Field']!='add_time'&&$row['Field']!='mubanxuanze'&&$row['Field']!='mubanxuanze1'&&$row['Field']!='admin_list_ziduan'&&$row['Field']!='yibanyonghu_list_ziduan'){?>
+		<!--<input type="checkbox" name="checkbox[]" value="--><?php //echo $row['Field']?><!--" style="width:20px" --><?php //if(strpos($row_user['mubanxuanze1'],$aaa)!==false) echo "checked";?><!-- >-->
+		<?php //}?>
+		<!--</td>-->
 		<td><?php echo $row['Field']?></td>
 
 		<td><?php echo $row['Type']?></td>
@@ -163,6 +171,8 @@
 		
 
 		</tr>
+        <?php }?>
+        <?php }?>
 		<?php }; ?>
         </tbody>
 
@@ -175,7 +185,7 @@
 
 	</td></tr></table>
 	
-    <input type="button" class="btn" value="确定" onclick="this.form.submit()"/>
+    <!--<input type="button" class="btn" value="确定" onclick="this.form.submit()"/>-->
 
 	</form>
     </div>

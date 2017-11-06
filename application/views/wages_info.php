@@ -107,12 +107,12 @@
 
 		<td style="padding-top:10px"><input type="text" name="beizhu" class="dfinput1" value="<?php echo $row['COLUMN_COMMENT']; ?>"/></td>
 
-		<td style="padding-top:10px"><input type="text" name="xuanxiang" value="<?php echo $dyn['options']; ?>" class="dfinput1"/></td>
-		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['template']) echo ' checked=true ' ?> name="muban" class="dfinput1"/></td>
-		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['view']) echo ' checked=true ' ?> name="chakan" class="dfinput1"/></td>
-		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['normal_query']) echo ' checked=true ' ?> name="qianchaxun" class="dfinput1"/></td>
-		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['admin_query']) echo ' checked=true ' ?> name="houchaxun" class="dfinput1"/></td>
-		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['summary']) echo ' checked=true ' ?> name="summary" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="text" name="xuanxiang" value="<?php echo !empty($dyn['options'])?$dyn['options']:''; ?>" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['template'])?$dyn['template']:'') echo ' checked=true ' ?> name="muban" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['view'])?$dyn['view']:'') echo ' checked=true ' ?> name="chakan" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['normal_query'])?$dyn['normal_query']:'') echo ' checked=true ' ?> name="qianchaxun" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['admin_query'])?$dyn['admin_query']:'') echo ' checked=true ' ?> name="houchaxun" class="dfinput1"/></td>
+		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['summary'])?$dyn['summary']:'') echo ' checked=true ' ?> name="summary" class="dfinput1"/></td>
 		</tr>
 
 
