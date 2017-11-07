@@ -43,10 +43,10 @@ class M_Controller extends MY_Controller
 		$user_id = $this->session->userdata('user_id');
 		// 没有登录不能进会员中心
 		if($this->uri->uri_string()!=''){
-	        if (!$user_id) {
+	        if (empty($user_id)) {
 	            echo "<script language='javascript'>window.location.href='/';</script>";
 	            exit;
-	        }
+            }
     	}
 
 	}

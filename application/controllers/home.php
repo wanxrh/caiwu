@@ -18,6 +18,11 @@ class Home extends MY_Controller {
 	 */
 	public function index()
 	{
+        $user_id = $this->session->userdata('user_id');
+        if (!empty($user_id)) {
+            echo "<script language='javascript'>window.location.href='/my_index';</script>";
+            exit;
+        }
 		//每访问一次+1访问量
 		$this->home_model->update_access();
 		//查询总访问量
