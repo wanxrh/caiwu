@@ -77,7 +77,7 @@
             <td>varchar(50)</td>
 
             <td>部门名字</td>
-            
+
 
         </tr>
 		<?php foreach ($cols as $row){ ?>
@@ -170,9 +170,29 @@
     </thead>
 
     <tbody>
+    <tr style="border-bottom:1px dashed #cccccc">
 
+        <td>user_name</td>
+
+        <td>varchar(50)</td>
+
+        <td>帐号</td>
+
+
+
+    </tr>
+    <tr style="border-bottom:1px dashed #cccccc">
+
+        <td>password</td>
+
+        <td>varchar(50)</td>
+
+        <td>密码</td>
+
+
+    </tr>
 		<?php foreach ($cols as $row){ ?>
-        <?php if($row['Field'] == 'id') continue;?>
+        <?php if($row['Field'] == 'id' || $row['Field']=='user_id' || $row['Field']=='cat_id' || $row['Field']=='bumen_id') continue;?>
         <?php foreach($dyn_column as $k=>$v){?>
         <?php if($v['column_name'] == $row['Field']){?>
 		<?php //$aaa=",".$row['Field'].",";?>

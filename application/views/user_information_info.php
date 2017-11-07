@@ -72,6 +72,7 @@
 
     <th>备注</th>
     <th>列入导出模版</th>
+    <th>前台可查看(选中则导出excel字段)</th>
     </tr>
 
     </thead>
@@ -102,6 +103,7 @@
 
 		<td style="padding-top:10px"><input type="text" name="beizhu" class="dfinput1" value="<?php echo $row['COLUMN_COMMENT']; ?>"/></td>
 		<td style="padding-top:10px"><input type="checkbox"  value="1" <?php if($dyn['template']) echo ' checked=true ' ?> name="muban" class="dfinput1"/></td>
+        <td style="padding-top:10px"><input type="checkbox"  value="1" <?php if(!empty($dyn['view'])?$dyn['view']:'') echo ' checked=true ' ?> name="chakan" class="dfinput1"/></td>
 		</tr>
 
 

@@ -98,10 +98,9 @@
 
     <tbody>
 
-		
 
 		<?php foreach ($cols as $row){ ?>
-		<?php if($row['Field']=='mubanxuanze'||$row['Field']=='mubanxuanze1'||$row['Field']=='admin_list_ziduan'||$row['Field']=='yibanyonghu_list_ziduan') continue;?>
+		<?php if($row['Field']=='mubanxuanze'||$row['Field']=='mubanxuanze1'||$row['Field']=='admin_list_ziduan'||$row['Field']=='yibanyonghu_list_ziduan' || $row['Field']=='user_id' || $row['Field']=='cat_id' || $row['Field']=='bumen_id') continue;?>
 		<tr style="border-bottom:1px dashed #cccccc">
 
 		<td><?php echo $row['Field']?></td>

@@ -149,6 +149,47 @@ class Home_model extends Common_model {
 		}
 		return $data;
 	}
+    //用户列表
+    public function uList($columns,$dyn,$name,$select,$zhiyuandaima){
+
+        if($select){
+            $this->db->where('bumen.bumen_id',$select);
+        }
+        if($zhiyuandaima){
+            $this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
+        }
+        if($name){
+            $this->db->where('user_record.name',$name);
+        }
+        $clone = clone( $this->db );
+        //$syn_clone = clone( $this->db );
+        $this->db->select('bumen.bumen_name,user_record.*')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+        $data['list'] = $this->db->order_by('user_record.user_id','asc')->where('user_id >',1)->get('user_record')->result_array();
+        //echo $this->db->last_query();exit;
+        $this->db = $clone;
+        $data['count'] = $this->db->from('user_record')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')->where("user_id >",1)->count_all_results();
+        //统计
+        //$unset = array('cat_id','user_id','bumen_id');
+        //foreach ($columns as $k => $v){
+        //    if(in_array($v['COLUMN_NAME'],$unset)){
+        //        continue;
+        //    }
+        //    if(isset($dyn[$v['COLUMN_NAME']])){
+        //        if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
+        //            $data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
+        //            $this->db = $syn_clone;
+        //            $syn_clone = clone ($this->db );
+        //            $alls = $this->db->select_sum($v['COLUMN_NAME'])->get('user_record')->row_array();
+        //            $data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
+        //
+        //        }else{
+        //            $data['dyn_page'][$v['COLUMN_NAME']] = '';
+        //            $data['dyn_all'][$v['COLUMN_NAME']] = '';
+        //        }
+        //    }
+        //}
+        return $data;
+    }
 	public function wagesCount($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
 		$sum_sql = '';
 		$data_type = array_column($columns,'DATA_TYPE','COLUMN_NAME');

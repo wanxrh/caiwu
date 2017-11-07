@@ -76,7 +76,9 @@ class User_information extends M_Controller {
 		$new_field_name = $this->input->post('ziduanming',TRUE);
 		$leixing = $this->input->post('leixing',TRUE);
 		$beizhu = $this->input->post('beizhu',TRUE);
-		
+        $muban = $this->input->post('muban',TRUE)?1:0;
+        $chakan = $this->input->post('chakan',TRUE)?1:0;
+
 		if($leixing == 'float'){
 			$len = 20;
 		}else{
@@ -84,7 +86,18 @@ class User_information extends M_Controller {
 		}
 		$sql="ALTER TABLE  `ab22_user_record` CHANGE  `".$field_name."`  `".$new_field_name."` ".$leixing."( ".$len." ) NULL DEFAULT NULL COMMENT  '".$beizhu."'";
 		$this->home_model->sqlQuery($sql);
-		
+        $data = array(
+            'column_name'=>$new_field_name,
+            'template'=>$muban,
+            'view'=>$chakan
+        );
+        $dyn_column = $this->home_model->get_one('dyn_column',array('column_name'=>$field_name));
+        if(empty($dyn_column)){
+            $data['parent_table'] = 'user_record';
+            $this->home_model->insert('dyn_column',$data);
+        }else{
+            $this->home_model->update('dyn_column', $data , array('column_name'=>$field_name));
+        }
 		showmsg('修改成功','/user_information/index');
 	}
 	public function del(){
