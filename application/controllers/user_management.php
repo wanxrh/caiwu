@@ -145,7 +145,7 @@ class User_management extends M_Controller {
                 $bumen_s = '';
 				for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
 					if(empty($data->sheets[0]['cells'][1][$j])){
-						 showmsg('模板不正确',"/user_management/import",0,1000);exit;
+						 showmsg('模板不正确',"/user_management/import",0,2000);exit;
 					}
                     if(trim($data->sheets[0]['cells'][1][$j]) == '部门代码'){
                         //$r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>trim($data->sheets[0]['cells'][1][$j])));
@@ -186,7 +186,7 @@ class User_management extends M_Controller {
 								}
 							}
 							if($flag=='1'){
-								showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/user_management/import",0,1000);exit;
+								showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/user_management/import",0,5000);exit;
 							} 
 						}
 					}//else if(!empty($user_id)){
@@ -206,7 +206,7 @@ class User_management extends M_Controller {
                             $bumen_code= $data->sheets[0]['cells'][$i][$bumen_s];
                             $r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>$bumen_code));
                             if(empty($r_bumen)){
-                                showmsg("部门代码".$data->sheets[0]['cells'][$i][$j]."不存在","/user_management/import",0,1000);exit;
+                                showmsg("部门代码".$data->sheets[0]['cells'][$i][$bumen_s]."不存在","/user_management/import",0,5000);exit;
                             }
                         }
 					}
