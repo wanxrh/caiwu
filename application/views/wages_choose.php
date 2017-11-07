@@ -59,7 +59,27 @@
     </thead>
 
     <tbody>
+        <tr style="border-bottom:1px dashed #cccccc">
 
+            <td>user_name</td>
+
+            <td>varchar(50)</td>
+
+            <td>姓名</td>
+
+
+
+        </tr>
+        <tr style="border-bottom:1px dashed #cccccc">
+
+            <td>bumen_name</td>
+
+            <td>varchar(50)</td>
+
+            <td>部门名字</td>
+            
+
+        </tr>
 		<?php foreach ($cols as $row){ ?>
         <?php if($row['Field'] == 'id') continue;?>
         <?php foreach($dyn_column as $k=>$val){?>

@@ -98,10 +98,35 @@
 
     <tbody>
 
-		
 
+        <tr style="border-bottom:1px dashed #cccccc">
+
+            <td>user_name</td>
+
+            <td>varchar(50)</td>
+
+            <td>姓名</td>
+
+            <td>
+
+            </td>
+
+        </tr>
+        <tr style="border-bottom:1px dashed #cccccc">
+
+            <td>bumen_name</td>
+
+            <td>varchar(50)</td>
+
+            <td>部门名字</td>
+
+            <td>
+
+            </td>
+
+        </tr>
 		<?php foreach ($cols as $row){ ?>
-
+        <?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"){?>
 		<tr style="border-bottom:1px dashed #cccccc">
 
 		<td><?php echo $row['Field']?></td>
@@ -118,6 +143,7 @@
 		</td>
 
 		</tr>
+        <?php }?>
 		<?php }; ?>
         </tbody>
 

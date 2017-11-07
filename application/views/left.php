@@ -30,7 +30,7 @@ $(function(){
 </head>
 
 <body style="background:#f0f9fd;">
-	<div class="lefttop"><span></span>通讯录</div>
+	<div class="lefttop"><span></span>菜单</div>
 
 <dl class="leftmenu">
 <?php if($this->session->userdata('cat_id')=='-1'):?>
