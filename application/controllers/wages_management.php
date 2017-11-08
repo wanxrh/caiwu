@@ -268,6 +268,8 @@ class Wages_management extends M_Controller {
                 }
                     $this->db->trans_commit();
                     showmsg('导入成功','/wages_management/import',0,2000);exit();
+                }else{
+                    showmsg('模版格式有误,请按照导出模版的格式导入数据。','/wages_manasgement/import',0,5000);exit();
                 }
             }catch (Exception $e){
                 //失败回滚
