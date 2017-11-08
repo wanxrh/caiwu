@@ -17,7 +17,7 @@ class User_management extends M_Controller {
 		$sql="SHOW  full COLUMNS FROM ab22_user_record";
 		$data['cols'] = $this->home_model->sqlQueryArray($sql);
 		//$data['row_user']=$this->home_model->get_one('user_record',array('user_id'=>$user_id));
-        $dyn_column = $this->home_model->get_all('dyn_column',array('parent_table'=>'user_record','template'=>1));
+        $dyn_column = $this->home_model->get_all('dyn_column',array('parent_table'=>'user_record'));
         //$str = '';
         //foreach($dyn_column as $key=>$item){
         //    $str .= $item['column_name'].',';
@@ -29,9 +29,16 @@ class User_management extends M_Controller {
 	public function edit(){
 		$user_id = $this->session->userdata('user_id');
 		if($this->input->post()){
-			$post =','.implode(",",$this->input->post('checkbox',TRUE)).',';
-			$res = $this->home_model->update('user_record',array('mubanxuanze1'=>$post),array('user_id'=>$user_id));
-
+			//$post =','.implode(",",$this->input->post('checkbox',TRUE)).',';
+			//$res = $this->home_model->update('user_record',array('mubanxuanze1'=>$post),array('user_id'=>$user_id));
+            $this->db->where(array('parent_table'=>'user_record','column_name !='=>'name'));
+            $this->db->where(array('column_name !='=>'nianyue'));
+            $this->db->update('dyn_column',array('template'=>0));
+            $this->db->affected_rows();
+            $post = $this->input->post('checkbox',TRUE);
+            $this->db->where(array('parent_table'=>'user_record'));
+            $this->db->where_in('id',$post);
+            $res = $this->db->update('dyn_column',array('template'=>1));
 		}else{
 			showmsg('请选择参数',"/user_management/index",0,2000);exit;
 		}
