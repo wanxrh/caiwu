@@ -219,7 +219,7 @@ class User_management extends M_Controller {
                             $s1.= "'".$r_bumen['bumen_id']."',";
                         }
 						$s1=substr($s1,0,-1);
-					 	$sql1="insert into ab22_user_record(".$a1.",cat_id2) values(".$s1.",'9')";
+					 	$sql1="insert into ab22_user_record(".$a1.",cat_id) values(".$s1.",'9')";
 
 						$this->home_model->sqlQuery($sql1);
 					}

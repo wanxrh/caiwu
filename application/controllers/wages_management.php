@@ -122,7 +122,7 @@ class Wages_management extends M_Controller {
 	 */
 	public function import(){
 		header("Content-Type: text/html; charset=utf-8");
-		if($this->input->post()){
+		if(!empty($_POST)){
 
 
 
@@ -266,14 +266,14 @@ class Wages_management extends M_Controller {
 
 
                 }
-
+                    $this->db->trans_commit();
+                    showmsg('导入成功','/wages_management/import',0,2000);exit();
                 }
-                $this->db->trans_commit();
             }catch (Exception $e){
                 //失败回滚
                 $this->db->trans_rollback();
+                showmsg('导入失败','/wages_manasgement/import',0,2000);exit();
             }
-			showmsg('导入成功','/wages_management/import',0,2000);exit();
 		}
 		$this->load->view('wages_import');
 	}
