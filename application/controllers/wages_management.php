@@ -184,8 +184,8 @@ class Wages_management extends M_Controller {
                     $r_bumen = $this->home_model->get_one('bumen',array('bumen_name'=>$bumen));
                     $r_user = $this->home_model->get_one('user_record',array('name'=>$name,'bumen_id'=>$r_bumen['bumen_id']));
 
-                    if($r_user==''){
-                        showmsg('不存的用户',"/wages_management/import",0,1000);exit;
+                    if(empty($r_user)){
+                        showmsg('不存的用户'.$name,"/wages_management/import",0,1000);exit;
                     }
                     if(!empty($name) && empty($r_user)){
                         $flag=2;
