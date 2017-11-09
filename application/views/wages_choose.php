@@ -46,6 +46,7 @@
     <thead>
 
     <tr>
+     <th>编号</th>
 	 <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
 
     <th>字段名</th>
@@ -60,6 +61,7 @@
 
     <tbody>
         <tr style="border-bottom:1px dashed #cccccc">
+            <td>1</td>
             <td align="center"> <span style="margin-left:10px;"></span>
             </td>
             <td>user_name</td>
@@ -72,6 +74,7 @@
 
         </tr>
         <tr style="border-bottom:1px dashed #cccccc">
+            <td>2</td>
             <td align="center"> <span style="margin-left:10px;"></span>
             </td>
             <td>bumen_name</td>
@@ -82,12 +85,14 @@
 
 
         </tr>
-		<?php foreach ($cols as $row){ ?>
+        <?php $i=2;?>
+		<?php foreach ($cols as $row){?>
         <?php if($row['Field'] == 'id') continue;?>
         <?php foreach($dyn_column as $k=>$val){?>
         <?php if($val['column_name'] == $row['Field']){?>
-		<?php $aaa=",".$row['Field'].",";?>
+		<?php $aaa=",".$row['Field'].",";$i++?>
 		<tr style="border-bottom:1px dashed #cccccc">
+        <td><?php echo $i;?></td>
 		<td align="center"> <span style="margin-left:10px;"></span>
 		<?php if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue'){?>
 		<input type="checkbox" name="checkbox[]" value="<?php echo $val['id']?>" style="width:20px" <?php if($val['template']==1) echo "checked";?> >
@@ -159,6 +164,7 @@
     <thead>
 
     <tr>
+    <th>编号</th>
 	 <th width="100px"><input type="checkbox" value="1" id="selectAll" onclick="checkAll()" >模版选择</th>
 
     <th>字段名</th>
@@ -173,6 +179,7 @@
 
     <tbody>
     <tr style="border-bottom:1px dashed #cccccc">
+        <td>1</td>
         <td align="center"> <span style="margin-left:10px;"></span>
         </td>
         <td>user_name</td>
@@ -185,6 +192,7 @@
 
     </tr>
     <tr style="border-bottom:1px dashed #cccccc">
+        <td>2</td>
         <td align="center"> <span style="margin-left:10px;"></span>
         </td>
         <td>password</td>
@@ -195,12 +203,14 @@
 
 
     </tr>
+        <?php $ii=2;?>
 		<?php foreach ($cols as $row){ ?>
         <?php if($row['Field'] == 'id' || $row['Field']=='user_id' || $row['Field']=='cat_id' || $row['Field']=='bumen_id') continue;?>
         <?php foreach($dyn_column as $k=>$v){?>
         <?php if($v['column_name'] == $row['Field']){?>
-		<?php //$aaa=",".$row['Field'].",";?>
+		<?php $ii++?>
 		<tr style="border-bottom:1px dashed #cccccc">
+         <td><?php echo $ii?></td>
 		 <td align="center"> <span style="margin-left:10px;"></span>
 		<?php if($row['Field']!='user_id'&&$row['Field']!='cat_id'&&$row['Field']!='bumen_id'&&$row['Field']!='add_time'&&$row['Field']!='mubanxuanze'&&$row['Field']!='mubanxuanze1'&&$row['Field']!='admin_list_ziduan'&&$row['Field']!='yibanyonghu_list_ziduan'){?>
 		<input type="checkbox" name="checkbox[]" value="<?php echo $v['id']?>" style="width:20px" <?php if($v['template']==1) echo "checked";?> >
