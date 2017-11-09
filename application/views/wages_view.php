@@ -28,6 +28,7 @@
 	</li>
 	<li>
 	<?php foreach($dyn as $k=>$v){ ?>
+    <?php if($v['column_name'] == 'nianyue') continue?>
 	<span><?php echo  $columns[$v['column_name']].'：'; ?>
 	<?php 
 		if($v['options']){
