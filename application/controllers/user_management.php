@@ -152,7 +152,7 @@ class User_management extends M_Controller {
                 $bumen_s = '';
 				for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
 					if(empty($data->sheets[0]['cells'][1][$j])){
-						 showmsg('模板不正确',"/user_management/import",0,2000);exit;
+						 showmsg('模板不正确',"/user_management/import",0,15000);exit;
 					}
                     if(trim($data->sheets[0]['cells'][1][$j]) == '部门代码'){
                         //$r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>trim($data->sheets[0]['cells'][1][$j])));
