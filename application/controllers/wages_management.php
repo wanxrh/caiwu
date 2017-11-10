@@ -223,9 +223,11 @@ class Wages_management extends M_Controller {
                                 if(empty($data->sheets[0]['cells'][1][$jj])) continue;
                                  if($data->sheets[0]['cells'][1][$jj]=='工资年月'){
                                      if(strpos($data->sheets[0]['cells'][$ii][$jj],"/")){
-                                         $s1.="'".str_replace("/","-",$data->sheets[0]['cells'][$ii][$jj])."',";
+                                         $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
+                                     }elseif(strpos($data->sheets[0]['cells'][$ii][$jj],"-")){
+                                         $s1.="'".date("Y-m",strtotime(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
                                      }else{
-                                         $s1.="'".str_replace("年","-",$data->sheets[0]['cells'][$ii][$jj])."',";
+                                         $s1.="'".date("Y-m",strtotime(str_replace("年","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
                                      }
                                  }else{
                                     $s1.="'".trim($data->sheets[0]['cells'][$ii][$jj])."',";
