@@ -118,7 +118,7 @@
 
             <td>varchar(50)</td>
 
-            <td>部门名字</td>
+            <td>部门名称</td>
 
             <td>
 

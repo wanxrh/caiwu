@@ -86,7 +86,7 @@ class Wages_management extends M_Controller {
 			foreach ($rescolumns as $kk => $val) {
 				$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
-		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
+		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名称'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				

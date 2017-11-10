@@ -83,14 +83,15 @@ class Home_model extends Common_model {
 		return $this->db->query($sql)->result_array();
 	}
 	public function wagesList($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
-
+        $start = date("Y-m-d",strtotime($start));
+        $end = date("Y-m-d",strtotime($end));
 		if($start && !$end){
 			$this->db->where('gongzibiao.nianyue >=',$start);
 		}elseif (!$start && $end){
 			$this->db->where('gongzibiao.nianyue <=',$end);
 		}elseif ($start && $end){
 			if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
-			if($start < $end){/*echo $start.','.$end;*/
+			if($start <= $end){/*echo $start.','.$end;*/
 				$this->db->where('gongzibiao.nianyue >=',$start);
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
