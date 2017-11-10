@@ -193,7 +193,7 @@ class User_management extends M_Controller {
 								}
 							}
 							if($flag=='1'){
-								showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][$i][$j]."!","/user_management/import",0,5000);exit;
+								showmsg("模版中存在错误的字段(".$data->sheets[0]['cells'][$i][$j].")!","/user_management/import",0,5000);exit;
 							} 
 						}
 					}//else if(!empty($user_id)){
@@ -213,7 +213,7 @@ class User_management extends M_Controller {
                             $bumen_code= $data->sheets[0]['cells'][$i][$bumen_s];
                             $r_bumen = $this->home_model->get_one('bumen',array('bumen_daima'=>$bumen_code));
                             if(empty($r_bumen)){
-                                showmsg("部门代码".$data->sheets[0]['cells'][$i][$bumen_s]."不存在","/user_management/import",0,5000);exit;
+                                showmsg("部门代码(".$data->sheets[0]['cells'][$i][$bumen_s].")不存在","/user_management/import",0,5000);exit;
                             }
                         }
 					}

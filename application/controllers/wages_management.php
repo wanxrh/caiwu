@@ -174,7 +174,7 @@ class Wages_management extends M_Controller {
                             $flag = 2;
                         }
                         if($flag== 1){
-                            showmsg("模版中存在错误的字段".$data->sheets[0]['cells'][1][$j]."!","/wages_management/import",1,15000);exit;
+                            showmsg("模版中存在错误的字段(".$data->sheets[0]['cells'][1][$j].")!","/wages_management/import",1,15000);exit;
                         }
 
                     }
@@ -191,7 +191,7 @@ class Wages_management extends M_Controller {
 
                     //$r_bumen = $this->home_model->get_one('bumen',array('bumen_id'=>$r_user['bumen_id']));
                     if(empty($r_user)){
-                        showmsg('不存的用户'.$name,"/wages_management/import",0,15000);exit;
+                        showmsg('不存的用户('.$name,")/wages_management/import",0,15000);exit;
                     }
                     if(!empty($name) && empty($r_user)){
                         $flag=2;
@@ -203,7 +203,7 @@ class Wages_management extends M_Controller {
 
                 }
                 if($flag==2){
-                    $msg="拒绝导入，还缺少".$msg."的数据";
+                    $msg="拒绝导入，还缺少(".$msg.")的数据";
                     showmsg("$msg","/wages_management/import",0,15000);exit;
                 }
                 for ($ii = 2; $ii <= $data->sheets[0]['numRows']; $ii++){//下面有备份
