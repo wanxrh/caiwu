@@ -122,8 +122,8 @@ class Home_model extends Common_model {
 		}
 		$clone = clone( $this->db );
 		$syn_clone = clone( $this->db );
-		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
-		$this->db->select('bumen.bumen_name')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+		$this->db->select('user_record.user_name,bumen.bumen_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
+		$this->db->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
 		//echo $this->db->last_query();exit;
 		$this->db = $clone;
@@ -148,6 +148,7 @@ class Home_model extends Common_model {
 				}
 			}
 		}
+        //print_r($data['dyn_page']);exit;
 		return $data;
 	}
     //用户列表

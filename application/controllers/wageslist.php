@@ -25,10 +25,11 @@ class WagesList extends M_Controller {
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table,'view'=>1));
 		$data['dyn'] = array();
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
+			$data['dyn2'][] = $v['column_name'];
 		}
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
 

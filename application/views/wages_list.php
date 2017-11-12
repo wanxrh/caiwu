@@ -116,7 +116,7 @@
         
         <tbody>
         
-        <?php foreach ($list as $v){ ?>
+        <?php foreach ($list as $k2=>$v){ ?>
         <tr>
         <td><?php echo date("Y-m-d",$v['add_time']); ?></td>
         <td>
@@ -126,11 +126,12 @@
 		<td><?php echo $v['nianyue']; ?></td>
 		<td><?php echo $v['user_name']; ?></td>
 		<td><?php echo $v['bumen_name']; ?></td>
-		<?php foreach($dyn as $kk=>$vv){ ?>
-		<?php if($vv['view']){  ?>
-		<td><?php echo $v[$vv['column_name']]; ?></td>
-        <?php }; ?>
-        <?php }; ?>
+        <?php foreach($v as $p=>$va){?>
+            <?php if(in_array($p,$dyn2)){ ?>
+                <td><?php echo $v[$p]; ?></td>
+            <?php }; ?>
+        <?php }?>
+
        <td>
 			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink"  target="_blank">查看</a>
        　	<a href="/wageslist/edit?id=<?php echo $v['id']; ?>" class="tablelink">编辑</a>
@@ -166,8 +167,8 @@
 		 
 		 <th>总合计</th>
 		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
+		<th align="center">&nbsp;</th>
+		<th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_all as $v){ ?>
 		 	<?php if($v){ ?>
