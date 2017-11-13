@@ -33,8 +33,8 @@
 		<option <?php if($gongzileixing == $v['gongzileixing_name']) echo 'selected="true"'; ?> <?php if($gongzileixing=='' && $k==3) echo 'selected="true"'; ?>  value="<?php echo $v['gongzileixing_name']; ?>"><?php echo $v['gongzileixing_name']; ?></option>
 		<?php }; ?>
 		</select>
-		<!--姓名：-->
-		<!--<input class="dfinput2" style="width:80px"  name="name" value="--><?php //echo $name;?><!--"/>-->
+		姓名：
+		<input class="dfinput2" style="width:80px"  name="name" value="<?php echo $name;?>"/>
 		<?php foreach ($dyn as $k=>$v){ ?>
 		<?php if($level <0 && $v['admin_query']){ ?>
 		<?php echo $columns[$v['column_name']].':'; ?>	

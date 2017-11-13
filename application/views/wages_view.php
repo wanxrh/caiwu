@@ -27,20 +27,18 @@
 		<span>工资年月：<?php echo $info['nianyue']; ?></span>
 	</li>
 	<li>
-	<?php foreach($dyn as $k=>$v){ ?>
-    <?php if($v['column_name'] == 'nianyue') continue?>
-	<span><?php echo  $columns[$v['column_name']].'：'; ?>
+	<?php foreach($columns as $k=>$v){ ?>
+    <?php if($k == 'nianyue') continue;
+        if(in_array($k,$dyn2)){
+        ?>
+	<span><?php echo  $v.'：'; ?>
 	<?php 
-		if($v['options']){
-			$a = explode(',', $v['options']);
-			echo isset($a[$info[$v['column_name']]])?$a[$info[$v['column_name']]]:'';
-		}else{
-			echo $info[$v['column_name']];
-		} 		
+        echo $info[$k];
 	?>
 	</span>
 	<?php if( ($k+1)%3===0) echo '</li><li>';  ?>
-	<?php }; ?>
+	<?php }
+        }; ?>
 	</li>
     </ul>
     </div>

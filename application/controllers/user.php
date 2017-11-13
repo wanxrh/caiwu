@@ -163,6 +163,8 @@ class User extends M_controller{
                     $ss = $arr[$m+1];
                     //赋值标题
                     $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
+                    $objPHPExcel->getActiveSheet()->getStyle($ss)->getNumberFormat()
+                        ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
                     $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);;
                     //循环每列
                     foreach ($list as $item_key => $item) {

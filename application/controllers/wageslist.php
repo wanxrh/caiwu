@@ -68,7 +68,9 @@ class WagesList extends M_Controller {
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
 		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
 		$data['info'] = $this->home_model->wagesView($id);
-		
+        foreach ($data['dyn'] as $v){
+            $data['dyn2'][] = $v['column_name'];
+        }
 		$this->load->view('wages_view',$data);
 	}
 	public function edit(){
@@ -226,12 +228,23 @@ class WagesList extends M_Controller {
 		    		$ss = $arr[$m+1];
 		    		//赋值标题
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
+                    $objPHPExcel->getActiveSheet()->getStyle($ss)->getNumberFormat()
+                        ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
 				    //循环每列
 				    foreach ($list as $item_key => $item) {
+                        $res = $item[$val['Field']];
+                        if(is_numeric($res)){
+                            $res = (string)$res;
+                            if(strpos($res,'0')===false){
+
+                            }elseif(strpos($res,'0')=='0' && strpos($res,'.')===false){
+                                $res = "'".$res;
+                            }
+                        }
 				        $objPHPExcel->getActiveSheet()->setCellValue("A".($item_key + 2), gbktoutf8("{$item['user_name']}"));
 				        $objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
-				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8("{$item[$val['Field']]}"));
+				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8("{$res}"));
 				    }
 		    		$m++;
 		    	}else{
