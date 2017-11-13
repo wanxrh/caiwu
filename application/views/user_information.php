@@ -81,7 +81,7 @@
     <thead>
 
     <tr>
-
+    <th>编号</th>
     <th>字段名</th>
 
 	<th>类型</th>
@@ -98,11 +98,11 @@
 
     <tbody>
 
-
-		<?php foreach ($cols as $row){ ?>
+        <?php $i=1;?>
+		<?php foreach ($cols as $key=>$row){ ?>
 		<?php if($row['Field']=='mubanxuanze'||$row['Field']=='mubanxuanze1'||$row['Field']=='admin_list_ziduan'||$row['Field']=='yibanyonghu_list_ziduan' || $row['Field']=='user_id' || $row['Field']=='cat_id' || $row['Field']=='bumen_id') continue;?>
 		<tr style="border-bottom:1px dashed #cccccc">
-
+        <td><?php echo $i?></td>
 		<td><?php echo $row['Field']?></td>
 
 		<td><?php echo $row['Type']?></td>
@@ -119,7 +119,7 @@
 		</td>
 
 		</tr>
-		<?php }; ?>
+		<?php $i++;}; ?>
         </tbody>
 
     </table>

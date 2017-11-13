@@ -231,7 +231,7 @@ class WagesList extends M_Controller {
 				    foreach ($list as $item_key => $item) {
 				        $objPHPExcel->getActiveSheet()->setCellValue("A".($item_key + 2), gbktoutf8("{$item['user_name']}"));
 				        $objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
-				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8($item[$val['Field']]));
+				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8("{$item[$val['Field']]}"));
 				    }
 		    		$m++;
 		    	}else{

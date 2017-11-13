@@ -82,6 +82,7 @@
 
     <tr>
 
+    <th>编号</th>
     <th>字段名</th>
 
 	<th>类型</th>
@@ -100,7 +101,7 @@
 
 
         <tr style="border-bottom:1px dashed #cccccc">
-
+            <td>1</td>
             <td>user_name</td>
 
             <td>varchar(50)</td>
@@ -113,7 +114,7 @@
 
         </tr>
         <tr style="border-bottom:1px dashed #cccccc">
-
+            <td>2</td>
             <td>bumen_name</td>
 
             <td>varchar(50)</td>
@@ -125,10 +126,12 @@
             </td>
 
         </tr>
+        <?php $i=2;?>
 		<?php foreach ($cols as $row){ ?>
         <?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"){?>
 		<tr style="border-bottom:1px dashed #cccccc">
-
+        <?php $i++;?>
+        <td><?php echo $i;?></td>
 		<td><?php echo $row['Field']?></td>
 
 		<td><?php echo $row['Type']?></td>
