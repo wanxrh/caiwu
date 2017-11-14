@@ -187,13 +187,15 @@ class WagesList extends M_Controller {
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
+        $bumen_id = trim( $this->input->get('bumen_id',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
 		$data['name'] = $name;
+		$data['bumen_id'] = $bumen_id;
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
 		$list = $result['list'];
 		if(!empty($list)){
 			//查询工资表设置的前台可查看设置
