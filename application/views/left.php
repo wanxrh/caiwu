@@ -134,7 +134,7 @@ $(function(){
     </div>
     <ul class="menuson">
         <li><cite></cite><a href="/system_notice" target="rightFrame">系统公告</a><i></i></li>
-        <li><cite></cite><a href="" target="rightFrame">我的留言</a><i></i></li>
+        <li><cite></cite><a href="/message" target="rightFrame">我的留言</a><i></i></li>
     </ul>
     </dd>
     <?php elseif($this->session->userdata('cat_id')=='10'||$this->session->userdata('cat_id')=='11'):?>
