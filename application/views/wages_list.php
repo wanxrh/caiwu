@@ -34,6 +34,13 @@
 		<?php }; ?>
 		</select>
         <?php if($level == -1){?>
+        部门：
+        <select  class="dfinput2" style="width:80px"  name="bumen_id">
+            <option value="0">请选择</option>
+            <?php foreach ($department as $k=>$v){ ?>
+                <option <?php if($bumen_id == $v['bumen_id']) echo 'selected="true"'; ?> value="<?php echo $v['bumen_id']; ?>"><?php echo $v['bumen_name']; ?></option>
+            <?php }; ?>
+        </select>
 		姓名：
 		<input class="dfinput2" style="width:80px"  name="name" value="<?php echo $name;?>"/>
         <?php }?>
@@ -69,8 +76,9 @@
 
 			
 		<input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/wageslist/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
+            <?php if($level == -1){?>
             <input type="button" id="dell_all"  class="btn" value="批量删除">
-
+            <?php }?>
 		
 		</form>
     
@@ -99,8 +107,9 @@
 
     	<thead id="nav">
     	<tr class="tableNav">
-
+        <?php if($level == -1){?>
         <th>入库时间</th>
+        <?php }?>
         <th style="text-align:center">
 		<input type="checkbox" id="selectAll" onclick="checkAll()"/>编号
 		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
@@ -121,7 +130,9 @@
         
         <?php foreach ($list as $k2=>$v){ ?>
         <tr>
+        <?php if($level == -1){?>
         <td><?php echo date("Y-m-d",$v['add_time']); ?></td>
+        <?php }?>
         <td>
 		<input type="checkbox"  class="selectAll" name="ids[]" value="<?php echo $v['id']?>" style="width:20px">
 		<?php echo $v['id']; ?>
@@ -137,8 +148,10 @@
 
        <td>
 			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink"  target="_blank">查看</a>
+           <?php if($level == -1){?>
        　	<a href="/wageslist/edit?id=<?php echo $v['id']; ?>" class="tablelink">编辑</a>
        　	<a href="/wageslist/del?id=<?php echo $v['id']; ?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a>
+           <?php }?>
        </td>
        </tr> 
 		<?php }; ?>
@@ -149,7 +162,9 @@
          <tr>
 		 
 		 <th>此页合计</th>
+         <?php if($level == -1){?>
 		 <th align="center">&nbsp;</th>
+         <?php }?>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
@@ -170,7 +185,9 @@
          <tr>
 		 
 		 <th>总合计</th>
-		 <th align="center">&nbsp;</th>
+         <?php if($level == -1){?>
+           <th align="center">&nbsp;</th>
+        <?php }?>
 		<th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>

@@ -40,13 +40,15 @@ class WagesList extends M_Controller {
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
+		$bumen_id = trim( $this->input->get('bumen_id',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
 		$data['name'] = $name;
+		$data['bumen_id'] = $bumen_id;
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -57,6 +59,9 @@ class WagesList extends M_Controller {
 
 		//职员类型
 		$data['gongzi_type'] = $this->home_model->gongziType();
+        //查询部门
+        $department=$this->home_model->get_all('bumen',array(),'*');
+        $data['department']=$department;
 		$this->load->view('wages_list',$data);
 	}
 	public function view(){

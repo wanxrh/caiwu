@@ -101,6 +101,19 @@ class User extends M_controller{
 			showmsg('删除成功！2秒后返回',"/user",0,2000);exit();
 		}
 	}
+    //个人信息
+    public function info(){
+        $user_id = $this->session->userdata('user_id');
+        $sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+        $columns =  $this->home_model->sqlQueryArray($sql);
+        $data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
+        $data['info'] = $this->home_model->get_one('user_record',array('user_id'=>$user_id));
+        $data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+        foreach ($data['dyn'] as $v){
+            $data['dyn2'][] = $v['column_name'];
+        }
+        $this->load->view('user_vinfo',$data);
+    }
     /**
      * 导出excel记录
      */

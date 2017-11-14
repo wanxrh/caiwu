@@ -82,7 +82,7 @@ class Home_model extends Common_model {
 	public function sqlQueryArray($sql){
 		return $this->db->query($sql)->result_array();
 	}
-	public function wagesList($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima){
+	public function wagesList($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id){
         $start = date("Y-m",strtotime($start));
         $end = date("Y-m",strtotime($end));
 		if($start && !$end){
@@ -120,6 +120,9 @@ class Home_model extends Common_model {
 		if($name){
 			$this->db->where('user_record.name',$name);
 		}
+        if(!empty($bumen_id)){
+            $this->db->where('bumen.bumen_id',$bumen_id);
+        }
 		$clone = clone( $this->db );
 		$syn_clone = clone( $this->db );
 		$this->db->select('user_record.user_name,bumen.bumen_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
@@ -127,7 +130,8 @@ class Home_model extends Common_model {
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
 		//echo $this->db->last_query();exit;
 		$this->db = $clone;
-		$data['count'] = $this->db->from('gongzibiao')->join('user_record','user_record.user_id = gongzibiao.user_id','left')->count_all_results();
+		$data['count'] = $this->db->from('gongzibiao')->join('user_record','user_record.user_id = gongzibiao.user_id','left')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')
+->count_all_results();
 		//统计
 		$unset = array('id','user_id','nianyue','add_time');
 		foreach ($columns as $k => $v){
@@ -139,7 +143,7 @@ class Home_model extends Common_model {
 					$data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
 					$this->db = $syn_clone;
 					$syn_clone = clone ($this->db );
-					$alls = $this->db->select_sum($v['COLUMN_NAME'])->join('user_record','user_record.user_id = gongzibiao.user_id','left')->get('gongzibiao')->row_array();
+					$alls = $this->db->select_sum($v['COLUMN_NAME'])->join('user_record','user_record.user_id = gongzibiao.user_id','left')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')->get('gongzibiao')->row_array();
 					$data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
 		
 				}else{
