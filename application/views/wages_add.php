@@ -25,6 +25,7 @@
     <div class="formtitle"><span>添加工资记录</span></div>
     <form name="myform" action="/wageslist/add"  method="post"  enctype="multipart/form-data" onsubmit="return validate();">
     <ul class="forminfo">
+        <input type="hidden" name="user_id" value="<?php echo $user_id?>">
 	<li>
 		<span>工资年月：<input class="dfinput2" style="width:80px"  name="nianyue" value=""/></span>
 		<span>工资类型：
@@ -48,7 +49,7 @@
 		<?php }; ?>
 	</select>
 	<?php }else{ ?>
-	<input name="<?php echo $v['column_name']; ?>"class="dfinput2"  value="<?php if($v['column_name']=='zhiyuanCode') echo $zhiyuandaima;?>" <?php if($v['column_name']=='zhiyuanCode') echo "readOnly";?> >
+	<input name="<?php echo $v['column_name']; ?>"class="dfinput2"  value="<?php if(!empty($v['column_name']) &&$v['column_name']=='zhiyuanCode') echo $zhiyuandaima;?>" <?php if($v['column_name']=='zhiyuanCode') echo "readOnly";?> >
 	<?php }; ?>
 	</span>
 	<?php if( ($k+1)%3===0) echo '</li><li>';  ?>

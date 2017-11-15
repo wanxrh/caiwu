@@ -120,27 +120,30 @@ class WagesList extends M_Controller {
 	 * 添加工资记录
 	 */
 	public function add(){
-		$data['zhiyuandaima'] = $this->input->get('id',TRUE);
-		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
-		$columns =  $this->home_model->sqlQueryArray($sql);
-		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
-		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
-		$data['gongzi_type'] = $this->home_model->gongziType();
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
 			$parm = $this->input->post(NULL,TRUE);
             $parm['add_time'] = time();
 			$row = $this->home_model->insert('gongzibiao', $parm);
 			if($row) showmsg('添加成功','/user');
 			return;
-		}
+		}else{
+            $data['user_id'] = $this->input->get('id',TRUE);
+            $user = $this->home_model->get_one('user_record',array('user_id'=>$data['user_id']));
+            $data['zhiyuandaima'] = $user['zhiyuandaima'];
+            $sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
+            $columns =  $this->home_model->sqlQueryArray($sql);
+            $data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
+            unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
+            $data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+            $data['gongzi_type'] = $this->home_model->gongziType();
+        }
 		$this->load->view('wages_add',$data);
 	}
 	/**
 	 * 查看用户工资记录
 	 */
 	public function viewlist(){
-		$zhiyuandaima=$this->input->get('id','');
+		$user_id=$this->input->get('id','');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
@@ -151,7 +154,7 @@ class WagesList extends M_Controller {
 			$data['dyn'][$v['column_name']] = $v;
 		}
 		
-		$result = $this->home_model->wagesViewList($zhiyuandaima);
+		$result = $this->home_model->wagesViewList($user_id);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/viewlist/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));

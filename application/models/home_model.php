@@ -256,9 +256,9 @@ class Home_model extends Common_model {
 		return $data;
 	}
 	//查看用户工资
-	public function wagesViewList($zhiyuandaima){
-		if($zhiyuandaima){
-			$this->db->where('gongzibiao.zhiyuanCode',$zhiyuandaima);
+	public function wagesViewList($user_id){
+		if($user_id){
+			$this->db->where('gongzibiao.user_id',$user_id);
 		}
 		$clones = clone( $this->db );
 		$this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.zhiyuandaima = gongzibiao.zhiyuanCode','left');
