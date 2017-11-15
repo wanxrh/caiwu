@@ -130,6 +130,7 @@ class WagesList extends M_Controller {
             $data['user_id'] = $this->input->get('id',TRUE);
             $user = $this->home_model->get_one('user_record',array('user_id'=>$data['user_id']));
             $data['zhiyuandaima'] = $user['zhiyuandaima'];
+            $data['name'] = $user['name'];
             $sql = "SELECT COLUMN_NAME,COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
             $columns =  $this->home_model->sqlQueryArray($sql);
             $data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');

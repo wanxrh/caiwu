@@ -27,6 +27,7 @@
     <input name="id" type="hidden" value="<?php echo $_GET['id']; ?>">
     <ul class="forminfo">
 	<li>
+        <span>姓名：<?php echo $info['name']?></span>
 		<span>工资年月：<input class="dfinput2" style="width:80px"  name="nianyue" value="<?php echo $info['nianyue']; ?>"/></span>
 		<span>工资类型：
 		<select class="dfinput2"  name="gongzileixing">

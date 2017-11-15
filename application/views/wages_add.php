@@ -27,6 +27,7 @@
     <ul class="forminfo">
         <input type="hidden" name="user_id" value="<?php echo $user_id?>">
 	<li>
+        <span>姓名：<?php echo $name?></span>
 		<span>工资年月：<input class="dfinput2" style="width:80px"  name="nianyue" value=""/></span>
 		<span>工资类型：
 		<select class="dfinput2"  name="gongzileixing">

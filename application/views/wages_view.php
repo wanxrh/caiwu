@@ -24,6 +24,7 @@
     <div class="formtitle"><span>查看工资</span></div>
     <ul class="forminfo">
 	<li>
+        <span>姓名：<?php echo $info['name']?></span>
 		<span>工资年月：<?php echo $info['nianyue']; ?></span>
 	</li>
 	<li>
