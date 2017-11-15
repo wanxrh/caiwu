@@ -155,7 +155,7 @@ class Wages_management extends M_Controller {
                     $b1="";
                     $col_n = '';
                     for($j=1;$j<=$data->sheets[0]['numCols'];$j++){
-                        if(empty($data->sheets[0]['cells'][1][$j])){
+                        if(empty($data->sheets[0]['cells'][1][1]) || empty($data->sheets[0]['cells'][1][2])){
                              showmsg('模板不正确',"/wages_management/import",0,10000);exit;
                         }
                         //获取表字段
@@ -248,9 +248,9 @@ class Wages_management extends M_Controller {
                                 }
 
                             }
-                            //echo $s1;exit;
-                            //echo "<br>";
-                            //echo $s2;exit;
+                            echo $s1;exit;
+                            echo "<br>";
+                            echo $s2;exit;
                             $add_time = time();
                             if($data->sheets[0][cells][$ii][$col_name]!=NUll){
                                 $s1=substr($s1,0,-1);

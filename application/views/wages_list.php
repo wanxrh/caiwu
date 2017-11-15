@@ -35,10 +35,10 @@
 		</select>
         <?php if($level == -1){?>
         部门：
-        <select  class="dfinput2" style="width:80px"  name="bumen_id">
+        <select  class="dfinput2" style="width:80px"  name="bumen_name">
             <option value="0">请选择</option>
             <?php foreach ($department as $k=>$v){ ?>
-                <option <?php if($bumen_id == $v['bumen_id']) echo 'selected="true"'; ?> value="<?php echo $v['bumen_id']; ?>"><?php echo $v['bumen_name']; ?></option>
+                <option <?php if($bumen_name == $v['bumen_name']) echo 'selected="true"'; ?> value="<?php echo $v['bumen_name']; ?>"><?php echo $v['bumen_name']; ?></option>
             <?php }; ?>
         </select>
 		姓名：
@@ -141,6 +141,7 @@
 		<td><?php echo $v['user_name']; ?></td>
 		<td><?php echo $v['bumen_name']; ?></td>
         <?php foreach($v as $p=>$va){?>
+            <?php if($p=='nianyue') continue;?>
             <?php if(in_array($p,$dyn2)){ ?>
                 <td><?php echo $v[$p]; ?></td>
             <?php }; ?>

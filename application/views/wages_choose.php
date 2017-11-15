@@ -70,20 +70,6 @@
 
             <td>姓名</td>
 
-
-
-        </tr>
-        <tr style="border-bottom:1px dashed #cccccc">
-            <td>2</td>
-            <td align="center"> <span style="margin-left:10px;"></span>
-            </td>
-            <td>bumen_name</td>
-
-            <td>varchar(50)</td>
-
-            <td>部门名称</td>
-
-
         </tr>
         <?php $i=2;?>
 		<?php foreach ($cols as $row){?>
@@ -94,7 +80,7 @@
 		<tr style="border-bottom:1px dashed #cccccc">
         <td><?php echo $i;?></td>
 		<td align="center"> <span style="margin-left:10px;"></span>
-		<?php if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue'){?>
+		<?php if($row['Field']!='user_id'&&$row['Field']!='id'&&$row['Field']!='add_time'&&$row['Field']!='gongzileixing'&&$row['Field']!='nianyue'&&$row['Field']!='bumen_name'){?>
 		<input type="checkbox" name="checkbox[]" value="<?php echo $val['id']?>" style="width:20px" <?php if($val['template']==1) echo "checked";?> >
 		<?php }?>
 		</td>

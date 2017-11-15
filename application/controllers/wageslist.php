@@ -40,15 +40,15 @@ class WagesList extends M_Controller {
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
-		$bumen_id = trim( $this->input->get('bumen_id',TRUE) );
+        $bumen_name = trim( $this->input->get('bumen_name',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
 		$data['name'] = $name;
-		$data['bumen_id'] = $bumen_id;
+		$data['bumen_name'] = $bumen_name;
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));

@@ -113,19 +113,6 @@
             </td>
 
         </tr>
-        <tr style="border-bottom:1px dashed #cccccc">
-            <td>2</td>
-            <td>bumen_name</td>
-
-            <td>varchar(50)</td>
-
-            <td>部门名称</td>
-
-            <td>
-
-            </td>
-
-        </tr>
         <?php $i=2;?>
 		<?php foreach ($cols as $row){ ?>
         <?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"){?>
@@ -139,7 +126,7 @@
 		<td><?php echo $row['Comment']?></td>
 
 		<td>
-		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"&&$row['Field']!="gongzileixing"&&$row['Field']!="nianyue"){?>
+		<?php if($row['Field']!="id"&&$row['Field']!="user_id"&&$row['Field']!="add_time"&&$row['Field']!="gongzileixing"&&$row['Field']!="nianyue"&&$row['Field']!="bumen_name"){?>
 		<a href="/wagesmanage/info?field_name=<?php echo $row['Field']?>" class="tablelink">编辑</a>&nbsp;|&nbsp;
 		<a href="/wagesmanage/del?field_name=<?php echo $row['Field']?>"onclick="return confirm('确定要删除吗？')" class="tablelink">删除</a>
 		<?php }?>
