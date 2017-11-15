@@ -31,7 +31,7 @@
 		<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i>
 		</th>
 		<th style="text-align:center">工资年月</th>
-		<th style="text-align:center">部门</th>
+		<th style="text-align:center">姓名</th>
 		<?php foreach ($columns as $k => $v){ ?>
 		<?php if( isset($dyn[$k]['view'])&& $dyn[$k]['view']){ ?>
 		<th style="text-align:center;" ><?php echo $v; ?></th>
@@ -51,11 +51,12 @@
 		</td>
 		<td><?php echo date('Y-m',strtotime(!empty($v['nianyue'])?$v['nianyue']:'')); ?></td>
 		<td><?php echo $v['user_name']; ?></td>
-		<?php foreach($dyn as $kk=>$vv){ ?>
-		<?php if($vv['view']){  ?>
-		<td><?php echo $v[$vv['column_name']]; ?></td>
-        <?php }; ?>
-        <?php }; ?>
+            <?php foreach($v as $p=>$va){?>
+                <?php if($p=='nianyue') continue;?>
+                <?php if(in_array($p,$dyn2)){ ?>
+                    <td><?php echo $v[$p]; ?></td>
+                <?php }; ?>
+            <?php }?>
        <td>
 			<a href="/wageslist/view?id=<?php echo $v['id']; ?>" class="tablelink"  target="_blank">查看</a>
        　	<a href="/wageslist/edit?id=<?php echo $v['id']; ?>" class="tablelink">编辑</a>

@@ -262,11 +262,11 @@ class Home_model extends Common_model {
 			$this->db->where('gongzibiao.user_id',$user_id);
 		}
 		$clones = clone( $this->db );
-		$this->db->select('user_record.user_name,user_record.name,gongzibiao.*')->join('user_record','user_record.zhiyuandaima = gongzibiao.zhiyuanCode','left');
+		$this->db->select('user_record.user_name,user_record.name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao', $this->per_page, $this->offset)->result_array();
-		$this->db = $clones;
+        //echo $this->db->last_query();exit;
+        $this->db = $clones;
 		$data['count'] = $this->db->from('gongzibiao')->count_all_results();
-		//echo $this->db->last_query();exit;
 		return $data;
 	}
 	public function wagesView($id){

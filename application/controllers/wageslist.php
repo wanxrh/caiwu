@@ -153,6 +153,7 @@ class WagesList extends M_Controller {
 		$data['dyn'] = array();
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
+            $data['dyn2'][] = $v['column_name'];
 		}
 		
 		$result = $this->home_model->wagesViewList($user_id);
