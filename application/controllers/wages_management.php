@@ -144,6 +144,8 @@ class Wages_management extends M_Controller {
 			$data = new Spreadsheet_Excel_Reader();
 			$data->setOutputEncoding('UTF-8');
 			$data->read($fname);
+            require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
+            require_once(FR_ROOT.'/application/helpers/PHPExcel/Writer/Excel2007.php');
 			error_reporting(E_ALL ^ E_NOTICE);
             //事物开启
             $this->db->trans_begin();
@@ -170,7 +172,7 @@ class Wages_management extends M_Controller {
                                 //if($data->sheets[0]['cells'][1][$j]=="职员姓名"){ $col_n=$j;}
                             }
                         }
-                        if($data->sheets[0]['cells'][1][$j] == '姓名' || $data->sheets[0]['cells'][1][$j] == '职员姓名' || $data->sheets[0]['cells'][1][$j] == '部门名字'){
+                        if($data->sheets[0]['cells'][1][$j] == '姓名' || $data->sheets[0]['cells'][1][$j] == '职员姓名'){
                             $flag = 2;
                         }
                         if($flag== 1){
@@ -186,10 +188,8 @@ class Wages_management extends M_Controller {
                 for ($i = 2; $i <= $data->sheets[0]['numRows']; $i++){
                     if(empty($data->sheets[0][cells][$i][$col_name])) continue;
                     $name=$data->sheets[0][cells][$i][$col_name];
-                    $bumen = $data->sheets[0][cells][$i][$col_bumen_name];
                     $r_user = $this->home_model->get_one('user_record',array('name'=>$name));
 
-                    //$r_bumen = $this->home_model->get_one('bumen',array('bumen_id'=>$r_user['bumen_id']));
                     if(empty($r_user)){
                         showmsg('不存的用户('.$name,")/wages_management/import",0,15000);exit;
                     }
@@ -210,8 +210,6 @@ class Wages_management extends M_Controller {
                     $name=$data->sheets[0][cells][$ii][$col_name];
                     $r_panduan = $this->home_model->get_one('user_record',array('user_name'=>$name));
                     if($r_panduan=='') {continue;}
-                    $bumen_name=$data->sheets[0][cells][$ii][$col_bumen_name];
-                    //$r_user=$db->get_row("select * from ab22_user_record where name='$name' and bumen_id='$bumen_id'");//匹配部门
                     $r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
                     $user_id=$r_user['user_id'];
                         $s="";
@@ -219,16 +217,18 @@ class Wages_management extends M_Controller {
                             $s1="";
                             $k="";
                             $s2=$b1;
-                            for($jj=3;$jj<=$data->sheets[0]['numCols'];$jj++){
+                            for($jj=2;$jj<=$data->sheets[0]['numCols'];$jj++){
                                 if(empty($data->sheets[0]['cells'][1][$jj])) continue;
-                                 if($data->sheets[0]['cells'][1][$jj]=='工资年月'){
-                                     if(strpos($data->sheets[0]['cells'][$ii][$jj],"/")){
-                                         $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
-                                     }elseif(strpos($data->sheets[0]['cells'][$ii][$jj],"-")){
-                                         $s1.="'".date("Y-m",strtotime(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
-                                     }else{
-                                         $s1.="'".date("Y-m",strtotime(str_replace("年","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
-                                     }
+                                 if(trim($data->sheets[0]['cells'][1][$jj])=='工资年月'){
+                                     $s1.="'".gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
+                                     //if(strpos($data->sheets[0]['cells'][$ii][$jj],"/")){
+                                     //    $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
+                                     //
+                                     //}elseif(strpos($data->sheets[0]['cells'][$ii][$jj],"-")){
+                                     //    $s1.="'".date("Y-m",strtotime(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
+                                     //}else{
+                                     //    $s1.="'".date("Y-m",strtotime(str_replace("年","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
+                                     //}
                                  }else{
                                     $s1.="'".trim($data->sheets[0]['cells'][$ii][$jj])."',";
                                  }
@@ -248,9 +248,9 @@ class Wages_management extends M_Controller {
                                 }
 
                             }
-                            echo $s1;exit;
-                            echo "<br>";
-                            echo $s2;exit;
+                            //echo $s1;exit;
+                            //echo "<br>";
+                            //echo $s2;exit;
                             $add_time = time();
                             if($data->sheets[0][cells][$ii][$col_name]!=NUll){
                                 $s1=substr($s1,0,-1);

@@ -20,7 +20,7 @@ class WagesList_count extends M_Controller {
 	}
 	public function index(){
 		
-		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
+		//$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
@@ -44,14 +44,17 @@ class WagesList_count extends M_Controller {
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
+        $bumen_name = trim( $this->input->get('bumen_name',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
 		$data['name'] = $name;
+        $data['bumen_name'] = $bumen_name;
+
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
 
-		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];	
 		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -79,7 +82,7 @@ class WagesList_count extends M_Controller {
 	 * 导出excel记录
 	 */
 	public function wage_export(){
-		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
+		//$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
 		$columns =  $this->home_model->sqlQueryArray($sql);
@@ -103,14 +106,16 @@ class WagesList_count extends M_Controller {
 		}
 		$gongzileixing = trim( $this->input->get('gongzileixing',TRUE) );
 		$name = trim( $this->input->get('name',TRUE) );
+        $bumen_name = trim( $this->input->get('bumen_name',TRUE) );
 		$data['gongzileixing'] = $gongzileixing;
 		$data['name'] = $name;
+		$data['bumen_name'] = $bumen_name;
 		$select = $this->input->get('select',TRUE);
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
 
-		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima);
+		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
 		$list = $result['list'];
 		//统计相同用户的合计
 		/*$item=array();
@@ -158,7 +163,7 @@ class WagesList_count extends M_Controller {
 				
 				$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
-		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
+		 		//$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				
@@ -175,7 +180,7 @@ class WagesList_count extends M_Controller {
 				    foreach ($list as $item_key => $em) {
 				    	
 				        $objPHPExcel->getActiveSheet()->setCellValue("A".($c_key + 2), gbktoutf8("{$em['user_name']}"));
-				        $objPHPExcel->getActiveSheet()->setCellValue("B".($c_key + 2), gbktoutf8("{$em['bumen_name']}"));
+				        //$objPHPExcel->getActiveSheet()->setCellValue("B".($c_key + 2), gbktoutf8("{$em['bumen_name']}"));
 				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($c_key + 2), gbktoutf8($em[$val['Field']]));
 				        $c_key++;
 				    	

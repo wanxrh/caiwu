@@ -116,7 +116,6 @@
 		</th>
 		<th style="text-align:center">工资年月</th>
 		<th style="text-align:center">姓名</th>
-		<th style="text-align:center">部门</th>
 		<?php foreach ($columns as $k => $v){ ?>
 		<?php if( isset($dyn[$k]['view'])&& $dyn[$k]['view']){ ?>
 		<th style="text-align:center;" ><?php echo $v; ?></th>
@@ -139,7 +138,6 @@
 		</td>
 		<td><?php echo $v['nianyue']; ?></td>
 		<td><?php echo $v['user_name']; ?></td>
-		<td><?php echo $v['bumen_name']; ?></td>
         <?php foreach($v as $p=>$va){?>
             <?php if($p=='nianyue') continue;?>
             <?php if(in_array($p,$dyn2)){ ?>
@@ -168,7 +166,6 @@
          <?php }?>
 		 <th align="center">&nbsp;</th>
 		 <th align="center">&nbsp;</th>
-		 <th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_page as $v){ ?>
 		 	<?php if($v){ ?>
 		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
@@ -189,7 +186,6 @@
          <?php if($level == -1){?>
            <th align="center">&nbsp;</th>
         <?php }?>
-		<th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
 		<th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_all as $v){ ?>
