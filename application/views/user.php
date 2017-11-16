@@ -54,14 +54,14 @@ $(document).ready(function(){
 
     </div>
     <?php endif;?>
-    <?php if($this->uri->segment(2)==''):?>
+    <?php if($this->uri->segment(2)=='' || $this->uri->segment(2)=='index'):?>
     <div class="tools">
         <form action="/user" method="get">
             部门：
         <select name="bumen" id="bumen" class="dfinput2" style="width:80px">
             <option value="">请选择</option>
             <?php foreach($department as $value):?>
-            <option value="<?php echo $value['bumen_id']?>" <?php echo $this->input->get('bumen')==$value['bumen_id']?'selected':'';?> ><?php echo $value['bumen_name']?></option>
+            <option value="<?php echo $value['bumen_name']?>" <?php echo $this->input->get('bumen')==$value['bumen_name']?'selected':'';?> ><?php echo $value['bumen_name']?></option>
             <?php endforeach;?>
             </select>
         姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
