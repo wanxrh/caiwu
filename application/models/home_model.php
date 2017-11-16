@@ -158,7 +158,7 @@ class Home_model extends Common_model {
     public function uList($columns,$dyn,$name,$select,$zhiyuandaima){
 
         if($select){
-            $this->db->where('bumen.bumen_name',$select);
+            $this->db->where('bumen_name',$select);
         }
         if($zhiyuandaima){
             $this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
@@ -168,11 +168,11 @@ class Home_model extends Common_model {
         }
         $clone = clone( $this->db );
         //$syn_clone = clone( $this->db );
-        $this->db->select('bumen.bumen_name,user_record.*')->join('bumen','user_record.bumen_id = bumen.bumen_id','left');
+        $this->db->select('user_record.*');
         $data['list'] = $this->db->order_by('user_record.user_id','asc')->where('user_id >',1)->get('user_record')->result_array();
         //echo $this->db->last_query();exit;
         $this->db = $clone;
-        $data['count'] = $this->db->from('user_record')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')->where("user_id >",1)->count_all_results();
+        $data['count'] = $this->db->from('user_record')->where("user_id >",1)->count_all_results();
         //统计
         //$unset = array('cat_id','user_id','bumen_id');
         //foreach ($columns as $k => $v){
