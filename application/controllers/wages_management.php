@@ -182,6 +182,7 @@ class Wages_management extends M_Controller {
 
                     }
                 $col_name=1;
+                $leixing=4;
                 $col_bumen_name=2;
                 $a1=substr($a1,0,-1);
                 $b1=substr($b1,0,-1);
@@ -212,6 +213,12 @@ class Wages_management extends M_Controller {
                     $r_panduan = $this->home_model->get_one('user_record',array('user_name'=>$name));
                     if($r_panduan=='') {continue;}
                     $r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
+                    //匹配工资类型
+                    $lei_name = $data->sheets[0][cells][$ii][$leixing];
+                    $gongzileixing = $this->home_model->get_one('gongzileixing',array('gongzileixing_name'=>$lei_name));
+                    if(empty($gongzileixing)){
+                        showmsg('不存的工资类型('.$lei_name.")","/wages_management/import",0,15000);exit;
+                    }
                     $user_id=$r_user['user_id'];
                         $s="";
                         if(!empty($user_id)){
