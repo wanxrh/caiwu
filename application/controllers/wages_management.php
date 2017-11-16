@@ -128,6 +128,7 @@ class Wages_management extends M_Controller {
 	 * 工资模板导入
 	 */
 	public function import(){
+
 		header("Content-Type: text/html; charset=utf-8");
 		if(!empty($_POST)){
 
@@ -220,7 +221,16 @@ class Wages_management extends M_Controller {
                             for($jj=2;$jj<=$data->sheets[0]['numCols'];$jj++){
                                 if(empty($data->sheets[0]['cells'][1][$jj])) continue;
                                  if(trim($data->sheets[0]['cells'][1][$jj])=='工资年月'){
-                                     $s1.="'".gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
+                                     $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data->sheets[0]['cells'][$ii][$jj]),true));
+                                     if(strtotime($time)>0){
+                                         $s1.="'".$time."',";
+                                     }else{
+                                        if(strpos($data->sheets[0]['cells'][$ii][$jj],"/")){
+                                             $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
+                                         }elseif(strpos($data->sheets[0]['cells'][$ii][$jj],"-")){
+                                             $s1.="'".date("Y-m",strtotime(trim($data->sheets[0]['cells'][$ii][$jj])))."',";
+                                         }
+                                     }
                                      //if(strpos($data->sheets[0]['cells'][$ii][$jj],"/")){
                                      //    $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data->sheets[0]['cells'][$ii][$jj]))))."',";
                                      //

@@ -26,10 +26,11 @@ class WagesList_count extends M_Controller {
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table,'view'=>1));
 		$data['dyn'] = array();
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
+            $data['dyn2'][] = $v['column_name'];
 		}
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
 		
@@ -54,7 +55,7 @@ class WagesList_count extends M_Controller {
 		$data['select'] = $select;
 		$data['input'] = $input;
 
-		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
+		$result = $this->home_model->wagesCount($columns,$data['dyn2'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];	
 		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -92,6 +93,7 @@ class WagesList_count extends M_Controller {
 		$data['dyn'] = array();
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;
+            $data['dyn2'][] = $v['column_name'];
 		}
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
 		
@@ -115,7 +117,7 @@ class WagesList_count extends M_Controller {
 		$data['select'] = $select;
 		$data['input'] = $input;
 
-		$result = $this->home_model->wagesCount($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
+		$result = $this->home_model->wagesCount($columns,$data['dyn2'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$bumen_name);
 		$list = $result['list'];
 		//统计相同用户的合计
 		/*$item=array();
@@ -169,7 +171,7 @@ class WagesList_count extends M_Controller {
 				
 		    	if($val['Field']!='zhiyuanCode'&&$val['Field']!='zhiyuanleibie'&&$val['Field']!='zhiyuanleibie'&&$val['Field']!='bumenCode'&&$val['Field']!='zhiyuanzhuangtaig'&&$val['Field']!='shenfenCard'&&$val['Field']!='personalCard'){
 		    	if(strpos($str,$aaa)!==false){
-		    		$ss = $arr[$m+1];
+		    		$ss = $arr[$m];
 		    		$c_key =0;
 		    		//赋值标题
 		    		

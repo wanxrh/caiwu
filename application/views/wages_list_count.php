@@ -104,7 +104,6 @@
 		</th>
 		<!-- <th style="text-align:center">工资年月</th> -->
 		<th style="text-align:center">姓名</th>
-		<th style="text-align:center">部门</th>
 		<?php foreach ($columns as $k => $v){ ?>
 		<?php if( isset($dyn[$k]['view'])&& $dyn[$k]['view']&&$dyn[$k]['column_name']!='zhiyuanCode'&&$dyn[$k]['column_name']!='zhiyuanleibie'&&$dyn[$k]['column_name']!='bumenCode'&&$dyn[$k]['column_name']!='zhiyuanzhuangtaig'&&$dyn[$k]['column_name']!='shenfenCard'&&$dyn[$k]['column_name']!='personalCard'){ ?>
 		<th style="text-align:center;" ><?php echo $v; ?></th>
@@ -122,14 +121,19 @@
 		<input type="checkbox" name="checkbox[]" value="" style="width:20px">
 		<?php echo $v['id']; ?>
 		</td>
-		<!-- <td><?php echo $v['nianyue']; ?></td> -->
+		<!-- <td><?php //echo $v['nianyue']; ?></td> -->
 		<td><?php echo $v['user_name']; ?></td>
-		<td><?php echo $v['bumen_name']; ?></td>
-		<?php foreach($dyn as $kk=>$vv){ ?>
-		<?php if($vv['view']&&$vv['column_name']!='zhiyuanCode'&&$vv['column_name']!='zhiyuanleibie'&&$vv['column_name']!='bumenCode'&&$vv['column_name']!='zhiyuanzhuangtaig'&&$vv['column_name']!='shenfenCard'&&$vv['column_name']!='personalCard'){  ?>
-		<td><?php echo $v[$vv['column_name']]; ?></td>
-        <?php }; ?>
-        <?php }; ?>
+        <?php //foreach($dyn as $kk=>$vv){ ?>
+        <?php //if($vv['view']&&$vv['column_name']!='zhiyuanCode'&&$vv['column_name']!='zhiyuanleibie'&&$vv['column_name']!='bumenCode'&&$vv['column_name']!='zhiyuanzhuangtaig'&&$vv['column_name']!='shenfenCard'&&$vv['column_name']!='personalCard'){  ?>
+        <!--<td>--><?php //echo $v[$vv['column_name']]; ?><!--</td>-->
+        <?php //}; ?>
+        <?php //}; ?>
+            <?php foreach($v as $p=>$va){?>
+                <?php if($p=='nianyue' || $p=='zhiyuanCode'|| $p=='zhiyuanleibie'|| $p=='bumenCode'|| $p=='zhiyuanzhuangtaig'|| $p=='shenfenCard'|| $p=='personalCard') continue;?>
+                <?php if(in_array($p,$dyn2)){ ?>
+                    <td><?php echo $v[$p]; ?></td>
+                <?php }; ?>
+            <?php }?>
        </tr> 
 		<?php }; ?>
         

@@ -195,15 +195,15 @@ class Home_model extends Common_model {
         //}
         return $data;
     }
-	public function wagesCount($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$bumen_name){
+	public function wagesCount($columns,$dyn2,$start,$end,$gongzileixing,$name,$select,$input,$bumen_name){
 		$sum_sql = '';
 		$data_type = array_column($columns,'DATA_TYPE','COLUMN_NAME');
-		foreach ($dyn as $v){
-			if($v['view']){
-				if($data_type[$v['column_name']] == 'float' || $data_type[$v['column_name']] == 'int'){
-					$sum_sql .= sprintf(',SUM(`%s`) as %s',$v['column_name'],$v['column_name']);
+		foreach ($columns as $v){
+			if(in_array($v['COLUMN_NAME'],$dyn2)){
+				if($data_type[$v['COLUMN_NAME']] == 'float' || $data_type[$v['COLUMN_NAME']] == 'int'){
+					$sum_sql .= sprintf(',SUM(`%s`) as %s',$v['COLUMN_NAME'],$v['COLUMN_NAME']);
 				}else{
-					$sum_sql .= ','."gongzibiao.".$v['column_name'];
+					$sum_sql .= ','."gongzibiao.".$v['COLUMN_NAME'];
 				}
 			}
 		}
@@ -218,7 +218,7 @@ class Home_model extends Common_model {
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
 		}
-		if($gongzileixing){
+		if($gongzileixing&&$gongzileixing!='综合'){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
 		}
 		if($select){
@@ -247,9 +247,9 @@ class Home_model extends Common_model {
 		$this->db->join('user_record','user_record.user_id = gongzibiao.user_id','left');
 		$this->db->group_by('gongzibiao.user_id');
 		$clone = clone ($this->db);
-		$this->db->select('user_record.user_name,gongzibiao.id,gongzibiao.nianyue'.$sum_sql);
+		$this->db->select('user_record.user_name,gongzibiao.id'.$sum_sql);
 		$data['list'] = $this->db->get('gongzibiao', $this->per_page, $this->offset)->result_array();
-		
+        //echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$rows = $this->db->select('count(DISTINCT `ab22_gongzibiao`.`user_id`) as rows')->get('gongzibiao')->row_array();
 
