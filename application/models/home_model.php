@@ -43,7 +43,7 @@ class Home_model extends Common_model {
 	 * @DateTime  2016-02-23T09:10:47+0800
 	 * @return    [type]                   [description]
 	 */
-	public function user_list($bumen_name,$keyword){
+	public function user_list($bumen_name,$keyword,$zhiyuanleixingmingcheng,$leibiemingcheng,$zhiyuanzhuangtai){
 
 		if ($bumen_name !== '') {
             $this->db->where('user_record.bumen_name', $bumen_name);
@@ -53,11 +53,21 @@ class Home_model extends Common_model {
             $sql = "(`name` like '%{$keyword}%')";
             $this->db->where($sql);
         }
+        if(!empty($zhiyuanleixingmingcheng)){
+            $this->db->where('user_record.zhiyuanleixingmingcheng', $zhiyuanleixingmingcheng);
+        }
+        if(!empty($leibiemingcheng)){
+            $this->db->where('user_record.leibiemingcheng', $leibiemingcheng);
+        }
+        if(!empty($zhiyuanzhuangtai)){
+            $this->db->where('user_record.zhiyuanzhuangtai', $zhiyuanzhuangtai);
+        }
         $temp = clone $this->db;
 		$data['count'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->from('user_record')->count_all_results();
+        //echo $this->db->last_query();exit;
 		$this->db = $temp;
         $data['user'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
-        //echo $this->db->last_query();
+
         return $data;
 	}
 	public function user_field(){

@@ -121,7 +121,7 @@ class WagesList extends M_Controller {
         $ids = explode(',',$ids);
         //开启事物
         $this->db->trans_begin();
-        $row = $this->home_model->deleteAll('gongzibiao',$ids);
+        $row = $this->home_model->deleteAll('gongzibiao',$ids,'id');
 
         $this->db->trans_commit();
         if($row){

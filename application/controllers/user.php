@@ -24,14 +24,19 @@ class User extends M_controller{
 	public function index(){
 		$data['user_info']=$this->data['user_info'];
 		//部门
-		$bumen=	empty($this->input->get('bumen', TRUE)) ? '' : $this->input->get('bumen', TRUE);
+		$bumen=	empty($this->input->get('bumen', TRUE)) ? '' : trim($this->input->get('bumen', TRUE));
 		//关键字
-        $name = empty($this->input->get('name', TRUE)) ? '' : $this->input->get('name', TRUE);
+        $name = empty($this->input->get('name', TRUE)) ? '' : trim($this->input->get('name', TRUE));
+        $zhiyuanleixingmingcheng = empty($this->input->get('zhiyuanleixingmingcheng', TRUE)) ? '' : trim($this->input->get('zhiyuanleixingmingcheng', TRUE));
+        $leibiemingcheng = empty($this->input->get('leibiemingcheng', TRUE)) ? '' : trim($this->input->get('leibiemingcheng', TRUE));
+        $zhiyuanzhuangtai = empty($this->input->get('zhiyuanzhuangtai', TRUE)) ? '' : trim($this->input->get('zhiyuanzhuangtai', TRUE));
+
+
 		//查询部门表
 		$department=$this->home_model->get_all('bumen',array(),'bumen_name,bumen_id');
 		$data['department']=$department;
 		//调用model
-        $user = $this->home_model->user_list($bumen,$name);
+        $user = $this->home_model->user_list($bumen,$name,$zhiyuanleixingmingcheng,$leibiemingcheng,$zhiyuanzhuangtai);
         //分页
         $data['rows'] = $user['count'];
         $url_format = '/user/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -120,6 +125,26 @@ class User extends M_controller{
             showmsg('删除失败！2秒后返回',"/user",0,2000);exit();
         }
 	}
+    //批量删除
+    public function delall(){
+
+        $ids = $this->input->post('ids',TRUE);
+        if(!$ids) return FALSE;
+        $ids = explode(',',$ids);
+        //开启事物
+        $this->db->trans_begin();
+        $row = $this->home_model->deleteAll('user_record',$ids,'user_id');
+
+        $this->db->trans_commit();
+        if($row){
+            echo json_encode(array('info'=>'ok','删除成功'));exit;
+        }else{
+            //失败回滚
+            $this->db->trans_rollback();
+            echo json_encode(array('info'=>'err','删除失败'));exit;
+        }
+        //if($row) showmsg('删除成功','/wageslist/index');
+    }
     //个人信息
     public function info(){
         $user_id = $this->session->userdata('user_id');

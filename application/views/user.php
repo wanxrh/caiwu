@@ -65,16 +65,20 @@ $(document).ready(function(){
             <?php endforeach;?>
             </select>
         姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
+        职员类型：<input type="text" name="zhiyuanleixingmingcheng" id="zhiyuanleixingmingcheng" class="dfinput" style="width:80px" value="<?php echo $this->input->get('zhiyuanleixingmingcheng')?$this->input->get('zhiyuanleixingmingcheng'):'';?>">
+        职员类别：<input type="text" name="leibiemingcheng" id="leibiemingcheng" class="dfinput" style="width:80px" value="<?php echo $this->input->get('leibiemingcheng')?$this->input->get('leibiemingcheng'):'';?>">
+        职员状态：<input type="text" name="zhiyuanzhuangtai" id="zhiyuanzhuangtai" class="dfinput" style="width:80px" value="<?php echo $this->input->get('zhiyuanzhuangtai')?$this->input->get('zhiyuanzhuangtai'):'';?>">
         <input type="submit" value="搜索" class="btn">
         &nbsp;
         <input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/user/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
+        <input type="button" id="dell_all"  class="btn" value="批量删除">
         </form>
 
     </div>
     <table class="tablelist">
     	<thead>
     	<tr>
-        <th style="text-align:center"><!--<input type="checkbox" id="btn1"/> -->编号<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
+        <th style="text-align:center"><input type="checkbox" id="selectAll" onclick="checkAll()"/> 编号<i class="sort"><img src="<?php echo SITE_COMMON_STATIC; ?>/images/px.gif" /></i></th>
         <th style="text-align:center">帐号</th>
         <th style="text-align:center">密码</th>
         <th style="text-align:center">姓名</th>
@@ -89,7 +93,7 @@ $(document).ready(function(){
         <?php $i=($this->cur_page-1)*$this->per_page+1;?>
         <?php foreach($user as $key=>$val):?>
         <tr>
-        <td align="center"><?php echo $i;?></td>
+        <td align="center"><input type="checkbox"  class="selectAll" name="ids[]" value="<?php echo $val['user_id']?>" style="width:20px"><?php echo $i;?></td>
         <td align="center"><?php echo $val['user_name'];?></td>
         <td align="center"><?php echo $val['password'];?></td>
         <td align="center"><?php echo $val['name'];?></td>
@@ -106,6 +110,51 @@ $(document).ready(function(){
 
 
     <?php echo $page;?>
+    <script type="text/javascript">
+        $(function () {
+            $("#dell_all").click(function(){
+                //var id = '';
+                var ids = '';
+                $(".selectAll").each(function(){
+                    //$("input[name='ids']:checkbox").each(function(){
+                    if (true == $(this).attr("checked")) {
+                        ids += $(this).attr('value')+',';
+                    }
+
+                });
+                var ids =  ids.substr(0,ids.length-1);
+                if(ids == ''){
+                    alert('不能为空');return false;
+                }
+                var flg = confirm('确定要删除吗？');
+                if(flg){
+                    $.ajax({
+                        type: 'POST',
+                        url: '/user/delall',
+                        data: {'ids':ids},
+                        dataType: 'json',
+                        success: function (json) {
+                            if (json.info == 'ok') {
+                                alert('删除成功');
+                                location.reload();
+                            } else {
+                                alert('删除失败');
+                            }
+                        },
+                        error: function () {
+                            alert('出错了');
+                        }
+                    });
+                }
+
+            })
+        })
+        function checkAll()
+        {
+            var checkedOfAll=$("#selectAll").attr("checked");
+            $("input[name='ids[]']").attr("checked", checkedOfAll);
+        }
+    </script>
     <?php elseif(($this->uri->uri_string()=='user/add_user')):?>
     <div class="formbody">
 

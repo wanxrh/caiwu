@@ -89,9 +89,9 @@ class Common_model extends CI_Model
 	 * @param    array    条件数组
 	 * @return   number   影响行数
 	 */
-    function deleteAll($table, $where)
+    function deleteAll($table, $where,$in)
     {
-        $this->db->where_in('id',$where);
+        $this->db->where_in($in,$where);
         $this->db->delete($table);
         return $this->db->affected_rows();
     }
