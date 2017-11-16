@@ -158,7 +158,7 @@ class Home_model extends Common_model {
     public function uList($columns,$dyn,$name,$select,$zhiyuandaima){
 
         if($select){
-            $this->db->where('bumen.bumen_id',$select);
+            $this->db->where('bumen.bumen_name',$select);
         }
         if($zhiyuandaima){
             $this->db->where('user_record.zhiyuandaima',$zhiyuandaima);

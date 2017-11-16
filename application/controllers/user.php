@@ -143,7 +143,6 @@ class User extends M_controller{
             foreach ($row_user as $key => $value) {
                 $str .= ','.$value['column_name'].',';
             }
-            echo $str;exit;
             $sql = "SHOW  full COLUMNS FROM ab22_user_record";
             $rescolumns = $this->home_model->sqlQueryArray($sql);
 
