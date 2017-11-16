@@ -86,13 +86,13 @@ class Wages_management extends M_Controller {
 			foreach ($rescolumns as $kk => $val) {
 				$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
-		 		$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名称'));
+		 		//$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名称'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 				
 		    	
 		    	if(strpos($str,$aaa)!==false){
-		    		$ss = $arr[$m+1];
+		    		$ss = $arr[$m];
 				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
 				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
 				    for ($i=2; $i <100 ; $i++) { 
@@ -192,7 +192,7 @@ class Wages_management extends M_Controller {
                     $r_user = $this->home_model->get_one('user_record',array('name'=>$name));
 
                     if(empty($r_user)){
-                        showmsg('不存的用户('.$name,")/wages_management/import",0,15000);exit;
+                        showmsg('不存的用户('.$name.")","/wages_management/import",0,15000);exit;
                     }
                     if(!empty($name) && empty($r_user)){
                         $flag=2;

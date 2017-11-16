@@ -192,10 +192,10 @@ $(document).ready(function(){
             <?php if($value['Field']=='bumen_name'):?>
             <span>
                 <label><?php echo $value['Comment'];?>：</label>
-                <select name="bumen_id" id="bumen_name" class="dfinput2" onchange="$('#bumen_id').val($('#bumen_name').val())">
+                <select name="bumen_name" id="bumen_name" class="dfinput2" onchange="$('#bumen_id').val($('#bumen_name').val())">
                 <option value="">--请选择--</option>
                 <?php foreach($department as $kk=>$vv):?>
-                <option value="<?php echo $vv['bumen_id']?>" <?php if($user['bumen_id']==$vv['bumen_id']) echo "selected=selected";?>><?php echo $vv['bumen_name']?></option>
+                <option value="<?php echo $vv['bumen_name']?>" <?php if($user['bumen_name']==$vv['bumen_name']) echo "selected=selected";?>><?php echo $vv['bumen_name']?></option>
                 <?php endforeach;?>
                 </select>
             </span>
