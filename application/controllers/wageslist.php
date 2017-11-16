@@ -89,11 +89,20 @@ class WagesList extends M_Controller {
 		$data['info'] = $this->home_model->wagesView($id);
 		$data['gongzi_type'] = $this->home_model->gongziType();
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
+            //开启事物
+            $this->db->trans_begin();
 			$parm = $this->input->post(NULL,TRUE);
 			$id = $parm['id'];
 			unset($parm['id']);
 			$row = $this->home_model->update('gongzibiao', $parm, array('id'=>$id));
-			if($row) showmsg('更新成功','/wageslist/index');
+            $this->db->trans_commit();
+			if($row) {
+                showmsg('更新成功','/wageslist/index');exit;
+            }else{
+                //失败回滚
+                $this->db->trans_rollback();
+                showmsg('更新失败','/wageslist/index');exit;
+            }
 			return;
 		}
 		$this->load->view('wages_edit',$data);
@@ -110,9 +119,17 @@ class WagesList extends M_Controller {
         $ids = $this->input->post('ids',TRUE);
         if(!$ids) return FALSE;
         $ids = explode(',',$ids);
+        //开启事物
+        $this->db->trans_begin();
         $row = $this->home_model->deleteAll('gongzibiao',$ids);
+
+        $this->db->trans_commit();
         if($row){
-        echo json_encode(array('info'=>'ok','删除成功'));exit;
+            echo json_encode(array('info'=>'ok','删除成功'));exit;
+        }else{
+            //失败回滚
+            $this->db->trans_rollback();
+            echo json_encode(array('info'=>'err','删除失败'));exit;
         }
         //if($row) showmsg('删除成功','/wageslist/index');
     }

@@ -55,10 +55,17 @@ class User extends M_controller{
 		$rescolumns=$this->home_model->user_field();
 		$data['rescolumns']=$rescolumns;
 		if($this->input->post()!=''){
+            //开启事物
+            $this->db->trans_begin();
 			$res=$this->home_model->insert('user_record',$this->input->post());
+            $this->db->trans_commit();
 			if($res){
 				showmsg('添加用户成功！2秒后转向列表页','/user',0,2000);exit();
-			}
+			}else{
+                //失败回滚
+                $this->db->trans_rollback();
+                showmsg('添加用户失败！2秒后转向列表页','/user',0,2000);exit();
+            }
 		}
 		$this->load->view('user',$data);
 	}
@@ -85,19 +92,33 @@ class User extends M_controller{
 
 		if($this->input->post()!=''){
 			$where=array('user_id'=>$user_id);
+            //开启事物
+            $this->db->trans_begin();
 			$res=$this->home_model->update('user_record',$this->input->post(),$where);
+            $this->db->trans_commit();
 			if($res){
 				showmsg('编辑成功！2秒后返回',"/user/edit_user/$user_id",0,2000);exit();
-			}
+			}else{
+                //失败回滚
+                $this->db->trans_rollback();
+                showmsg('编辑失败！2秒后返回',"/user/edit_user/$user_id",0,2000);exit();
+            }
 		}
 		$this->load->view('user',$data);
 	}
 	public function remove_user(){
 		$user_id=$this->uri->segment(3)?$this->uri->segment(3):'-1';
+        //开启事物
+        $this->db->trans_begin();
 		$result=$this->home_model->delete('user_record',array('user_id'=>$user_id));
+        $this->db->trans_commit();
 		if($result){
 			showmsg('删除成功！2秒后返回',"/user",0,2000);exit();
-		}
+		}else{
+            //失败回滚
+            $this->db->trans_rollback();
+            showmsg('删除失败！2秒后返回',"/user",0,2000);exit();
+        }
 	}
     //个人信息
     public function info(){
@@ -182,6 +203,9 @@ class User extends M_controller{
                         $objPHPExcel->getActiveSheet()->setCellValue("A".($item_key + 2), gbktoutf8("{$item['user_name']}"));
                         $objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['password']}"));
                         if(is_numeric($item[$val['Field']]) && strlen($item[$val['Field']])>15){
+                            $item[$val['Field']] = "'".$item[$val['Field']];
+                        }
+                        if(is_numeric($item[$val['Field']]) && substr($item[$val['Field']],0,1) == 0){
                             $item[$val['Field']] = "'".$item[$val['Field']];
                         }
                         $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8($item[$val['Field']]));
