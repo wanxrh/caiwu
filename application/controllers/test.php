@@ -23,7 +23,7 @@ class Test extends M_controller{
         ini_set("memory_limit", "1024M");
         $startRow  = 1;
         $endRow    = null;
-        $excelFile = FR_ROOT . '/upload/777.xlsx';
+        $excelFile = FR_ROOT . '/upload/666.xlsx';
         $result = $this->readFromExcel($excelFile, null, $startRow, $endRow);
 
 
