@@ -381,9 +381,7 @@ class Wages_management extends M_Controller {
                             for($jj=1;$jj<= count($data[1]);$jj++){
                                 if(empty($data[1][$jj])) continue;
                                 if(trim($data[1][$jj])=='工资年月'){
-                                    echo trim($data[1][$jj]);
-                                    echo "<br>";
-                                    echo trim($data[$ii][$jj]);exit;
+
                                     $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data[$ii][$jj]),true));
                                     if(strtotime($time)>0){
                                         $s1.="'".$time."',";
@@ -392,6 +390,11 @@ class Wages_management extends M_Controller {
                                             $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data[$ii][$jj]))))."',";
                                         }elseif(strpos($data[$ii][$jj],"-")){
                                             $s1.="'".date("Y-m",strtotime(trim($data[$ii][$jj])))."',";
+                                        }elseif(strpos($data[$ii][$jj],"年")){
+                                            $time = str_replace('年',"-",trim($data[$ii][$jj]));
+                                            $s1.= "'". date("Y-m",strtotime(str_replace('月'," ",$time)))."',";
+                                        }else{
+                                            showmsg('日期类型错误,请检查',"/wages_management/import",0,15000);exit;
                                         }
                                     }
                                 }else{
