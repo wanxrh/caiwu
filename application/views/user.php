@@ -63,11 +63,28 @@ $(document).ready(function(){
             <?php foreach($department as $value):?>
             <option value="<?php echo $value['bumen_name']?>" <?php echo $this->input->get('bumen')==$value['bumen_name']?'selected':'';?> ><?php echo $value['bumen_name']?></option>
             <?php endforeach;?>
+        </select>
+        职员类型：
+        <select name="zhiyuanleixingmingcheng" id="zhiyuanleixingmingcheng" class="dfinput2" style="width:80px">
+            <option value="">请选择</option>
+            <option value="短聘" <?php echo $this->input->get('zhiyuanleixingmingcheng')=='短聘'?'selected':'';?>>短聘</option>
+            <option value="在编" <?php echo $this->input->get('zhiyuanleixingmingcheng')=='在编'?'selected':'';?>>在编</option>
+            <option value="外聘" <?php echo $this->input->get('zhiyuanleixingmingcheng')=='外聘'?'selected':'';?>>外聘</option>
+            <option value="返聘" <?php echo $this->input->get('zhiyuanleixingmingcheng')=='返聘'?'selected':'';?>>返聘</option>
+            <option value="退休" <?php echo $this->input->get('zhiyuanleixingmingcheng')=='退休'?'selected':'';?>>退休</option>
+        </select>
+        职员类别：
+            <select name="leibiemingcheng" id="leibiemingcheng" class="dfinput2" style="width:80px">
+                <option value="">请选择</option>
+                <option value="短返教师" <?php echo $this->input->get('leibiemingcheng')=='短返教师'?'selected':'';?>>短返教师</option>
+                <option value="行政人员" <?php echo $this->input->get('leibiemingcheng')=='行政人员'?'selected':'';?>>行政人员</option>
+                <option value="教学行政" <?php echo $this->input->get('leibiemingcheng')=='教学行政'?'selected':'';?>>教学行政</option>
+                <option value="临时聘用" <?php echo $this->input->get('leibiemingcheng')=='临时聘用'?'selected':'';?>>临时聘用</option>
+                <option value="专职教师" <?php echo $this->input->get('leibiemingcheng')=='专职教师'?'selected':'';?>>专职教师</option>
+                <option value="退休" <?php echo $this->input->get('leibiemingcheng')=='退休'?'selected':'';?>>退休</option>
             </select>
-        姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
-        职员类型：<input type="text" name="zhiyuanleixingmingcheng" id="zhiyuanleixingmingcheng" class="dfinput" style="width:80px" value="<?php echo $this->input->get('zhiyuanleixingmingcheng')?$this->input->get('zhiyuanleixingmingcheng'):'';?>">
-        职员类别：<input type="text" name="leibiemingcheng" id="leibiemingcheng" class="dfinput" style="width:80px" value="<?php echo $this->input->get('leibiemingcheng')?$this->input->get('leibiemingcheng'):'';?>">
         职员状态：<input type="text" name="zhiyuanzhuangtai" id="zhiyuanzhuangtai" class="dfinput" style="width:80px" value="<?php echo $this->input->get('zhiyuanzhuangtai')?$this->input->get('zhiyuanzhuangtai'):'';?>">
+        姓名：<input type="text" name="name" id="name" class="dfinput" style="width:80px" value="<?php echo $this->input->get('name')?$this->input->get('name'):'';?>">
         <input type="submit" value="搜索" class="btn">
         &nbsp;
         <input type="button" class="btn" value="导出excel" onclick="window.location.href='<?php echo '/user/wage_export?'.$_SERVER["QUERY_STRING"];?>'"/>
