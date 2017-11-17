@@ -23,7 +23,7 @@ class PHPExcelReadFilter implements PHPExcel_Reader_IReadFilter {
 }
 
 
-class System_notice extends M_controller{
+class Test extends M_controller{
 	/**
 	 * [__construct 构造函数]
 	 * @AuthorHTL lin
