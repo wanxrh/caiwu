@@ -26,6 +26,10 @@
 		<input class="dfinput2" style="width:80px"  name="time_from" value="<?php echo $start;?>"/>
 		---
 		<input class="dfinput2" style="width:80px"  name="time_to" value="<?php echo $end;?>"/>
+        <?php if($level == -1){?>
+        入库时间：
+        <input class="dfinput2" style="width:80px"  name="add_time" value="<?php echo $add_time;?>"/>
+        <?php }; ?>
 		工资类型：
 		<select  class="dfinput2" style="width:80px"  name="gongzileixing">
 		<option value="0">请选择</option>
@@ -242,6 +246,12 @@
 					dateFmt: 'yyyy-MM',
 				});
 			});
+          $("input[name='add_time']").focus(function () {
+              WdatePicker({
+                  skin: 'whyGreen',
+                  dateFmt: 'yyyy-MM-dd',
+              });
+          });
           $("#dell_all").click(function(){
               //var id = '';
               var ids = '';

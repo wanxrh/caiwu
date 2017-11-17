@@ -35,6 +35,8 @@ class WagesList extends M_Controller {
 
 		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
 
+		$data['add_time'] = $this->input->get('add_time',TRUE)?$this->input->get('add_time',TRUE):'';
+
 		if($data['end']){
 			$data['end'] = $data['end'];
 		}
@@ -48,7 +50,7 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$data['add_time'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name);
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];
 		$url_format = '/wageslist/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
@@ -203,7 +205,7 @@ class WagesList extends M_Controller {
 		$data['start'] = $this->input->get('time_from',TRUE)?$this->input->get('time_from',TRUE):date("Y-m",strtotime("-1 month"));
 
 		$data['end'] = $this->input->get('time_to',TRUE)?$this->input->get('time_to',TRUE):date("Y-m",time());
-
+        $data['add_time'] = $this->input->get('add_time',TRUE)?$this->input->get('add_time',TRUE):'';
 		if($data['end']){
 			$data['end'] = $data['end'];
 		}
@@ -217,7 +219,7 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
+		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$data['add_time'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
 		$list = $result['list'];
 		if(!empty($list)){
 			//查询工资表设置的前台可查看设置

@@ -92,7 +92,7 @@ class Home_model extends Common_model {
 	public function sqlQueryArray($sql){
 		return $this->db->query($sql)->result_array();
 	}
-	public function wagesList($columns,$dyn,$start,$end,$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name){
+	public function wagesList($columns,$dyn,$start,$end,$add_time,$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name){
         $start = date("Y-m",strtotime($start));
         $end = date("Y-m",strtotime($end));
 		if($start && !$end){
@@ -106,6 +106,10 @@ class Home_model extends Common_model {
 				$this->db->where('gongzibiao.nianyue <=',$end);
 			}
 		}
+        if(!empty($add_time)){
+            $add_time = strtotime($add_time);
+            $this->db->where('gongzibiao.nianyue >=',$add_time);
+        }
 		if($gongzileixing&&$gongzileixing!='综合'){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
 		}
@@ -258,7 +262,7 @@ class Home_model extends Common_model {
 		$this->db->group_by('gongzibiao.user_id');
 		$clone = clone ($this->db);
 		$this->db->select('user_record.user_name,gongzibiao.id'.$sum_sql);
-		$data['list'] = $this->db->get('gongzibiao', $this->per_page, $this->offset)->result_array();
+		$data['list'] = $this->db->get('gongzibiao')->result_array();
         //echo $this->db->last_query();exit;
 		$this->db = $clone;
 		$rows = $this->db->select('count(DISTINCT `ab22_gongzibiao`.`user_id`) as rows')->get('gongzibiao')->row_array();

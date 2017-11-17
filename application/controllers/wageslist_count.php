@@ -59,10 +59,13 @@ class WagesList_count extends M_Controller {
 		$data['list'] = $result['list'];
 		$data['rows'] = $result['count'];	
 		$url_format = '/WagesList_count/index/%d?' . str_replace('%', '%%', urldecode($_SERVER['QUERY_STRING']));
-		$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
+		//$data['page'] = page($this->cur_page, ceil($data['rows'] / $this->per_page), $url_format, 5, FALSE, FALSE,$data['rows']);
 				
 		//职员类型
-		$data['gongzi_type'] = $this->home_model->gongziType();		
+		$data['gongzi_type'] = $this->home_model->gongziType();
+        //查询部门
+        $department=$this->home_model->get_all('bumen',array(),'*');
+        $data['department']=$department;
 		$this->load->view('wages_list_count',$data);
 	}
 	public function view(){

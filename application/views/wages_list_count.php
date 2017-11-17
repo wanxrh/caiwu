@@ -33,6 +33,13 @@
 		<option <?php if($gongzileixing == $v['gongzileixing_name']) echo 'selected="true"'; ?> <?php if($gongzileixing=='' && $k==3) echo 'selected="true"'; ?>  value="<?php echo $v['gongzileixing_name']; ?>"><?php echo $v['gongzileixing_name']; ?></option>
 		<?php }; ?>
 		</select>
+        部门：
+        <select  class="dfinput2" style="width:80px"  name="bumen_name">
+            <option value="0">请选择</option>
+            <?php foreach ($department as $k=>$v){ ?>
+                <option <?php if($bumen_name == $v['bumen_name']) echo 'selected="true"'; ?> value="<?php echo $v['bumen_name']; ?>"><?php echo $v['bumen_name']; ?></option>
+            <?php }; ?>
+        </select>
         <?php if($level == -1){?>
             姓名：
             <input class="dfinput2" style="width:80px"  name="name" value="<?php echo $name;?>"/>
@@ -147,7 +154,7 @@
 	<td>
 	</td></tr></table>
 	<div style="width:1200px">
-   <?php echo $page;?>
+   <?php //echo $page;?>
    </div> 
  
     </div>
