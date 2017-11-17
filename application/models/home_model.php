@@ -108,7 +108,7 @@ class Home_model extends Common_model {
 		}
         if(!empty($add_time)){
             $add_time = strtotime($add_time);
-            $this->db->where('gongzibiao.nianyue >=',$add_time);
+            $this->db->where('gongzibiao.add_time >=',$add_time);
         }
 		if($gongzileixing&&$gongzileixing!='综合'){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
