@@ -381,6 +381,9 @@ class Wages_management extends M_Controller {
                             for($jj=1;$jj<= count($data[1]);$jj++){
                                 if(empty($data[1][$jj])) continue;
                                 if(trim($data[1][$jj])=='工资年月'){
+                                    echo trim($data[1][$jj]);
+                                    echo "<br>";
+                                    echo trim($data[$ii][$jj]);exit;
                                     $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data[$ii][$jj]),true));
                                     if(strtotime($time)>0){
                                         $s1.="'".$time."',";
