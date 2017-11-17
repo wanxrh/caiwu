@@ -2,25 +2,7 @@
 /**
  * 读取excel过滤器
  */
-class PHPExcelReadFilter implements PHPExcel_Reader_IReadFilter {
 
-    public $startRow = 1;
-    public $endRow;
-
-    public function readCell($column, $row, $worksheetName = '') {
-        //如果endRow没有设置表示读取全部
-        if (!$this->endRow) {
-            return true;
-        }
-        //只读取指定的行
-        if ($row >= $this->startRow && $row <= $this->endRow) {
-            return true;
-        }
-
-        return false;
-    }
-
-}
 
 
 class Test extends M_controller{
@@ -62,7 +44,7 @@ class Test extends M_controller{
      */
     function readFromExcel($excelFile, $excelType = null, $startRow = 1, $endRow = null) {
         require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
-
+        require_once(FR_ROOT.'/application/helpers/PHPExcelReadFilter.php');
         $excelReader = \PHPExcel_IOFactory::createReader("Excel2007");
         $excelReader->setReadDataOnly(true);
 
