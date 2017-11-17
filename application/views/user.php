@@ -101,6 +101,9 @@ $(document).ready(function(){
         <th style="text-align:center">姓名</th>
         <th style="text-align:center">部门</th>
         <th style="text-align:center">用户类别</th>
+        <th style="text-align:center">职员状态</th>
+        <th style="text-align:center">职员类别</th>
+        <th style="text-align:center">职员类型</th>
         <th style="text-align:center">工资记录</th>
         <th style="text-align:center">操作</th>
         </tr>
@@ -116,6 +119,9 @@ $(document).ready(function(){
         <td align="center"><?php echo $val['name'];?></td>
         <td align="center"><?php echo $val['bumen_name'];?></td>
         <td align="center"><?php echo $val['cat_name'];?></td>
+        <td align="center"><?php echo $val['zhiyuanzhuangtai'];?></td>
+        <td align="center"><?php echo $val['leibiemingcheng'];?></td>
+        <td align="center"><?php echo $val['zhiyuanleixingmingcheng'];?></td>
         <td align="center"><a href="/wageslist/add?id=<?php echo $val['user_id'];?>" class="tablelink">添加工资记录</a>　<a href="/wageslist/viewlist?id=<?php echo $val['user_id'];?>" class="tablelink">查看工资记录</a></td>
         <td align="center"><?php if($user_info['cat_id']==-1):?><a href="/user/edit_user/<?php echo $val['user_id'];?>" class="tablelink">查看/编辑</a><?php else:?><a href="#" class="tablelink">查看</a><?php endif;?>     <a href="/user/remove_user/<?php echo $val['user_id'];?>" class="tablelink"onclick="return confirm('确定要删除吗？')"> 删除</a></td>
         </tr>

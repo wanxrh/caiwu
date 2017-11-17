@@ -63,10 +63,10 @@ class Home_model extends Common_model {
             $this->db->where('user_record.zhiyuanzhuangtai', $zhiyuanzhuangtai);
         }
         $temp = clone $this->db;
-		$data['count'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->from('user_record')->count_all_results();
+		$data['count'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima,zhiyuanleixingmingcheng,leibiemingcheng,zhiyuanzhuangtai')->join('user_cat', 'user_record.cat_id=user_cat.cat_id', 'left')->from('user_record')->count_all_results();
         //echo $this->db->last_query();exit;
 		$this->db = $temp;
-        $data['user'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
+        $data['user'] = $this->db->select('user_cat.*,bumen_name,user_id,user_name,password,name,zhiyuandaima,zhiyuanleixingmingcheng,leibiemingcheng,zhiyuanzhuangtai')->join('user_cat', 'user_cat.cat_id=user_record.cat_id', 'left')->get('user_record', $this->per_page, $this->offset)->result_array();
 
         return $data;
 	}
