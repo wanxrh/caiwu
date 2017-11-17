@@ -134,25 +134,38 @@ class Wages_management extends M_Controller {
 
 
 
-			$file = pathinfo($_FILES['MyFile']['name']);
-			if($file['extension']!='xls'&&$file['extension']!='xlsx') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
-			$save_path = $_SERVER['DOCUMENT_ROOT'].'/upload/'; 
-			$fname = $save_path. time().'.'.$file['extension'];
-			$do = copy($_FILES['MyFile']['tmp_name'],$fname);
-			if(!$do){
+            $file = pathinfo($_FILES['MyFile']['name']);
+            if($file['extension']!='xls'&&$file['extension']!='xlsx'&&$file['extension']!='csv') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
+            $save_path = $_SERVER['DOCUMENT_ROOT'].'/upload/';
+            $fname = $save_path. time().'.'.$file['extension'];
+            $do = copy($_FILES['MyFile']['tmp_name'],$fname);
+            if(!$do){
 				showmsg('导入错误',"/wages_management/import",0,10000);exit;
-			}
-			$data = new Spreadsheet_Excel_Reader();
-			$data->setOutputEncoding('UTF-8');
-			$data->read($fname);
+            }
+            //if($file['extension'] == 'xls'){
+            //    $type = 'Excel5';
+            //}else{
+            //    $type = 'Excel2007';
+            //}
+			//$data = new Spreadsheet_Excel_Reader();
+            //$objReader=PHPExcel_IOFactory::createReader($file['extension']);
+			//$data->setOutputEncoding('UTF-8');
+			//$data->read($fname);
+
             require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
-            require_once(FR_ROOT.'/application/helpers/PHPExcel/Writer/Excel2007.php');
+            set_time_limit(90);
+            ini_set("memory_limit", "1024M");
+
+            $startRow  = 1;
+            $endRow    = null;
+            $data = $this->readFromExcel($fname, null, $startRow, $endRow);
+
 			error_reporting(E_ALL ^ E_NOTICE);
             //事物开启
             $this->db->trans_begin();
             try{
                 //sheet1
-                if($data->sheets[0]['numRows']){
+                /*if($data->sheets[0]['numRows']){
                     $a1="";
                     $a2="";
                     $b1="";
@@ -249,20 +262,20 @@ class Wages_management extends M_Controller {
                                  }else{
                                     $s1.="'".trim($data->sheets[0]['cells'][$ii][$jj])."',";
                                  }
-                                /* $m="'".$jj."*****";
-                                 if($data->sheets[0]['cells'][$ii][$jj]){//update数据表，替换$j*****
-                                     //if($data->sheets[0]['cells'][1][$jj]=='工资年月') {
-                                     //    if (strpos($data->sheets[0]['cells'][$ii][$jj], "/")) {
-                                     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("/", "-", $data->sheets[0]['cells'][$ii][$jj]);
-                                     //    } else {
-                                     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("年", "-", $data->sheets[0]['cells'][$ii][$jj]);
-                                     //    }
-                                     //}else{
-                                         $s2=str_replace($m,"'".$data->sheets[0]['cells'][$ii][$jj],$s2);
-                                     //}
-                                 }else{
-                                     $s2=str_replace($m,"'",$s2);
-                                 }*/
+                                //$m="'".$jj."*****";
+                                // if($data->sheets[0]['cells'][$ii][$jj]){//update数据表，替换$j*****
+                                //     //if($data->sheets[0]['cells'][1][$jj]=='工资年月') {
+                                //     //    if (strpos($data->sheets[0]['cells'][$ii][$jj], "/")) {
+                                //     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("/", "-", $data->sheets[0]['cells'][$ii][$jj]);
+                                //     //    } else {
+                                //     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("年", "-", $data->sheets[0]['cells'][$ii][$jj]);
+                                //     //    }
+                                //     //}else{
+                                //         $s2=str_replace($m,"'".$data->sheets[0]['cells'][$ii][$jj],$s2);
+                                //     //}
+                                // }else{
+                                //     $s2=str_replace($m,"'",$s2);
+                                // }
 
                             }
                             //echo $s1;exit;
@@ -289,6 +302,119 @@ class Wages_management extends M_Controller {
                     showmsg('导入成功','/wages_management/import',0,2000);exit();
                 }else{
                     showmsg('模版格式有误,请按照导出模版的格式导入数据。','/wages_manasgement/import',0,5000);exit();
+                }*/
+                if(!empty($data)){
+                    $a1="";
+                    $a2="";
+                    $b1="";
+                    $col_n = '';
+                    for($j=1;$j<=count($data[1]);$j++){
+                        if(empty($data[1][0]) || empty($data[1][1])){
+                            showmsg('模板不正确',"/wages_management/import",0,10000);exit;
+                        }
+                        if(empty($data[1][$j])) continue;
+                        //获取表字段
+                        $sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
+                        $res = $this->home_model->sqlQueryArray($sql);
+                        $flag= 1;
+                        foreach ($res as $key => $row) {
+                            if($row['Comment']==$data[1][$j] && !empty($data[1][$j])){
+                                $flag= 2;
+                                $a1.=$row['Field'].",";
+                                $b1.=$row['Field']."='".trim($j)."*****',";
+                                //if($data->sheets[0]['cells'][1][$j]=="职员姓名"){ $col_n=$j;}
+                            }
+                        }
+                        if($data[1][$j] == '姓名' || $data[1][$j] == '职员姓名'){
+                            $flag = 2;
+                        }
+                        if($flag== 1){
+                            showmsg("模版中存在错误的字段(".$data[1][$j].")!","/wages_management/import",1,15000);exit;
+                        }
+
+                    }
+                    $col_name=0;
+                    $leixing=3;
+                    $col_bumen_name=2;
+                    $a1=substr($a1,0,-1);
+                    $b1=substr($b1,0,-1);
+                    $flag=1;
+                    $msg = '';
+                    for ($i = 2; $i <= count($data); $i++){
+                        if(empty($data[$i][$col_name])) continue;
+                        $name=$data[$i][$col_name];
+                        $r_user = $this->home_model->get_one('user_record',array('name'=>$name));
+
+                        if(empty($r_user)){
+                            showmsg('不存的用户('.$name.")","/wages_management/import",0,15000);exit;
+                        }
+                        if(!empty($name) && empty($r_user)){
+                            $flag=2;
+                            if($name){
+                                $msg.=",".$name;
+                            }
+
+                        }
+
+                    }
+                    if($flag==2){
+                        $msg="拒绝导入，还缺少(".$msg.")的数据";
+                        showmsg("$msg","/wages_management/import",0,15000);exit;
+                    }
+                    for ($ii = 2; $ii <= count($data); $ii++){//下面有备份
+                        $name=$data[$ii][$col_name];
+                        $r_panduan = $this->home_model->get_one('user_record',array('user_name'=>$name));
+                        if(empty($r_panduan)) continue;
+                        $r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
+                        //匹配工资类型
+                        $lei_name = trim($data[$ii][$leixing]);
+                        $gongzileixing = $this->home_model->get_one('gongzileixing',array('gongzileixing_name'=>$lei_name));
+                        if(empty($gongzileixing)){
+                            showmsg('不存的工资类型('.$lei_name.")","/wages_management/import",0,15000);exit;
+                        }
+                        $user_id=$r_user['user_id'];
+                        $s="";
+                        if(!empty($user_id)){
+                            $s1="";
+                            $k="";
+                            $s2=$b1;
+                            for($jj=1;$jj<= count($data[1]);$jj++){
+                                if(empty($data[1][$jj])) continue;
+                                if(trim($data[1][$jj])=='工资年月'){
+                                    $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data[$ii][$jj]),true));
+                                    if(strtotime($time)>0){
+                                        $s1.="'".$time."',";
+                                    }else{
+                                        if(strpos($data[$ii][$jj],"/")){
+                                            $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data[$ii][$jj]))))."',";
+                                        }elseif(strpos($data[$ii][$jj],"-")){
+                                            $s1.="'".date("Y-m",strtotime(trim($data[$ii][$jj])))."',";
+                                        }
+                                    }
+                                }else{
+                                    $s1.="'".trim($data[$ii][$jj])."',";
+                                }
+
+                            }
+                            //echo $s1;exit;
+                            //echo "<br>";
+                            //echo $s2;exit;
+                            $add_time = time();
+                            if($data[$ii][$col_name]!=NUll){
+                                $s1=substr($s1,0,-1);
+                                if(strpos($a1,"user_id")===false){
+                                    $sql1="insert into ab22_gongzibiao(".$a1.",user_id,add_time) values(".$s1.",$user_id,$add_time)";
+                                }else{
+                                    $sql1="insert into ab22_gongzibiao(".$a1.",add_time) values(".$s1.",$add_time)";
+                                }
+                                $this->home_model->sqlQuery($sql1);
+                            }
+                        }
+
+
+                    }
+                    $this->db->trans_commit();
+                    showmsg('导入成功','/wages_management/import',0,2000);exit();
                 }
             }catch (Exception $e){
                 //失败回滚
@@ -298,4 +424,46 @@ class Wages_management extends M_Controller {
 		}
 		$this->load->view('wages_import');
 	}
+    /**
+     * 读取excel转换成数组
+     *
+     * @param string $excelFile 文件路径
+     * @param string $excelType excel后缀格式
+     * @param int $startRow 开始读取的行数
+     * @param int $endRow 结束读取的行数
+     * @retunr array
+     */
+    function readFromExcel($excelFile, $excelType = null, $startRow = 1, $endRow = null) {
+        require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
+        require_once(FR_ROOT.'/application/helpers/PHPExcelReadFilter.php');
+        $inputFileType = PHPExcel_IOFactory::identify($excelFile);
+        $excelReader = PHPExcel_IOFactory::createReader($inputFileType);
+        //$excelReader = \PHPExcel_IOFactory::createReader("Excel2007");
+        $excelReader->setReadDataOnly(true);
+
+        //如果有指定行数，则设置过滤器
+        if ($startRow && $endRow) {
+            $perf           = new PHPExcelReadFilter();
+            $perf->startRow = $startRow;
+            $perf->endRow   = $endRow;
+            $excelReader->setReadFilter($perf);
+        }
+
+        $phpexcel    = $excelReader->load($excelFile);
+        $activeSheet = $phpexcel->getActiveSheet();
+        if (!$endRow) {
+            $endRow = $activeSheet->getHighestRow(); //总行数
+        }
+
+        $highestColumn      = $activeSheet->getHighestColumn(); //最后列数所对应的字母，例如第2行就是B
+        $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn); //总列数
+
+        $data = array();
+        for ($row = $startRow; $row <= $endRow; $row++) {
+            for ($col = 0; $col < $highestColumnIndex; $col++) {
+                $data[$row][] = (string) $activeSheet->getCellByColumnAndRow($col, $row)->getValue();
+            }
+        }
+        return $data;
+    }
 }
