@@ -249,20 +249,20 @@ class Wages_management extends M_Controller {
                                  }else{
                                     $s1.="'".trim($data->sheets[0]['cells'][$ii][$jj])."',";
                                  }
-                                $m="'".$jj."*****";
-                                if($data->sheets[0]['cells'][$ii][$jj]){//update数据表，替换$j*****
-                                    //if($data->sheets[0]['cells'][1][$jj]=='工资年月') {
-                                    //    if (strpos($data->sheets[0]['cells'][$ii][$jj], "/")) {
-                                    //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("/", "-", $data->sheets[0]['cells'][$ii][$jj]);
-                                    //    } else {
-                                    //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("年", "-", $data->sheets[0]['cells'][$ii][$jj]);
-                                    //    }
-                                    //}else{
-                                        $s2=str_replace($m,"'".$data->sheets[0]['cells'][$ii][$jj],$s2);
-                                    //}
-                                }else{
-                                    $s2=str_replace($m,"'",$s2);
-                                }
+                                /* $m="'".$jj."*****";
+                                 if($data->sheets[0]['cells'][$ii][$jj]){//update数据表，替换$j*****
+                                     //if($data->sheets[0]['cells'][1][$jj]=='工资年月') {
+                                     //    if (strpos($data->sheets[0]['cells'][$ii][$jj], "/")) {
+                                     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("/", "-", $data->sheets[0]['cells'][$ii][$jj]);
+                                     //    } else {
+                                     //        $s2= $data->sheets[0]['cells'][$ii][$jj] = str_replace("年", "-", $data->sheets[0]['cells'][$ii][$jj]);
+                                     //    }
+                                     //}else{
+                                         $s2=str_replace($m,"'".$data->sheets[0]['cells'][$ii][$jj],$s2);
+                                     //}
+                                 }else{
+                                     $s2=str_replace($m,"'",$s2);
+                                 }*/
 
                             }
                             //echo $s1;exit;
