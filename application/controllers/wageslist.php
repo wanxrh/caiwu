@@ -88,6 +88,13 @@ class WagesList extends M_Controller {
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
 		$data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+        $data['dyn2'] = array();
+        foreach($data['columns'] as $key=>$val){
+            $res = $this->home_model->deep_in_array($key,$data['dyn']);
+            if(!empty($res)){
+                $data['dyn2'][] = $res;
+            }
+        }
 		$data['info'] = $this->home_model->wagesView($id);
 		$data['gongzi_type'] = $this->home_model->gongziType();
 		if( strtoupper($_SERVER['REQUEST_METHOD']) == 'POST' ){
@@ -155,6 +162,13 @@ class WagesList extends M_Controller {
             $data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
             unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
             $data['dyn'] = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+            $data['dyn2'] = array();
+            foreach($data['columns'] as $key=>$val){
+                $res = $this->home_model->deep_in_array($key,$data['dyn']);
+                if(!empty($res)){
+                    $data['dyn2'][] = $res;
+                }
+            }
             $data['gongzi_type'] = $this->home_model->gongziType();
         }
 		$this->load->view('wages_add',$data);
@@ -168,7 +182,7 @@ class WagesList extends M_Controller {
 		$columns =  $this->home_model->sqlQueryArray($sql);
 		$data['columns'] = array_column($columns,'COLUMN_COMMENT','COLUMN_NAME');
 		unset($data['columns']['id'],$data['columns']['user_id'],$data['columns']['nianyue'],$data['columns']['add_time']);
-		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table));
+		$dyn = $this->home_model->get_all('dyn_column', array('parent_table'=>$this->_table,'view'=>1));
 		$data['dyn'] = array();
 		foreach ($dyn as $v){
 			$data['dyn'][$v['column_name']] = $v;

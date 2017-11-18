@@ -369,4 +369,22 @@ class Home_model extends Common_model {
 	public function getTable(){
 		return $this->db->query('SHOW TABLE STATUS')->result_array();
 	}
+    public function deep_in_array($value, $array) {
+        foreach($array as $item) {
+            if(!is_array($item)) {
+                if ($item == $value) {
+                    return true;
+                } else {
+                    continue;
+                }
+            }
+
+            if(in_array($value, $item)) {
+                return $item;
+            } else if($this->deep_in_array($value, $item)) {
+                return $item;
+            }
+        }
+        return false;
+    }
 }
