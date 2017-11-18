@@ -197,16 +197,14 @@ $(document).ready(function(){
 
         <?php $i=2;?>
         <?php foreach($rescolumns as $key=>$value):?>
-        <?php if($value['Field']=='bumendaima'):?>
-        <?php continue;?>
-        <?php endif;?>
+
         <?php if($value['Field']=='bumen_name'):?>
         <span>
             <label><?php echo $value['Comment'];?>：</label>
             <select name="<?php echo $value['Field']?>" id="bumen_name" class="dfinput2" onchange="$('#bumen_id').val($('#bumen_name').val())">
             <option value="">--请选择--</option>
             <?php foreach($department as $kk=>$vv):?>
-            <option value="<?php echo $vv['bumen_id']?>"><?php echo $vv['bumen_name']?></option>
+            <option value="<?php echo $vv['bumen_name']?>"><?php echo $vv['bumen_name']?></option>
             <?php endforeach;?>
             </select>
         </span>
@@ -258,9 +256,6 @@ $(document).ready(function(){
             </span>
             <?php $i=2;?>
             <?php foreach($rescolumns as $key=>$value):?>
-            <?php if($value['Field']=='bumendaima'):?>
-            <?php continue;?>
-            <?php endif;?>
             <?php if($value['Field']=='bumen_name'):?>
             <span>
                 <label><?php echo $value['Comment'];?>：</label>

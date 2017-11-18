@@ -60,9 +60,15 @@ class User extends M_controller{
 		$rescolumns=$this->home_model->user_field();
 		$data['rescolumns']=$rescolumns;
 		if($this->input->post()!=''){
+            $bumen = $this->home_model->get_one('bumen',array('bumen_name'=>$this->input->post('bumen_name')),'*');
+            if(empty($bumen)){
+                showmsg('没有这个部门','/user',0,2000);exit();
+            }
+            $data = $this->input->post();
+            $data['bumen_id'] = $bumen['bumen_id'];
             //开启事物
             $this->db->trans_begin();
-			$res=$this->home_model->insert('user_record',$this->input->post());
+			$res=$this->home_model->insert('user_record',$data);
             $this->db->trans_commit();
 			if($res){
 				showmsg('添加用户成功！2秒后转向列表页','/user',0,2000);exit();
@@ -96,10 +102,16 @@ class User extends M_controller{
 		$data['department']=$department;
 
 		if($this->input->post()!=''){
+            $bumen = $this->home_model->get_one('bumen',array('bumen_name'=>$this->input->post('bumen_name')),'*');
+            if(empty($bumen)){
+                showmsg('没有这个部门','/user',0,2000);exit();
+            }
+            $data = $this->input->post();
+            $data['bumen_id'] = $bumen['bumen_id'];
 			$where=array('user_id'=>$user_id);
             //开启事物
             $this->db->trans_begin();
-			$res=$this->home_model->update('user_record',$this->input->post(),$where);
+			$res=$this->home_model->update('user_record',$data,$where);
             $this->db->trans_commit();
 			if($res){
 				showmsg('编辑成功！2秒后返回',"/user/edit_user/$user_id",0,2000);exit();

@@ -30,7 +30,8 @@
     
     <div class="formtitle"><span>导入工资模板</span></div>
 
-	<div style="font-size:16px; margin-bottom:20px">要求必须以<b style="color:red">xls</b>结尾的EXCEL文件!</div>
+	<div style="font-size:16px; margin-bottom:20px">要求必须以<b style="color:red">xls、xlsx</b>结尾的EXCEL文件!</div>
+	<div style="font-size:16px; margin-bottom:20px;color:red">(超过2000条数据请使用xlsx格式进行导入)</div>
     <form name="myform" action="/wages_management/import"  method="post" ENCTYPE="multipart/form-data" onsubmit="return validate()">
 	<input type="hidden" name="1" value="2">
 	<input type="hidden" name="id" value="">
