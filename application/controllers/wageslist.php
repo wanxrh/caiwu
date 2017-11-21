@@ -238,9 +238,9 @@ class WagesList extends M_Controller {
 			//查询工资表设置的前台可查看设置
 			$str = '';
 			$row_user=$this->home_model->get_all('dyn_column',array('parent_table'=>'gongzibiao','view'=>'1'));
-			foreach ($row_user as $key => $value) {
-				$str .= ','.$value['column_name'].',';
-			}
+			//foreach ($row_user as $key => $value) {
+			//	$str .= ','.$value['column_name'].',';
+			//}
 			$sql = "SHOW  full COLUMNS FROM ab22_gongzibiao";
 			$rescolumns = $this->home_model->sqlQueryArray($sql);
 			
@@ -260,24 +260,39 @@ class WagesList extends M_Controller {
 	     	$m =1;
 	     	//调用excel字符串数组
 	     	$arr = excel_symbol();
+            $str = [];
 			foreach ($rescolumns as $kk => $val) {
-				$aaa=','.$val['Field'].",";
+                $ss = $arr[$m];
+				//$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
 		 		//$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
 		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
 				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-				
-		    	
-		    	if(strpos($str,$aaa)!==false){
-		    		$ss = $arr[$m];
-		    		//赋值标题
-				    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
+
+
+                $result = $this->home_model->deep_in_array($val['Field'],$row_user);
+                if(!empty($result)){
+                    $array[] = $val['Comment'];
+                    $str[$val['Field']] = $val['Field'];
+                    //赋值标题
+                    $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
                     $objPHPExcel->getActiveSheet()->getStyle($ss)->getNumberFormat()
                         ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-				    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
-				    //循环每列
-				    foreach ($list as $item_key => $item) {
-                        $res = $item[$val['Field']];
+                    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
+                    $m++;
+                }
+
+		    	
+	        }
+
+            $i = 0;
+            foreach ($list as $item_key => $item) {
+                $m1 = 1;
+                foreach($item as $kl=>$value){
+                    $ss = $arr[$m1];
+                    $res = '';
+                    if(in_array($kl,$str)){
+                        $res = $item[$kl];
                         if(is_numeric($res)){
                             $res = (string)$res;
                             if(strpos($res,'0')===false){
@@ -286,16 +301,18 @@ class WagesList extends M_Controller {
                                 $res = "'".$res;
                             }
                         }
-				        $objPHPExcel->getActiveSheet()->setCellValue("A".($item_key + 2), gbktoutf8("{$item['user_name']}"));
-				        //$objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
-				        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($item_key + 2), gbktoutf8("{$res}"));
-				    }
-		    		$m++;
-		    	}else{
-		    		continue;
-		    	}
-		    	
-	        }
+                        $objPHPExcel->getActiveSheet()->setCellValue("A".($i + 2), gbktoutf8("{$item['user_name']}"));
+                        //$objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
+                        $objPHPExcel->getActiveSheet()->setCellValue("$ss".($i + 2), gbktoutf8("{$res}"));
+                        $m1++;
+
+                    }
+                }
+                $i++;
+                //$res = $item[$val['Field']];
+
+
+            }
 	       
 		    $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
 
