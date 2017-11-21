@@ -466,6 +466,38 @@ class Home_model extends Common_model {
         //Yii::app()->getRequest()->sendFile($filename, mb_convert_encoding($output,"GBK","UTF-8"), "text/csv", false);
     }
     /**
+     * 把数据保存到EXCEL
+     */
+    public function wirte_excel($arrDataList, $title)
+    {
+        $xlsfilename = $title . '.xlsx';
+        $btype = self::my_get_browser();
+        if ($btype == 'IE') {
+            $xlsfilename = urlencode($xlsfilename);
+        }
+
+        require_once(FR_ROOT.'/application/helpers/PHPExcel.php');
+        if (!empty($arrDataList)) {
+            $objPHPExcel = new PHPExcel();
+            $objPHPExcel->getProperties()->setCreator("注册局")
+                ->setLastModifiedBy("注册局")
+                ->setTitle($title);
+
+            //$arrExcelInfo = eval('return ' . iconv('gbk', 'utf-8', var_export($arrDataList, true)) . ';'); //将数组转换成utf-8
+            $objPHPExcel->getActiveSheet()->fromArray(
+                $arrDataList, // 赋值的数组
+                NULL, // 忽略的值,不会在excel中显示
+                'A1' // 赋值的起始位置
+            );
+            header('Content-Type : application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename=' . $xlsfilename);
+            header('Cache-Control: max-age=0');
+            $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+            $objWriter->save('php://output');
+            exit;
+        }
+    }
+    /**
      * 获取浏览器类型
      * @return string
      */
