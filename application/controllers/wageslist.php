@@ -266,8 +266,8 @@ class WagesList extends M_Controller {
 				//$aaa=','.$val['Field'].",";
 		    	$objPHPExcel->getActiveSheet()->setCellValue('A1', gbktoutf8('姓名'));
 		 		//$objPHPExcel->getActiveSheet()->setCellValue('B1', gbktoutf8('部门名字'));
-		 		$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
-				$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
+		 		//$objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(20);
+				//$objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
 
 
                 $result = $this->home_model->deep_in_array($val['Field'],$row_user);
@@ -276,9 +276,9 @@ class WagesList extends M_Controller {
                     $str[$val['Field']] = $val['Field'];
                     //赋值标题
                     $objPHPExcel->getActiveSheet()->setCellValue("$ss".'1', gbktoutf8("{$val['Comment']}"));
-                    $objPHPExcel->getActiveSheet()->getStyle($ss)->getNumberFormat()
-                        ->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
-                    $objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
+                    //$objPHPExcel->getActiveSheet()->getStyle($ss)->getNumberFormat()
+                        //->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_TEXT);
+                    //$objPHPExcel->getActiveSheet()->getColumnDimension($ss)->setWidth(20);
                     $m++;
                 }
 
@@ -286,11 +286,17 @@ class WagesList extends M_Controller {
 	        }
 
             $i = 0;
+            //$t1 = microtime(true);
             foreach ($list as $item_key => $item) {
                 $m1 = 1;
                 foreach($item as $kl=>$value){
                     $ss = $arr[$m1];
                     $res = '';
+                    $sta = 0;
+                    if($sta !=1){
+                        $objPHPExcel->getActiveSheet()->setCellValue("A".($i + 2), gbktoutf8("{$item['user_name']}"));
+                    }
+                    $sta = 1;
                     if(in_array($kl,$str)){
                         $res = $item[$kl];
                         if(is_numeric($res)){
@@ -301,7 +307,6 @@ class WagesList extends M_Controller {
                                 $res = "'".$res;
                             }
                         }
-                        $objPHPExcel->getActiveSheet()->setCellValue("A".($i + 2), gbktoutf8("{$item['user_name']}"));
                         //$objPHPExcel->getActiveSheet()->setCellValue("B".($item_key + 2), gbktoutf8("{$item['bumen_name']}"));
                         $objPHPExcel->getActiveSheet()->setCellValue("$ss".($i + 2), gbktoutf8("{$res}"));
                         $m1++;
@@ -312,8 +317,10 @@ class WagesList extends M_Controller {
                 //$res = $item[$val['Field']];
 
 
+
             }
-	       
+            //$t2 = microtime(true);
+            //echo '耗时'.round($t2-$t1,3).'秒<br>';exit;
 		    $objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
 
 		    header("Pragma: public");
