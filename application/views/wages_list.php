@@ -17,7 +17,7 @@
     </ul>
     </div>
     
-    <div class="rightinfo" style="width:4000px">
+    <div class="rightinfo" style="min-width:4100px">
 	
 	<div class="tools">
     
@@ -194,7 +194,7 @@
 		<th align="center">&nbsp;</th>
 		 <?php foreach ($dyn_all as $v){ ?>
 		 	<?php if($v){ ?>
-		 	<th align="center" style="text-align: center;"><?php echo $v; ?></th>
+		 	<th align="center" style="text-align: center;"><?php echo "(".$v.")"; ?></th>
 		 	<?php }else{ ?>
 		 	<th align="center">&nbsp;</th>
 		 	<?php } ?>

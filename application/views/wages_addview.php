@@ -117,7 +117,7 @@
 			<option value="int">int</option>
 
 			<option value="varchar">varchar</option>
-			<option value="float">float</option>
+			<option value="decimal">decimal</option>
 
 			<option value="text">text</option>
 

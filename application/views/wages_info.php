@@ -54,7 +54,7 @@
 
 	</div>
 
-	<form name="myform" action="edit"  method="post"  enctype="multipart/form-data">
+	<form name="myform" action="edit"  method="post">
 
 	<input type="hidden" name="field_name" value="<?php echo $field_name?>">
 
@@ -97,7 +97,7 @@
 			<option value="int" <?php if($row['DATA_TYPE']=="int") echo "selected";?>>int</option>
 
 			<option value="varchar" <?php if($row['DATA_TYPE']=="varchar") echo "selected";?>>varchar</option>
-			<option value="float" <?php if($row['DATA_TYPE']=="float") echo "selected";?>>float</option>
+			<option value="decimal" <?php if($row['DATA_TYPE']=="decimal") echo "selected";?>>decimal</option>
 
 			<option value="text" <?php if($row['DATA_TYPE']=="text") echo "selected";?>>text</option>
 

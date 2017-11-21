@@ -31,7 +31,7 @@ class User_information extends M_Controller {
 		$dyn_str = '';
 		for ($i=1;$i<=11;$i++){
 			if( $params['ziduanming'.$i] ){
-				if($params['leixing'.$i] == 'float'){
+				if($params['leixing'.$i] == 'decimal'){
 					$len = 20;
 				}else{
 					$len = 50;
@@ -79,7 +79,7 @@ class User_information extends M_Controller {
         $muban = $this->input->post('muban',TRUE)?1:0;
         $chakan = $this->input->post('chakan',TRUE)?1:0;
 
-		if($leixing == 'float'){
+		if($leixing == 'decimal'){
 			$len = 20;
 		}else{
 			$len = 50;

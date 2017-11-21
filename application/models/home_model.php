@@ -152,7 +152,7 @@ class Home_model extends Common_model {
 				continue;
 			}
 			if(isset($dyn[$v['COLUMN_NAME']])){
-				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'float' ) ){
+				if(!$dyn[$v['COLUMN_NAME']]['options'] && $dyn[$v['COLUMN_NAME']]['view'] && ( $v['DATA_TYPE'] == 'int' || $v['DATA_TYPE'] == 'decimal' ) ){
 					$data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
 					$this->db = $syn_clone;
 					$syn_clone = clone ($this->db );
@@ -168,6 +168,58 @@ class Home_model extends Common_model {
         //print_r($data['dyn_page']);exit;
 		return $data;
 	}
+    //导出csv专用
+    public function wagesList_export($columns,$dyn,$start,$end,$add_time,$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name){
+        $start = date("Y-m",strtotime($start));
+        $end = date("Y-m",strtotime($end));
+        if($start && !$end){
+            $this->db->where('gongzibiao.nianyue >=',$start);
+        }elseif (!$start && $end){
+            $this->db->where('gongzibiao.nianyue <=',$end);
+        }elseif ($start && $end){
+            if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
+            if($start <= $end){/*echo $start.','.$end;*/
+                $this->db->where('gongzibiao.nianyue >=',$start);
+                $this->db->where('gongzibiao.nianyue <=',$end);
+            }
+        }
+        if(!empty($add_time)){
+            $add_time = strtotime($add_time);
+            $this->db->where('gongzibiao.add_time >=',$add_time);
+        }
+        if($gongzileixing&&$gongzileixing!='综合'){
+            $this->db->where('gongzibiao.gongzileixing',$gongzileixing);
+        }
+
+        if($select){
+            foreach ($select as $k=>$v){
+                if( $v!=''){
+                    $this->db->where($k,$v);
+                }
+            }
+        }
+        if($input){
+            foreach ($input as $k=>$v){
+                if( $v ){
+                    $this->db->like($k,trim($v));
+                }
+            }
+        }
+        if($zhiyuandaima){
+            $this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
+        }
+        if($name){
+            $this->db->where('user_record.name',$name);
+        }
+        if(!empty($bumen_name)){
+            $this->db->where('gongzibiao.bumen_name',$bumen_name);
+        }
+        $this->db->select('user_record.user_name,gongzibiao.*')->join('user_record','user_record.user_id = gongzibiao.user_id','left');
+        $data['list'] = $this->db->order_by('gongzibiao.id','desc')->get('gongzibiao')->result_array();
+        //echo $this->db->last_query();exit;
+        return $data;
+    }
+
     //用户列表
     public function uList($columns,$dyn,$name,$select,$zhiyuandaima){
 
@@ -214,7 +266,7 @@ class Home_model extends Common_model {
 		$data_type = array_column($columns,'DATA_TYPE','COLUMN_NAME');
 		foreach ($columns as $v){
 			if(in_array($v['COLUMN_NAME'],$dyn2)){
-				if($data_type[$v['COLUMN_NAME']] == 'float' || $data_type[$v['COLUMN_NAME']] == 'int'){
+				if($data_type[$v['COLUMN_NAME']] == 'decimal' || $data_type[$v['COLUMN_NAME']] == 'int'){
 					$sum_sql .= sprintf(',SUM(`%s`) as %s',$v['COLUMN_NAME'],$v['COLUMN_NAME']);
 				}else{
 					$sum_sql .= ','."gongzibiao.".$v['COLUMN_NAME'];
@@ -386,5 +438,72 @@ class Home_model extends Common_model {
             }
         }
         return false;
+    }
+    /**
+     * 公用输出方法
+     * @param $array
+     * @param $filename
+     */
+    public function _out($array, $filename)
+    {
+        //使用csv插件导出。
+        require_once(FR_ROOT.'/application/helpers/ECSVExport.php');
+        $filename = $filename . '.csv';
+        $csv = new ECSVExport($array);
+        $csv->includeColumnHeaders = false;
+        $output = $csv->toCSV(); // returns string by default
+        $btype = self::my_get_browser();
+        if ($btype == 'IE') {
+            $filename = urlencode($filename);
+        }
+        header("Content-type:text/csv;");
+        header("Content-Disposition:attachment;filename=" . $filename);
+        header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
+        header('Expires:0');
+        header('Pragma:public');
+        print_r($output);
+        //Yii::app()->getRequest()->sendFile($filename, iconv('UTF-8', 'GBK//IGNORE', $output), "text/csv", false);
+        //Yii::app()->getRequest()->sendFile($filename, mb_convert_encoding($output,"GBK","UTF-8"), "text/csv", false);
+    }
+    /**
+     * 获取浏览器类型
+     * @return string
+     */
+    public static function my_get_browser()
+    {
+        if(empty($_SERVER['HTTP_USER_AGENT'])){
+
+            return 'Unknown';
+        }
+        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'Firefox')){
+
+            return 'Firefox';
+
+        }
+
+        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'Chrome')){
+
+            return 'Chrome';
+
+        }
+
+        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'Safari')){
+
+            return 'Safari';
+
+        }
+
+        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'Opera')){
+
+            return 'Opera';
+
+        }
+        if(false!==strpos($_SERVER['HTTP_USER_AGENT'],'360SE')){
+
+            return '360SE';
+
+        }else{
+            return 'IE';
+        }
     }
 }
