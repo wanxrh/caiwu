@@ -204,7 +204,6 @@ class WagesList extends M_Controller {
 	 * 导出excel记录
 	 */
 	public function wage_export(){
-		$this->per_page = 5000;
 		$zhiyuandaima=$this->data['user_info']['zhiyuandaima'];
 		$data['level'] = $this->session->userdata('cat_id');
 		$sql = "SELECT COLUMN_NAME,COLUMN_COMMENT,DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME='".$this->_pre.$this->_table."'";
@@ -233,7 +232,7 @@ class WagesList extends M_Controller {
 		$input = $this->input->get('input',TRUE);
 		$data['select'] = $select;
 		$data['input'] = $input;
-		$result = $this->home_model->wagesList($columns,$data['dyn'],$data['start'],$data['end'],$data['add_time'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
+		$result = $this->home_model->wagesList_export($columns,$data['dyn'],$data['start'],$data['end'],$data['add_time'],$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_id);
 		$list = $result['list'];
 		if(!empty($list)){
 			//查询工资表设置的前台可查看设置
