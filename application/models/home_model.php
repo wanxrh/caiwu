@@ -95,11 +95,11 @@ class Home_model extends Common_model {
 	public function wagesList($columns,$dyn,$start,$end,$add_time,$gongzileixing,$name,$select,$input,$zhiyuandaima,$bumen_name){
         $start = date("Y-m",strtotime($start));
         $end = date("Y-m",strtotime($end));
-		if($start && !$end){
+		if($start && !$end && empty($add_time)){
 			$this->db->where('gongzibiao.nianyue >=',$start);
-		}elseif (!$start && $end){
+		}elseif (!$start && $end && empty($add_time)){
 			$this->db->where('gongzibiao.nianyue <=',$end);
-		}elseif ($start && $end){
+		}elseif ($start && $end && empty($add_time)){
 			if($start > $end) $this->db->where('gongzibiao.nianyue >=',$start);
 			if($start <= $end){/*echo $start.','.$end;*/
 				$this->db->where('gongzibiao.nianyue >=',$start);
@@ -108,33 +108,35 @@ class Home_model extends Common_model {
 		}
         if(!empty($add_time)){
             $add_time = strtotime($add_time);
+            $add_time_end = $add_time+86400;
             $this->db->where('gongzibiao.add_time >=',$add_time);
+            $this->db->where('gongzibiao.add_time <=',$add_time_end);
         }
-		if($gongzileixing&&$gongzileixing!='综合'){
+		if($gongzileixing&&$gongzileixing!='综合' && empty($add_time)){
 			$this->db->where('gongzibiao.gongzileixing',$gongzileixing);
 		}
 		
-		if($select){
+		if($select && empty($add_time)){
 			foreach ($select as $k=>$v){
 				if( $v!=''){
 					$this->db->where($k,$v);
 				}
 			}
 		}
-		if($input){
+		if($input && empty($add_time)){
 			foreach ($input as $k=>$v){
 				if( $v ){
 					$this->db->like($k,trim($v));
 				}
 			}
 		}	
-		if($zhiyuandaima){
+		if($zhiyuandaima && empty($add_time)){
 			$this->db->where('user_record.zhiyuandaima',$zhiyuandaima);
 		}
-		if($name){
+		if($name && empty($add_time)){
 			$this->db->where('user_record.name',$name);
 		}
-        if(!empty($bumen_name)){
+        if(!empty($bumen_name) && empty($add_time)){
             $this->db->where('gongzibiao.bumen_name',$bumen_name);
         }
 		$clone = clone( $this->db );
