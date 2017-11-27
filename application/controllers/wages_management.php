@@ -115,7 +115,7 @@ class Wages_management extends M_Controller {
 		    header("Content-Type:application/vnd.ms-execl");
 		    header("Content-Type:application/octet-stream");
 		    header("Content-Type:application/download");;
-		    header('Content-Disposition:attachment;filename="'.$filename.'.xls"');
+		    header('Content-Disposition:attachment;filename="'.$filename.'.xlsx"');
 		    header("Content-Transfer-Encoding:binary");
 		    //渲染导出xls
 	    	$objWriter->save('php://output');
@@ -135,7 +135,7 @@ class Wages_management extends M_Controller {
 
 
             $file = pathinfo($_FILES['MyFile']['name']);
-            if($file['extension']!='xls'&&$file['extension']!='xlsx'&&$file['extension']!='csv') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
+            if($file['extension']!='xls'&&$file['extension']!='xlsx') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
             $save_path = $_SERVER['DOCUMENT_ROOT'].'/upload/';
             $fname = $save_path. time().'.'.$file['extension'];
             $do = copy($_FILES['MyFile']['tmp_name'],$fname);
@@ -159,7 +159,6 @@ class Wages_management extends M_Controller {
             $startRow  = 1;
             $endRow    = null;
             $data = $this->readFromExcel($fname, null, $startRow, $endRow);
-
 			error_reporting(E_ALL ^ E_NOTICE);
             //事物开启
             $this->db->trans_begin();
@@ -308,28 +307,30 @@ class Wages_management extends M_Controller {
                     $a2="";
                     $b1="";
                     $col_n = '';
-                    for($j=1;$j<=count($data[1]);$j++){
+                    $gleixing = $this->home_model->get_all('gongzileixing','','gongzileixing_name');
+                    $gongzileixing = array_column($gleixing, 'gongzileixing_name');
+                    foreach($data[1] as $key=>$val){
                         if(empty($data[1][0]) || empty($data[1][1])){
                             showmsg('模板不正确',"/wages_management/import",0,10000);exit;
                         }
-                        if(empty($data[1][$j])) continue;
+                        if(empty($data[1][$key])) continue;
                         //获取表字段
                         $sql="SHOW  full COLUMNS FROM ab22_gongzibiao";
                         $res = $this->home_model->sqlQueryArray($sql);
                         $flag= 1;
-                        foreach ($res as $key => $row) {
-                            if($row['Comment']==$data[1][$j] && !empty($data[1][$j])){
+                        foreach ($res as $ke => $row) {
+                            if($row['Comment']==$val && !empty($val)){
                                 $flag= 2;
                                 $a1.=$row['Field'].",";
-                                $b1.=$row['Field']."='".trim($j)."*****',";
+                                //$b1.=$row['Field']."='".trim($val)."*****',";
                                 //if($data->sheets[0]['cells'][1][$j]=="职员姓名"){ $col_n=$j;}
                             }
                         }
-                        if($data[1][$j] == '姓名' || $data[1][$j] == '职员姓名'){
+                        if($val == '姓名' || $val == '职员姓名'){
                             $flag = 2;
                         }
                         if($flag== 1){
-                            showmsg("模版中存在错误的字段(".$data[1][$j].")!","/wages_management/import",1,15000);exit;
+                            showmsg("模版中存在错误的字段(".$val.")!","/wages_management/import",1,15000);exit;
                         }
 
                     }
@@ -337,79 +338,68 @@ class Wages_management extends M_Controller {
                     $leixing=3;
                     $col_bumen_name=2;
                     $a1=substr($a1,0,-1);
-                    $b1=substr($b1,0,-1);
+                    //$b1=substr($b1,0,-1);
                     $flag=1;
                     $msg = '';
-                    for ($i = 2; $i <= count($data); $i++){
-                        if(empty($data[$i][$col_name])) continue;
-                        $name=$data[$i][$col_name];
-                        $r_user = $this->home_model->get_one('user_record',array('name'=>$name));
+                    //$t1 = microtime(true);
+                    foreach($data as $kk=>$item){//下面有备份
+                        if($kk == 1) continue;
+                        if(empty($data[$kk][0])) continue;
+                        //$name = mb_convert_encoding($data[$kk+1][$col_name],"UTF-8","GBK");
+                        $name = $data[$kk][$col_name];
+                        $r_user = $this->home_model->get_one('user_record',array('user_name'=>$name),'user_id,user_name');//不匹配部门
 
                         if(empty($r_user)){
                             showmsg('不存的用户('.$name.")","/wages_management/import",0,15000);exit;
+                        }else{
+                            $user_id= $r_user['user_id'];
                         }
-                        if(!empty($name) && empty($r_user)){
-                            $flag=2;
-                            if($name){
-                                $msg.=",".$name;
-                            }
-
-                        }
-
-                    }
-                    if($flag==2){
-                        $msg="拒绝导入，还缺少(".$msg.")的数据";
-                        showmsg("$msg","/wages_management/import",0,15000);exit;
-                    }
-                    for ($ii = 2; $ii <= count($data); $ii++){//下面有备份
-                        $name=$data[$ii][$col_name];
-                        $r_panduan = $this->home_model->get_one('user_record',array('user_name'=>$name));
-                        if(empty($r_panduan)) continue;
-                        $r_user = $this->home_model->get_one('user_record',array('user_name'=>$name));//不匹配部门
                         //匹配工资类型
-                        $lei_name = trim($data[$ii][$leixing]);
-                        $gongzileixing = $this->home_model->get_one('gongzileixing',array('gongzileixing_name'=>$lei_name));
-                        if(empty($gongzileixing)){
+                        $lei_name = trim($data[$kk][$leixing]);
+                        //$lei_name = trim($data[$kk+1][$leixing]);
+                        //$gongzileixing = $this->home_model->get_one('gongzileixing',array('gongzileixing_name'=>$lei_name));
+                        if(!in_array($lei_name,$gongzileixing)){
                             showmsg('不存的工资类型('.$lei_name.")","/wages_management/import",0,15000);exit;
                         }
-                        $user_id=$r_user['user_id'];
+
                         $s="";
                         if(!empty($user_id)){
                             $s1="";
                             $k="";
-                            $s2=$b1;
-                            for($jj=1;$jj<= count($data[1]);$jj++){
-                                if(empty($data[1][$jj])) continue;
-                                if(trim($data[1][$jj])=='工资年月'){
+                            //$s2=$b1;
+                            foreach($item as $kl=>$val){
+                                if($kl == 0) continue;
+                                if($kl==2){
 
-                                    $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP(trim($data[$ii][$jj]),true));
+                                    $time = gmdate("Y-m", PHPExcel_Shared_Date::ExcelToPHP($val,true));
                                     if(strtotime($time)>0){
                                         $s1.="'".$time."',";
-                                    }else{
-                                        if(strpos($data[$ii][$jj],"/")){
-                                            $s1.="'".date("Y-m",strtotime(str_replace("/","-",trim($data[$ii][$jj]))))."',";
-                                        }elseif(strpos($data[$ii][$jj],"-")){
-                                            $s1.="'".date("Y-m",strtotime(trim($data[$ii][$jj])))."',";
-                                        }elseif(strpos($data[$ii][$jj],"年")){
-                                            $time = str_replace('年',"-",trim($data[$ii][$jj]));
+                                    }
+                                    else{
+                                        if(strpos($val,"/")){
+                                            $s1.="'".date("Y-m",strtotime(str_replace("/","-",$val)))."',";
+                                        }elseif(strpos($val,"-")){
+                                            $s1.="'".date("Y-m",strtotime($val))."',";
+                                        }elseif(strpos($val,"年")){
+                                            $time = str_replace('年',"-",$val);
                                             $s1.= "'". date("Y-m",strtotime(str_replace('月'," ",$time)))."',";
                                         }else{
                                             showmsg('日期类型错误,请检查',"/wages_management/import",0,15000);exit;
                                         }
                                     }
                                 }else{
-                                    $s1.="'".trim($data[$ii][$jj])."',";
+                                    $s1.="'".$val."',";
                                 }
-
                             }
                             //echo $s1;exit;
                             //echo "<br>";
                             //echo $s2;exit;
                             $add_time = time();
-                            if($data[$ii][$col_name]!=NUll){
+                            if($data[$kk][$col_name]!=NUll){
                                 $s1=substr($s1,0,-1);
                                 if(strpos($a1,"user_id")===false){
                                     $sql1="insert into ab22_gongzibiao(".$a1.",user_id,add_time) values(".$s1.",$user_id,$add_time)";
+
                                 }else{
                                     $sql1="insert into ab22_gongzibiao(".$a1.",add_time) values(".$s1.",$add_time)";
                                 }
@@ -419,8 +409,13 @@ class Wages_management extends M_Controller {
 
 
                     }
+
                     $this->db->trans_commit();
+                    //$t2 = microtime(true);
+                    //echo '耗时'.round($t2-$t1,3).'秒<br>';exit;
                     showmsg('导入成功','/wages_management/import',0,2000);exit();
+                }else{
+                    showmsg('模版格式有误,请按照导出模版的格式导入数据。','/wages_manasgement/import',0,5000);exit();
                 }
             }catch (Exception $e){
                 //失败回滚

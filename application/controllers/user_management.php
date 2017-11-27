@@ -129,7 +129,7 @@ class User_management extends M_Controller {
 	public function import(){
 		if($this->input->post()){
 			$file = pathinfo($_FILES['MyFile']['name']);
-			if($file['extension']!='xls'&&$file['extension']!='xlsx') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
+			if($file['extension']!='xls') echo "<script>alert('选择的文件不是excel格式');</script>";//判断是不是excel格式
 			$save_path = $_SERVER['DOCUMENT_ROOT'].'/upload/'; 
 			$fname = $save_path. time().'.'.$file['extension'];
 			$do = copy($_FILES['MyFile']['tmp_name'],$fname);
