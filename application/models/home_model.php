@@ -149,6 +149,7 @@ class Home_model extends Common_model {
 ->count_all_results();
 		//统计
 		$unset = array('id','user_id','nianyue','add_time');
+        $str = '';
 		foreach ($columns as $k => $v){
 			if(in_array($v['COLUMN_NAME'],$unset)){
 				continue;
@@ -158,16 +159,36 @@ class Home_model extends Common_model {
 					$data['dyn_page'][$v['COLUMN_NAME']] = array_sum(array_column($data['list'],$v['COLUMN_NAME']) );
 					$this->db = $syn_clone;
 					$syn_clone = clone ($this->db );
-					$alls = $this->db->select_sum($v['COLUMN_NAME'])->join('user_record','user_record.user_id = gongzibiao.user_id','left')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')->get('gongzibiao')->row_array();
-					$data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
-		
+					//$alls = $this->db->select_sum($v['COLUMN_NAME'])->join('user_record','user_record.user_id = gongzibiao.user_id','left')->join('bumen','user_record.bumen_id = bumen.bumen_id','left')->get('gongzibiao')->row_array();
+					//$data['dyn_all'][$v['COLUMN_NAME']] = $alls[$v['COLUMN_NAME']];
+                    $str.= "sum(".$v['COLUMN_NAME'].") as {$v['COLUMN_NAME']},";
+                    //echo $this->db->last_query();exit;
 				}else{
 					$data['dyn_page'][$v['COLUMN_NAME']] = '';
-					$data['dyn_all'][$v['COLUMN_NAME']] = '';
+					//$data['dyn_all'][$v['COLUMN_NAME']] = '';
 				}
 			}
 		}
-        //print_r($data['dyn_page']);exit;
+
+        //print_r($data['dyn_all']);exit;
+        $str = substr($str,0,-1);
+        $alls = $this->db->select($str)->get('gongzibiao')->row_array();
+        foreach($alls as $k=>$vc){
+            foreach ($columns as $k => $v2) {
+                if (in_array($v2['COLUMN_NAME'], $unset)) {
+                    continue;
+                }
+                if (isset($dyn[$v2['COLUMN_NAME']])) {
+                    if (!$dyn[$v2['COLUMN_NAME']]['options'] && $dyn[$v2['COLUMN_NAME']]['view'] && ($v2['DATA_TYPE'] == 'int' || $v2['DATA_TYPE'] == 'decimal')) {
+                        $data['dyn_all'][$v2['COLUMN_NAME']] = $alls[$v2['COLUMN_NAME']];
+                    } else {
+                        $data['dyn_all'][$v2['COLUMN_NAME']] = '';
+                    }
+                }
+
+            }
+        }
+        //print_r($data['dyn_all']);exit;
 		return $data;
 	}
     //导出csv专用
